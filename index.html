@@ -3,7 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#e4f4e9">
+<meta name="theme-color" content="#1f5ba3">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Pádel">
 <title>Pádel entre amigos</title>
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px Arial,Helvetica,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <style>
@@ -321,6 +325,8 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 .opt[aria-pressed="true"].yes{background:var(--win);border-color:var(--win);color:#fff}
 .opt[aria-pressed="true"].maybe{background:var(--gold);border-color:var(--gold);color:#3a2c00}
 .opt[aria-pressed="true"].no{background:var(--loss);border-color:var(--loss);color:#fff}
+.opt[aria-pressed="true"].beerno{background:var(--loss);border-color:var(--loss);color:#fff}
+.hero .big.sm{font-size:32px;line-height:1.1;margin-top:12px}
 .opt[aria-pressed="true"].beer{background:var(--ball);border-color:var(--ball);color:var(--ball-ink)}
 .who-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 16px;font-size:13px}
 .who-list h5{margin:0 0 6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
@@ -340,6 +346,14 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 .btn.dangerfill:hover{filter:brightness(1.07);background:var(--loss)}
 @media (prefers-reduced-motion:no-preference){.mbox{animation:pop .18s ease both}@keyframes pop{from{transform:scale(.96);opacity:.6}to{transform:none;opacity:1}}}
 .mug{width:16px;height:16px;vertical-align:-3px}
+.sidelab{gap:4px}.sidelab span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.evacts{gap:6px}.evacts .btn{font-size:13px;padding:8px 12px}
+.btn.wa{background:#25d366;border-color:#25d366;color:#08331a}
+.pairsbox{background:var(--court-soft);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.court1{display:flex;flex-direction:column;gap:6px}
+.pairrow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+.pairrow .pr{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:13px}
+@media (max-width:620px){.pairrow{grid-template-columns:1fr}.pairrow .vs{text-align:left}}
 .evblocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (max-width:620px){.evblocks{grid-template-columns:1fr}}
 .evblock{background:var(--surface-2);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
@@ -426,6 +440,138 @@ h2,.hero .big,.courtviz .half .v,.h2h .big{letter-spacing:-.01em}
 .urow .e{font-size:13px;overflow-wrap:anywhere;min-width:0}
 .urow .e small{display:block;color:var(--muted)}
 
+/* ===== Look & feel v3: Material-style, calm and minimal ===== */
+:root{
+  --bg:#f4f7f5; --surface:#ffffff; --surface-2:#edf2ee; --line:#e2e8e3; --fg:#18231d; --muted:#5f6d65;
+  --ink:#dff2e6; --ink-2:#cbe8d5; --ink-fg:#0e2a1a; --ink-muted:#4c6a58; --ink-accent:#16794a;
+  --primary:#16794a; --primary-fg:#ffffff; --tonal:#d4eedd; --tonal-fg:#0c3a22;
+  --court-soft:#e8f0fb;
+  --elev1:0 1px 2px rgba(20,40,28,.06),0 1px 3px 1px rgba(20,40,28,.04);
+  --elev2:0 2px 6px rgba(20,40,28,.08),0 1px 2px rgba(20,40,28,.06);
+  --r:20px; --r-sm:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1512; --surface:#18201b; --surface-2:#202a24; --line:#2b3730; --fg:#e3ebe6; --muted:#9aaaa1;
+  --ink:#1d3426; --ink-2:#264331; --ink-fg:#e6f4ea; --ink-muted:#a7c3b1; --ink-accent:#83d9a5;
+  --primary:#3aa66b; --primary-fg:#ffffff; --tonal:#25402f; --tonal-fg:#cfeedd; --court-soft:#1b2a3a;
+  --elev1:0 1px 2px rgba(0,0,0,.4); --elev2:0 2px 6px rgba(0,0,0,.45);
+}}
+:root[data-theme="dark"]{
+  --bg:#0f1512; --surface:#18201b; --surface-2:#202a24; --line:#2b3730; --fg:#e3ebe6; --muted:#9aaaa1;
+  --ink:#1d3426; --ink-2:#264331; --ink-fg:#e6f4ea; --ink-muted:#a7c3b1; --ink-accent:#83d9a5;
+  --primary:#3aa66b; --primary-fg:#ffffff; --tonal:#25402f; --tonal-fg:#cfeedd; --court-soft:#1b2a3a;
+  --elev1:0 1px 2px rgba(0,0,0,.4); --elev2:0 2px 6px rgba(0,0,0,.45);
+}
+body{font-size:15px;line-height:1.5}
+main{padding-block:16px 48px}
+.stack{gap:16px}
+h2{font-size:22px;font-weight:700}
+h3{font-size:11px;letter-spacing:.08em;font-weight:700;color:var(--muted)}
+
+/* surfaces: no hard borders, soft elevation */
+.panel,.rlist,.match,.tile,.ev,.gpanel,.tcard,.cal,.bm{border:0;box-shadow:var(--elev1);border-radius:var(--r)}
+.panel{padding:20px}
+.match{padding:16px 18px}
+.mfoot{border-top-color:var(--surface-2)}
+.rrow{border-top:0;padding:14px 18px;position:relative}
+.rrow+.rrow::before{content:"";position:absolute;left:84px;right:18px;top:0;border-top:1px solid var(--surface-2)}
+.rrow.mine{background:var(--tonal)}
+.rrow.mine .rwho .nm,.rrow.mine .rnum{color:var(--tonal-fg)}
+.rhead{padding:0 18px}
+.kv{border-bottom-color:var(--surface-2)}
+
+/* hero cards */
+.hero{border:0;border-radius:28px;padding:24px;box-shadow:none}
+.hero .deco{opacity:.55}
+.hero .big{font-size:52px;font-weight:700;margin-top:10px}
+.hero .big.sm{font-size:30px;margin-top:12px}
+.hero .big small{font-size:18px}
+.hero .pill{border:0;background:var(--ink-2);font-size:11px;padding:6px 12px}
+.hero .pill.y{background:var(--surface);color:var(--ink-accent)}
+.hstats{border-top-color:var(--ink-line);margin-top:18px;padding-top:16px}
+.hstats .v{font-size:26px;font-weight:700}
+.hbar{background:var(--surface);height:8px}
+.mini{background:var(--surface);border-radius:16px}
+.mini .v{font-weight:700}
+.courtviz{border-radius:14px;border-width:2px}
+.champ{border:0;border-radius:28px}
+
+/* buttons: filled / tonal / text */
+.btn{border:0;background:var(--surface-2);color:var(--fg);border-radius:999px;min-height:40px;padding:10px 18px;font-weight:700;font-size:14px;transition:background .15s, box-shadow .15s}
+.btn:hover{background:var(--line)}
+.btn.primary{background:var(--primary);color:var(--primary-fg);box-shadow:none}
+.btn.primary:hover{background:var(--primary);box-shadow:var(--elev2);filter:none}
+.btn.danger{background:transparent;color:var(--loss);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--loss) 45%,transparent)}
+.btn.link{min-height:0;background:none;padding:6px 8px;text-decoration:none;color:var(--ink-accent);font-weight:700}
+.btn.link:hover{background:var(--surface-2)}
+.btn.link.danger{color:var(--loss);box-shadow:none}
+.btn.wa{background:#25d366;color:#05311a}
+.evacts .btn{min-height:36px;padding:8px 14px}
+
+/* inputs: filled */
+input[type=text],input[type=date],input[type=number],input[type=email],input[type=time],select{background:var(--surface-2);border:0;border-radius:var(--r-sm);padding:11px 14px;box-shadow:inset 0 -1px 0 var(--line)}
+input:focus-visible,select:focus-visible{outline:2px solid var(--primary);outline-offset:0}
+label.f{font-size:11px;letter-spacing:.06em}
+.pair,.slotg{background:var(--surface-2);border:0}
+.score input{background:var(--surface)}
+
+/* chips and tags */
+.tag,.chip{background:var(--surface-2);color:var(--muted);font-weight:700}
+.chip.live{background:var(--tonal);color:var(--tonal-fg)}
+.full{background:var(--tonal);color:var(--tonal-fg)}
+.seg{background:var(--surface-2);padding:4px}
+.seg button{font-size:11px;padding:8px 14px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--elev1)}
+
+/* top app bar and navigation */
+.topbar{background:var(--surface);border-bottom:0;box-shadow:var(--elev1);backdrop-filter:none}
+.topbar .wrap{min-height:64px}
+.mark{border-radius:12px}
+.btn-new{background:var(--primary);color:var(--primary-fg);padding:10px 18px}
+.pillnav{background:transparent;padding:0;margin:14px 0 0;gap:6px}
+.pillnav a{background:transparent;color:var(--muted);padding:10px 16px}
+.pillnav a:hover{background:var(--surface-2)}
+.pillnav a[aria-current="page"]{background:var(--tonal);color:var(--tonal-fg)}
+@media (max-width:640px){
+  .bottomnav{border-top:0;box-shadow:0 -1px 3px rgba(20,40,28,.06);padding-top:10px}
+  .bottomnav a{gap:4px;color:var(--muted)}
+  .bottomnav a svg{width:22px;height:22px;padding:4px 18px;border-radius:999px;box-sizing:content-box;transition:background .15s}
+  .bottomnav a[aria-current="page"]{color:var(--fg)}
+  .bottomnav a[aria-current="page"] svg{background:var(--tonal);color:var(--tonal-fg)}
+  .bottomnav a[aria-current="page"]::before{display:none}
+  .bottomnav a.plus span.p{background:var(--primary);color:#fff;border-radius:18px;width:54px;height:54px;margin-top:-26px;box-shadow:var(--elev2)}
+  .bottomnav a.plus span.p svg{padding:0;background:none!important;color:#fff!important;width:24px;height:24px}
+}
+
+/* calendar and sign-ups */
+.cal{padding:16px}
+.calnav{border:0;background:var(--surface-2)}
+.cday{border-radius:999px}
+.cday.today{box-shadow:inset 0 0 0 1.5px var(--primary)}
+.cday.sel{background:var(--primary);color:#fff}
+.cday.sel::after{background:#fff}
+.evdate{background:var(--ink);color:var(--ink-fg)}
+.evblock{background:var(--surface-2);border-radius:16px}
+.evblock.beerb{background:color-mix(in srgb,var(--ball) 18%,var(--surface))}
+.ask{background:transparent;padding:0}
+.opt{border:0;background:var(--surface-2);min-height:38px;padding:8px 16px}
+.opt[aria-pressed="true"].yes{background:var(--win);color:#fff}
+.pairsbox{background:var(--court-soft);border-radius:16px}
+.places .free{border-color:var(--line)}
+
+/* gate */
+.gcard{border:0;border-radius:28px;box-shadow:none}
+.gitem{background:var(--surface);color:var(--fg);box-shadow:var(--elev1)}
+.gitem small{color:var(--muted)}
+.urow,.pending{box-shadow:var(--elev1)}
+.gbtn.light{border:0;box-shadow:var(--elev2)}
+
+/* misc */
+.note{border-radius:16px;background:var(--surface-2)}
+.note.ok{background:var(--tonal);color:var(--tonal-fg)}
+.mbox{border-radius:28px}
+.empty .court{border-color:var(--line)}
+
 </style>
 </head>
 <body class="gated">
@@ -450,11 +596,11 @@ h2,.hero .big,.courtviz .half .v,.h2h .big{letter-spacing:-.01em}
   <a href="#torneos" data-v="torneos">Torneos</a>
 </nav></div>
 <nav class="bottomnav" id="bnav" aria-label="Secciones">
-  <a href="#clasificacion" data-v="clasificacion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 20V13h5v7M9 20V8h6v12M15 20v-9h5v9M3 20h18"/></svg>Ranking</a>
-  <a href="#partidos" data-v="partidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="9" r="5"/><path d="M12.5 12.5L19 19M6.5 7.5c1 .3 2 1.3 2.3 2.3"/></svg>Partidos</a>
+  <a href="#clasificacion" data-v="clasificacion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 20h8M9 17h6"/></svg>Ranking</a>
+  <a href="#partidos" data-v="partidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M5.3 6.6c2.9 1.7 4.5 4.4 4.5 7.3 0 1.4-.3 2.7-1 3.9M18.7 17.4c-2.9-1.7-4.5-4.4-4.5-7.3 0-1.4.3-2.7 1-3.9"/></svg>Partidos</a>
   <a href="#nuevo" data-v="nuevo" class="plus" aria-label="Apuntar partido"><span class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></a>
   <a href="#calendario" data-v="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 14h2M13 14h2M9 17h2"/></svg>Calendario</a>
-  <a href="#torneos" data-v="torneos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 20h8M9 17h6"/></svg>Torneos</a>
+  <a href="#torneos" data-v="torneos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 4h5v5H3zM3 15h5v5H3zM8 6.5h3v11H8M11 12h3M14 9.5h7v5h-7z"/></svg>Torneos</a>
 </nav>
 
 <main class="wrap" id="app"></main>
@@ -490,7 +636,7 @@ function result(m){
 }
 function compute(period){
   const st = new Map();
-  for (const p of S.allPlayers.values()) st.set(p.id,{pj:0,pg:0,sf:0,sc:0,gf:0,gc:0,form:[],log:[],partners:{},rivals:{}});
+  for (const p of S.allPlayers.values()) st.set(p.id,{pj:0,pg:0,sf:0,sc:0,gf:0,gc:0,form:[],log:[],partners:{},rivals:{},sd:{drive:{pj:0,pg:0},reves:{pj:0,pg:0}}});
   const ms = [...S.matches, ...tournamentMatches()].filter(m => [...m.a,...m.b].every(id => st.has(id)))
     .sort((x,y)=> (x.date||'').localeCompare(y.date||'') || (x.at||0)-(y.at||0))
     .filter(m => !period || period==='todo' || (m.date||'').startsWith(period==='mes'? today().slice(0,7) : today().slice(0,4)));
@@ -501,6 +647,7 @@ function compute(period){
         const s = st.get(id); const mate = team.find(x=>x!==id);
         s.pj++; if (won) s.pg++; s.sf+=sf; s.sc+=sc; s.gf+=gf; s.gc+=gc;
         s.form.push(won?'G':'P'); s.log.push({won, diff:gf-gc, date:m.date, sets:(m.sets||[]).map(([x,y])=> team===m.a? `${x}-${y}` : `${y}-${x}`).join(' ')});
+        const sdv = m.sides && m.sides[id]; if (sdv==='drive'||sdv==='reves'){ s.sd[sdv].pj++; if (won) s.sd[sdv].pg++; }
         const pp = s.partners[mate] ||= {pj:0,pg:0}; pp.pj++; if (won) pp.pg++;
         for (const o of opp){ const rr = s.rivals[o] ||= {pj:0,pg:0}; rr.pj++; if (won) rr.pg++; }
       }
@@ -508,6 +655,7 @@ function compute(period){
     side(m.a,m.b, r.aWins, r.sa,r.sb,r.ga,r.gb);
     side(m.b,m.a,!r.aWins, r.sb,r.sa,r.gb,r.ga);
   }
+  S.lastC = {st, ms};
   return {st, ms, deltas:{}};
 }
 const pSets = s => s.sf+s.sc ? s.sf/(s.sf+s.sc) : 0;
@@ -558,7 +706,7 @@ function render(){
   const app = $('#app');
   $('#leagueName').textContent = S.config.name || 'Pádel entre amigos';
   const v = viewName();
-  const cur = v.startsWith('jugador-')?'clasificacion':v.startsWith('torneo')?'torneos':v==='evento-nuevo'?'calendario':v;
+  const cur = v.startsWith('editar-')?'partidos':v.startsWith('jugador-')?'clasificacion':v.startsWith('torneo')?'torneos':v==='evento-nuevo'?'calendario':v;
   $('#adminBadge').hidden = !isAdmin(); $('#adminBadge').textContent = window.groupApi ? window.groupApi.role : (S.isOwner ? 'Admin' : 'Coadmin');
   document.querySelectorAll('#tabs a, #bnav a').forEach(a => { if (a.dataset.v===cur) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   const canNew = S.canWrite && S.status==='ready';
@@ -583,6 +731,7 @@ function render(){
   else if (v==='torneo-nuevo') html += viewTournamentNew();
   else if (v.startsWith('torneo-')) html += viewTournament(v.slice(7));
   else if (v==='nuevo') html += viewNew();
+  else if (v.startsWith('editar-')) html += viewNew(S.matches.find(m=>m.id===v.slice(7)) || null);
   else if (v==='cara-a-cara') html += viewH2H(C);
   else if (v.startsWith('jugador-')) html += viewPlayer(C, v.slice(8));
   else html += viewRanking(C);
@@ -607,6 +756,18 @@ function joinPanel(){
   </section>`;
 }
 
+function beerRanking(){
+  const evs = [...S.events.values()].filter(e => e.beers!==false && (e.date||'') <= today() && (S.period==='todo' || (e.date||'').startsWith(S.period==='mes'?today().slice(0,7):today().slice(0,4))));
+  if (!evs.length) return '';
+  const cnt = {};
+  for (const e of evs) for (const r of evRsvps(e.id)) if (r.beer===true){ const p = playerByUid(r.uid); if (p) cnt[p.id] = (cnt[p.id]||0)+1; }
+  const top = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  if (!top.length) return '';
+  const mx = top[0][1];
+  return `<div class="panel"><h3>${MUG} Ranking de cervezas · ${periodLabel(S.period)}</h3>
+    ${top.map(([pid,n],i)=>`<div class="kv"><span class="pname"><span class="rpos ${i===0?'p1':''}" style="width:26px;height:26px;font-size:13px">${i+1}</span>${av(pid)}<span>${esc(nick(pid))}</span></span><span><span class="bar" style="width:90px"><i style="width:${Math.round(100*n/mx)}%;background:var(--gold)"></i></span><strong>${n}</strong> <span class="muted small">de ${evs.length}</span></span></div>`).join('')}
+  </div>`;
+}
 function periodLabel(p){ return p==='mes'?'Este mes':p==='anio'?'Este año':'Histórico'; }
 function viewRanking(Call){
   const C = S.period==='todo' ? Call : compute(S.period);
@@ -630,7 +791,7 @@ function viewRanking(Call){
   } else if (mineP){
     hero = `<div class="hero"><span class="deco" aria-hidden="true"></span>
       <div class="row spread" style="position:relative"><span class="eyebrow">Tu posición · ${periodLabel(S.period)}</span><span class="pill">Sin clasificar</span></div>
-      <div class="big" style="color:var(--ink-muted)">Sin partidos</div>
+      <div class="big sm" style="color:var(--ink-muted)">Sin partidos</div>
       <div class="hstats" style="grid-template-columns:1fr"><div><div class="k">Para entrar</div><div class="v" style="font-size:20px">Juega 1 partido${S.period!=='todo'?' en este periodo':''}</div></div></div>
       ${S.canWrite?`<a class="cta" href="#nuevo">+ Apuntar partido</a>`:''}
     </div>`;
@@ -661,6 +822,7 @@ function viewRanking(Call){
       <div class="rlist">${active.map(row).join('')}${showIdle.map(row).join('')}</div>
     </div>`:`<div class="panel empty"><div class="court"></div><p class="muted" style="margin:0">Nadie ha jugado todavía ${S.period==='mes'?'este mes':'este año'}.</p></div>`}
     <p class="small muted" style="margin:0">Orden: victorias, luego % de sets ganados y luego % de juegos ganados.</p>
+    ${beerRanking()}
     ${S.canWrite && S.uid ? `<details class="panel"><summary style="cursor:pointer;font-weight:700">Añadir un amigo que aún no tiene cuenta</summary>
       <form id="guestForm" class="row" style="margin-top:12px">
         <input type="text" id="guestNick" maxlength="24" placeholder="Apodo" required style="flex:1 1 200px">
@@ -680,10 +842,10 @@ function matchCard(m, C){
     <div class="sets" aria-label="Juegos pareja 2">${setCells(1)}</div>
     <div class="mfoot">
       ${d!=null?`<span><span class="delta">±${d}</span> de nivel</span>`:''}
-      ${m.place?`<span>${esc(m.place)}</span>`:''}${m.tid?`<a class="chip" style="text-decoration:none" href="#torneo-${esc(m.tid)}">${esc(m.tname)}</a>`:''}
+      ${m.place?`<span>${esc(m.place)}</span>`:''}${m.editedAt?'<span>corregido</span>':''}${m.tid?`<a class="chip" style="text-decoration:none" href="#torneo-${esc(m.tid)}">${esc(m.tname)}</a>`:''}
       ${canDel ? (S.confirmDel===m.id
         ? `<span style="margin-left:auto">¿Borrar este partido? <button class="btn danger" data-del="${esc(m.id)}">Sí, borrar</button> <button class="btn link" data-nodel>Cancelar</button></span>`
-        : `<button class="btn link" style="margin-left:auto" data-askdel="${esc(m.id)}">Borrar</button>`) : ''}
+        : `<span style="margin-left:auto" class="row"><a class="btn link" href="#editar-${esc(m.id)}">Editar</a><button class="btn link" data-askdel="${esc(m.id)}">Borrar</button></span>`) : ''}
     </div>
   </article>`;
 }
@@ -697,39 +859,48 @@ function viewMatches(C){
   return `<section class="stack" style="gap:12px">${out}</section>`;
 }
 
-function viewNew(){
+function viewNew(em){
   if (!S.canWrite || !S.uid) return `<div class="note">Necesitas ser miembro del grupo para apuntar partidos.</div>`;
+  if (em===null) return `<div class="note">Ese partido ya no existe. <a href="#partidos">Volver a partidos</a></div>`;
+  if (em && !isAdmin()) return `<div class="note">Solo los administradores pueden editar partidos.</div>`;
   const ps = [...S.players.values()].sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
   if (ps.length < 4) return `<section class="panel empty"><div class="court"></div><h2>Faltan jugadores</h2><p class="muted">Hacen falta al menos 4 jugadores. Ahora hay ${ps.length}. Invita a tus amigos o añádelos desde la clasificación.</p><a class="btn" href="#clasificacion">Ir a la clasificación</a></section>`;
   const mine = myPlayer()?.id || '';
-  const pf = S.prefill || null; S.prefill = null;
-  const dflt = i => pf && pf.players[i] ? pf.players[i] : (i===0 ? mine : '');
-  const sel = (id, def) => `<select id="${id}" required><option value="">Elige jugador</option>${ps.map(p=>`<option value="${esc(p.id)}"${p.id===def?' selected':''}>${esc(p.nick)}</option>`).join('')}</select>`;
+  let pf = S.prefill || null; S.prefill = null;
+  if (em){ // order each pair as [drive, revés] when sides are known
+    const ord = t => (em.sides && em.sides[t[0]]==='reves') ? [t[1],t[0]] : [t[0],t[1]];
+    pf = {date:em.date, place:em.place||'', players:[...ord(em.a), ...ord(em.b)], sets:em.sets||[]};
+  }
+  const dflt = i => pf && pf.players && pf.players[i] ? pf.players[i] : (!em && i===0 ? mine : '');
+  const sv = (k,i) => pf && pf.sets && pf.sets[i] ? pf.sets[i][k] : '';
+  const sel = (id, def, side) => `<label class="f sidelab"><span>${side}</span><select id="${id}" required><option value="">Elige jugador</option>${ps.map(p=>`<option value="${esc(p.id)}"${p.id===def?' selected':''}>${esc(p.nick)}</option>`).join('')}${def && !ps.some(p=>p.id===def) ? `<option value="${esc(def)}" selected>${esc(nick(def))}</option>`:''}</select></label>`;
+  const D='Drive · derecha', R='Revés · izquierda';
   return `<section class="panel stack">
-    <h2>Apuntar partido</h2>
-    <form id="newForm" class="stack" style="gap:16px">
+    <h2>${em?'Editar partido':'Apuntar partido'}</h2>
+    <form id="newForm" class="stack" style="gap:16px" ${em?`data-edit="${esc(em.id)}"`:''}>
       <div class="row">
         <label class="f">Fecha<input type="date" id="mDate" value="${pf&&pf.date?pf.date:today()}" max="${today()}" required></label>
         <label class="f" style="flex:1 1 220px">Pista o club (opcional)<input type="text" id="mPlace" maxlength="40" placeholder="Ej. Club de la Castellana, pista 3" value="${esc(pf&&pf.place||'')}"></label>
       </div>
       <div class="pairs">
-        <div class="pair"><h3 style="margin:0">Pareja 1</h3>${sel('a1',dflt(0))}${sel('a2',dflt(1))}</div>
+        <div class="pair"><h3 style="margin:0">Pareja 1</h3>${sel('a1',dflt(0),D)}${sel('a2',dflt(1),R)}</div>
         <div class="vs">VS</div>
-        <div class="pair"><h3 style="margin:0">Pareja 2</h3>${sel('b1',dflt(2))}${sel('b2',dflt(3))}</div>
+        <div class="pair"><h3 style="margin:0">Pareja 2</h3>${sel('b1',dflt(2),D)}${sel('b2',dflt(3),R)}</div>
       </div>
+      <label class="check"><input type="checkbox" id="mSides"${!em || em.sides ? ' checked':''}> Guardar en qué lado jugó cada uno (drive o revés)</label>
       <div>
         <h3>Resultado (juegos por set)</h3>
         <div class="score">
           <span></span><span class="h">Set 1</span><span class="h">Set 2</span><span class="h">Set 3</span>
           <span class="t" id="lblA">Pareja 1</span>
-          ${[0,1,2].map(i=>`<input type="number" inputmode="numeric" min="0" max="7" id="sa${i}" aria-label="Pareja 1, set ${i+1}"${i<2?' required':''}>`).join('')}
+          ${[0,1,2].map(i=>`<input type="number" inputmode="numeric" min="0" max="7" id="sa${i}" value="${sv(0,i)}" aria-label="Pareja 1, set ${i+1}"${i<2?' required':''}>`).join('')}
           <span class="t" id="lblB">Pareja 2</span>
-          ${[0,1,2].map(i=>`<input type="number" inputmode="numeric" min="0" max="7" id="sb${i}" aria-label="Pareja 2, set ${i+1}"${i<2?' required':''}>`).join('')}
+          ${[0,1,2].map(i=>`<input type="number" inputmode="numeric" min="0" max="7" id="sb${i}" value="${sv(1,i)}" aria-label="Pareja 2, set ${i+1}"${i<2?' required':''}>`).join('')}
         </div>
         <p class="small muted" style="margin:8px 0 0">Al mejor de 3 sets. Cada set acaba 6-0 a 6-4, 7-5 o 7-6 (con tie-break). Deja el set 3 vacío si se ganó 2-0.</p>
       </div>
       <div id="formErr" class="note err" hidden></div>
-      <div class="row"><button class="btn primary" type="submit" id="saveBtn">Guardar partido</button><a class="btn link" href="#partidos">Cancelar</a></div>
+      <div class="row"><button class="btn primary" type="submit" id="saveBtn">${em?'Guardar cambios':'Guardar partido'}</button><a class="btn link" href="#partidos">Cancelar</a></div>
     </form>
   </section>`;
 }
@@ -743,6 +914,22 @@ function strip(log){
     return `<div class="c" title="${esc(t)}"><div class="up">${x.won?`<i style="height:${h}%"></i>`:''}</div><div class="dn">${!x.won?`<i style="height:${h}%"></i>`:''}</div></div>`;
   }).join('')}</div>
   <p class="small muted" style="margin:8px 0 0">De más antiguo a más reciente. Verde, ganado; rojo, perdido. La altura es la diferencia de juegos.</p>`;
+}
+
+function sideCourt(s){
+  const d = s.sd.drive, r = s.sd.reves;
+  if (!d.pj && !r.pj) return `<p class="small" style="color:var(--ink-muted);margin:14px 0 0;position:relative">El lado de juego (drive o revés) aparecerá cuando apuntéis partidos indicando dónde jugó cada uno.</p>`;
+  const main = d.pj >= r.pj ? 'drive' : 'reves';
+  const pctS = x => x.pj ? Math.round(100*x.pg/x.pj)+'%' : '–';
+  return `<div style="margin-top:18px;position:relative"><span class="eyebrow">Juega de ${main==='drive'?'drive':'revés'}</span></div>
+    <div class="courtviz" style="margin-top:10px" role="img" aria-label="Victorias por lado de juego">
+      <div class="net"></div>
+      <div class="halves">
+        <div class="half ${main==='reves'?'hl':''}"><div class="k">Revés</div><div class="v">${pctS(r)}</div><div class="s">victorias</div></div>
+        <div class="half ${main==='drive'?'hl':''}"><div class="k">Drive</div><div class="v">${pctS(d)}</div><div class="s">victorias</div></div>
+      </div>
+      <div class="back"><span class="${main==='reves'?'y':''}">${r.pj} PJ</span><span class="${main==='drive'?'y':''}">${d.pj} PJ</span></div>
+    </div>`;
 }
 
 function viewPlayer(C, id){
@@ -774,6 +961,7 @@ function viewPlayer(C, id){
         </div>
         <div class="back"><span class="${hiSets?'y':''}">${s.sf}–${s.sc}</span><span class="${!hiSets?'y':''}">${s.gf}–${s.gc}</span></div>
       </div>
+      ${sideCourt(s)}
       <div class="minis">
         <div class="mini"><div class="k">Victorias</div><div class="v y">${s.pg}<span style="font-size:16px;color:var(--ink-muted)"> / ${s.pj} PJ</span></div></div>
         <div class="mini"><div class="k">Mejor pareja</div><div class="v" style="font-size:20px;padding-top:6px">${best?`${esc(nick(best[0]))} <span style="font-size:14px;color:var(--ink-muted)">${best[1].pg}–${best[1].pj-best[1].pg}</span>`:'–'}</div></div>
@@ -1134,6 +1322,79 @@ function viewCalendar(){
   </section>`;
 }
 
+const WA = `<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="vertical-align:-3px"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2z"/></svg>`;
+function appLink(hash){ return window.groupApi ? window.groupApi.inviteLink() + (hash||'') : location.href.split('#')[0] + (hash||''); }
+function evWhen(e){ const [y,m,d]=e.date.split('-').map(Number); const dt=new Date(y,m-1,d); return `${DIAS[dt.getDay()]} ${d} ${MESES[m-1]}${e.time?' · '+e.time:''}`; }
+function waLink(e, sm){
+  const free = Math.max(0, sm.slots - sm.starters.length);
+  const lines = [`🎾 ${e.title||'Partido'} · ${evWhen(e)}`];
+  if (e.place) lines.push(`📍 ${e.place}`);
+  lines.push(`👥 ${sm.starters.length}/${sm.slots} apuntados${free ? ` · ${free===1?'queda 1 plaza':'quedan '+free+' plazas'}` : ' · completo (se puede entrar en reserva)'}`);
+  if (sm.starters.length) lines.push(`Juegan: ${sm.starters.map(r=>uidName(r.uid)).join(', ')}`);
+  if (e.beers!==false) lines.push(`🍻 Cervezas después: ${sm.beer.length} apuntado${sm.beer.length===1?'':'s'} (sin límite)`);
+  if (e.note) lines.push(`📝 ${e.note}`);
+  lines.push('', `Apúntate aquí 👉 ${appLink('#calendario')}`);
+  return 'https://wa.me/?text=' + encodeURIComponent(lines.join('\n'));
+}
+function evStartEnd(e){
+  const [y,m,d] = e.date.split('-').map(Number); const [hh,mm] = (e.time||'19:00').split(':').map(Number);
+  const start = new Date(y, m-1, d, hh||0, mm||0), end = new Date(start.getTime() + 90*60000);
+  const f = dt => dt.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  return [f(start), f(end)];
+}
+function gcalLink(e){
+  const [a,b] = evStartEnd(e);
+  const p = new URLSearchParams({action:'TEMPLATE', text:`🎾 ${e.title||'Partido'} de pádel`, dates:`${a}/${b}`, location:e.place||'', details:`Apúntate o mira quién va: ${appLink('#calendario')}`});
+  return 'https://calendar.google.com/calendar/render?' + p.toString();
+}
+function icsText(e){
+  const [a,b] = evStartEnd(e), now = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const x = t => String(t||'').replace(/[\;,]/g, m=>'\\'+m).replace(/\n/g,'\\n');
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Padel entre amigos//ES','CALSCALE:GREGORIAN','BEGIN:VEVENT',
+    `UID:${e.id}@padel-entre-amigos`, `DTSTAMP:${now}`, `DTSTART:${a}`, `DTEND:${b}`,
+    `SUMMARY:${x((e.title||'Partido')+' de pádel')}`, `LOCATION:${x(e.place)}`, `DESCRIPTION:${x('Apúntate: '+appLink('#calendario'))}`,
+    'BEGIN:VALARM','TRIGGER:-PT2H','ACTION:DISPLAY','DESCRIPTION:Partido de pádel','END:VALARM',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+const canSaveFile = () => !!window.groupApi;
+function saveFile(name, mime, text){
+  const blob = new Blob([text], {type:mime}), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+
+/* balanced pairs: strength from the ranking (win rate smoothed + games won) */
+function strength(pid){ const s = S.lastC && S.lastC.st.get(pid); if (!s || !s.pj) return 0.5; return 0.6*((s.pg+1)/(s.pj+2)) + 0.4*pGames(s); }
+function driveScore(pid){ const s = S.lastC && S.lastC.st.get(pid); return s ? (s.sd.drive.pj - s.sd.reves.pj) : 0; }
+function orderPair(x, y){ return driveScore(x) >= driveScore(y) ? [x,y] : [y,x]; }
+function courtOptions(four){
+  const [p,q,r,t] = four;
+  return [[[p,q],[r,t]], [[p,r],[q,t]], [[p,t],[q,r]]].map(([A,B]) => ({A:orderPair(...A), B:orderPair(...B), diff:Math.abs(strength(A[0])+strength(A[1])-strength(B[0])-strength(B[1]))})).sort((a,b)=>a.diff-b.diff);
+}
+function makePairs(e, sm){
+  const pids = sm.starters.map(r=>playerByUid(r.uid)?.id).filter(Boolean);
+  const nC = Math.floor(pids.length/4); if (!nC) return [];
+  const sorted = pids.slice(0, nC*4).sort((a,b)=>strength(b)-strength(a));
+  const k = (S.pairIdx && S.pairIdx[e.id]) || 0;
+  const courts = [];
+  for (let c=0;c<nC;c++){ const opts = courtOptions(sorted.slice(c*4, c*4+4)); courts.push(opts[k % opts.length]); }
+  return courts;
+}
+function pairsBox(e, sm){
+  const open = S.pairOpen && S.pairOpen[e.id];
+  if (!open) return `<button class="btn" data-pairs="${esc(e.id)}" style="align-self:flex-start">⚖️ Hacer parejas equilibradas</button>`;
+  const courts = makePairs(e, sm);
+  if (!courts.length) return '<p class="small muted">Hacen falta 4 jugadores con cuenta para hacer parejas.</p>';
+  const nm = (pid, side) => `<span class="pname" style="gap:6px">${av(pid)}<span>${esc(nick(pid))} <span class="tag">${side}</span></span></span>`;
+  return `<div class="pairsbox">
+    <div class="row spread"><span class="evbt">Parejas propuestas</span><span class="row" style="gap:4px"><button class="btn link" data-pairnext="${esc(e.id)}">Otra combinación</button><button class="btn link" data-pairclose="${esc(e.id)}">Cerrar</button></span></div>
+    ${courts.map((c,i)=>`<div class="court1">${courts.length>1?`<span class="small muted">Pista ${i+1}</span>`:''}
+      <div class="pairrow"><div class="pr">${nm(c.A[0],'D')}${nm(c.A[1],'R')}</div><span class="vs" style="font-size:16px">VS</span><div class="pr">${nm(c.B[0],'D')}${nm(c.B[1],'R')}</div></div>
+      <span class="small muted">Igualdad ${Math.max(0, Math.round(100 - c.diff*100))}% · D = drive, R = revés</span></div>`).join('')}
+    <p class="small muted" style="margin:0">Se calcula con la clasificación: victorias y juegos ganados de cada uno.</p>
+  </div>`;
+}
+
 function eventCard(e){
   const sm = evSummary(e), [y,m,d] = e.date.split('-').map(Number), dt = new Date(y,m-1,d);
   const mine = S.uid ? sm.rs.find(r=>r.uid===S.uid) : null;
@@ -1170,7 +1431,7 @@ function eventCard(e){
         ${e.beers!==false?`<span class="q" style="margin-top:6px">¿Vienes a las cervezas? · sin límite</span>
         <div class="opts">
           <button class="opt beer" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${MUG} Sí, voy</button>
-          <button class="opt" data-beer="${esc(e.id)}" data-v="0" aria-pressed="${mine?.beer===false}">No voy</button>
+          <button class="opt beerno" data-beer="${esc(e.id)}" data-v="0" aria-pressed="${mine?.beer===false}">No voy</button>
         </div>
         ${mine?.beer===true && mine?.play!=='si'?'<span class="small muted">Vas solo a las cervezas.</span>':''}`:''}
       </div>`:''}
@@ -1183,6 +1444,12 @@ function eventCard(e){
           ${e.beers!==false?`<div><h5>Cervezas (${sm.beer.length})</h5>${sm.beer.length?`<ul>${sm.beer.map(r=>`<li>${uidAv(r.uid)}<span>${esc(uidName(r.uid))}</span>${r.play!=='si'?'<span class="tag">solo cervezas</span>':''}</li>`).join('')}</ul>`:'<span class="muted">Nadie</span>'}</div>`:''}
         </div>
       </details>
+      ${sm.starters.length>=4 ? pairsBox(e, sm) : ''}
+      <div class="row evacts">
+        <a class="btn wa" href="${esc(waLink(e, sm))}" target="_blank" rel="noopener">${WA} Compartir por WhatsApp</a>
+        <a class="btn" href="${esc(gcalLink(e))}" target="_blank" rel="noopener">Google Calendar</a>
+        ${canSaveFile() ? `<button class="btn" data-ics="${esc(e.id)}">iPhone / Outlook (.ics)</button>` : ''}
+      </div>
       ${(isAdmin() || canResult) ? `<div class="row" style="gap:6px">
         ${canResult && sm.starters.length>=4 ? `<button class="btn" data-evresult="${esc(e.id)}">Apuntar resultado</button>`:''}
         ${isAdmin() ? (S.evDel===e.id ? `<span class="small">¿Borrar esta convocatoria? <button class="btn danger" data-evdelyes="${esc(e.id)}">Sí, borrar</button> <button class="btn link" data-evdelno>Cancelar</button></span>` : `<button class="btn link" data-evdel="${esc(e.id)}">Borrar convocatoria</button>`) : ''}
@@ -1238,9 +1505,14 @@ function bindCalendar(v){
   app.querySelectorAll('[data-evdel]').forEach(b => b.onclick = () => { const e=S.events.get(b.dataset.evdel); if(!e) return; const n=evSummary(e).rs.length; askConfirm({title:'¿Borrar esta convocatoria?', text: n? `Hay ${n} respuesta${n===1?'':'s'} y se perderán. No se puede deshacer.` : 'No se puede deshacer.', detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Sí, borrar convocatoria', danger:true, run:()=>write(()=>S.db.doc('events/'+e.id).delete(), 'Convocatoria borrada.')}]}); });
   const dn = $('[data-evdelno]'); if (dn) dn.onclick = () => { S.evDel = null; render(); };
   app.querySelectorAll('[data-evdelyes]').forEach(b => b.onclick = () => { const id=b.dataset.evdelyes; S.evDel=null; write(()=>S.db.doc('events/'+id).delete(), 'Convocatoria borrada.'); });
+  app.querySelectorAll('[data-pairs]').forEach(b => b.onclick = () => { (S.pairOpen ||= {})[b.dataset.pairs] = true; render(); });
+  app.querySelectorAll('[data-pairclose]').forEach(b => b.onclick = () => { (S.pairOpen ||= {})[b.dataset.pairclose] = false; render(); });
+  app.querySelectorAll('[data-pairnext]').forEach(b => b.onclick = () => { const id=b.dataset.pairnext; (S.pairIdx ||= {})[id] = ((S.pairIdx[id]||0)+1)%3; render(); });
+  app.querySelectorAll('[data-ics]').forEach(b => b.onclick = () => { const e=S.events.get(b.dataset.ics); if (e) saveFile(`padel-${e.date}.ics`, 'text/calendar;charset=utf-8', icsText(e)); });
   app.querySelectorAll('[data-evresult]').forEach(b => b.onclick = () => {
     const e = S.events.get(b.dataset.evresult); if (!e) return;
-    const ids = evSummary(e).starters.map(r=>playerByUid(r.uid)?.id).filter(Boolean).slice(0,4);
+    const smx = evSummary(e); let ids = smx.starters.map(r=>playerByUid(r.uid)?.id).filter(Boolean).slice(0,4);
+    if (S.pairOpen && S.pairOpen[e.id]) { const c = makePairs(e, smx)[0]; if (c) ids = [...c.A, ...c.B]; }
     S.prefill = {date: e.date <= today() ? e.date : today(), place: e.place||'', players: ids};
     location.hash = 'nuevo';
   });
@@ -1354,6 +1626,36 @@ function foot(){
     f.appendChild(z);
     $('#delGrp').onclick = () => askConfirm({title:`¿Borrar «${S.config.name||'este grupo'}»?`, text:'Se borrarán para siempre su clasificación, partidos, convocatorias, torneos y miembros. No se puede deshacer.', actions:[{label:'Sí, borrar el grupo', danger:true, run:()=>write(()=>window.groupApi.deleteGroup(), null)}]});
   }
+  if (window.groupApi && isAdmin() && S.status==='ready'){
+    const bk = document.createElement('div'); bk.className='panel stack'; bk.style.cssText='gap:10px;margin-top:14px';
+    bk.innerHTML = `<div><h3 style="margin:0 0 4px">Copia de seguridad</h3><p class="small muted" style="margin:0">Descarga los datos del grupo en archivos que se abren con Excel.</p></div>
+      <div class="row" style="gap:6px"><button class="btn" id="bkMatches">Partidos (Excel)</button><button class="btn" id="bkRank">Clasificación (Excel)</button><button class="btn" id="bkJson">Todo (copia completa)</button></div>`;
+    f.appendChild(bk);
+    const csv = rows => '﻿' + rows.map(r => r.map(c => { const v = String(c ?? ''); return /[;"\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }).join(';')).join('\r\n');
+    const gname = (S.config.name||'grupo').replace(/[^\w\-áéíóúñÁÉÍÓÚÑ ]+/g,'').trim().replace(/\s+/g,'-');
+    $('#bkMatches').onclick = () => { const C = compute(); const side = (m,id) => m.sides && m.sides[id] ? (m.sides[id]==='drive'?'drive':'revés') : '';
+      saveFile(`${gname}-partidos-${today()}.csv`, 'text/csv;charset=utf-8', csv([['Fecha','Pareja 1','Pareja 2','Resultado','Ganadores','Lugar','Torneo'],
+        ...C.ms.map(m => { const r = result(m), tn = t => t.map(id=>nick(id)+(side(m,id)?` (${side(m,id)})`:'')).join(' / ');
+          return [m.date, tn(m.a), tn(m.b), (m.sets||[]).map(([x,y])=>`${x}-${y}`).join(' '), r.aWins?'Pareja 1':'Pareja 2', m.place||'', m.tname||'']; })])); };
+    $('#bkRank').onclick = () => { const C = compute(); const {active, idle} = rankList(C.st);
+      saveFile(`${gname}-clasificacion-${today()}.csv`, 'text/csv;charset=utf-8', csv([['Posición','Jugador','PJ','Victorias','Derrotas','% sets','% juegos','Sets','Juegos','PJ drive','% vict. drive','PJ revés','% vict. revés'],
+        ...[...active, ...idle].map(x => { const s = x.s; const pc2 = v => Math.round(v*100)+'%';
+          return [x.pos||'', x.p.nick, s.pj, s.pg, s.pj-s.pg, pc2(pSets(s)), pc2(pGames(s)), `${s.sf}-${s.sc}`, `${s.gf}-${s.gc}`, s.sd.drive.pj, s.sd.drive.pj?pc2(s.sd.drive.pg/s.sd.drive.pj):'', s.sd.reves.pj, s.sd.reves.pj?pc2(s.sd.reves.pg/s.sd.reves.pj):'']; })])); };
+    $('#bkJson').onclick = () => saveFile(`${gname}-copia-${today()}.json`, 'application/json', JSON.stringify({grupo:S.config.name||'', fecha:new Date().toISOString(), jugadores:[...S.allPlayers.values()], partidos:S.matches, convocatorias:[...S.events.values()], respuestas:Object.fromEntries(S.rsvp), torneos:[...S.tournaments.values()], resultadosTorneo:Object.fromEntries(S.tres)}, null, 2));
+  }
+  if (window.groupApi && S.status==='ready'){
+    const standalone = matchMedia('(display-mode: standalone), (display-mode: minimal-ui)').matches || navigator.standalone;
+    if (!standalone){
+      const ins = document.createElement('div'); ins.className='panel row spread'; ins.style.marginTop='14px';
+      ins.innerHTML = `<span class="small"><strong>Instala la app en el móvil</strong><br><span class="muted">Icono en la pantalla de inicio y acceso directo.</span></span><button class="btn primary" id="instBtn">Instalar</button>`;
+      f.appendChild(ins);
+      $('#instBtn').onclick = async () => {
+        if (window.__installPrompt){ window.__installPrompt.prompt(); try { await window.__installPrompt.userChoice; } catch(_){} window.__installPrompt = null; return; }
+        const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        askConfirm({title:'Añadir a la pantalla de inicio', text: ios ? 'En Safari: pulsa el botón Compartir (el cuadrado con la flecha hacia arriba) y elige «Añadir a pantalla de inicio». Luego pulsa «Añadir».' : 'En Chrome: abre el menú ⋮ (arriba a la derecha) y elige «Instalar aplicación» o «Añadir a pantalla de inicio».', actions:[]});
+      };
+    }
+  }
   if (window.groupApi && S.status==='ready'){
     const u = document.createElement('div'); u.className='row spread small'; u.style.marginTop='14px';
     u.innerHTML = `<span class="muted">${esc(window.groupApi.email||'')}</span><span class="row" style="gap:4px">${window.groupApi.isSuper?'<button class="btn link" id="supG">Panel de superadmin</button>':''}<button class="btn link" id="swG">Cambiar de grupo</button><button class="btn link" id="outG">Cerrar sesión</button></span>`;
@@ -1422,15 +1724,19 @@ function bindNew(form){
     const sets = ps.sets;
     const date = $('#mDate').value || today();
     const place = $('#mPlace').value.trim();
-    const doc = {date, a:[v[0],v[1]], b:[v[2],v[3]], sets, by:S.uid, at:Date.now()};
+    const editId = form.dataset.edit, old = editId ? S.matches.find(m=>m.id===editId) : null;
+    const doc = {date, a:[v[0],v[1]], b:[v[2],v[3]], sets, by: old ? (old.by||S.uid) : S.uid, at: old ? (old.at||Date.now()) : Date.now()};
     if (place) doc.place = place;
+    if ($('#mSides').checked) doc.sides = {[v[0]]:'drive', [v[1]]:'reves', [v[2]]:'drive', [v[3]]:'reves'};
+    if (old){ doc.editedBy = S.uid; doc.editedAt = Date.now(); }
     $('#saveBtn').disabled = true;
-    write(async ()=>{ await S.db.collection('matches').add(doc); location.hash='partidos'; }, 'Partido guardado. La clasificación ya está actualizada.');
+    if (old) write(async ()=>{ await S.db.doc('matches/'+editId).set(doc); location.hash='partidos'; }, 'Partido corregido. La clasificación ya está actualizada.');
+    else write(async ()=>{ await S.db.collection('matches').add(doc); location.hash='partidos'; }, 'Partido guardado. La clasificación ya está actualizada.');
   };
 }
 
 /* ---------- boot ---------- */
-function formBusy(){ const ae=document.activeElement; return ['nuevo','torneo-nuevo','evento-nuevo'].includes(viewName()) || !!S.tEdit || (ae && ['INPUT','SELECT','TEXTAREA'].includes(ae.tagName)); }
+function formBusy(){ const ae=document.activeElement; return ['nuevo','torneo-nuevo','evento-nuevo'].includes(viewName()) || viewName().startsWith('editar-') || !!S.tEdit || (ae && ['INPUT','SELECT','TEXTAREA'].includes(ae.tagName)); }
 window.appRefresh = () => renderData();
 function renderData(){ if (S.status==='ready' && formBusy()){ S.pending=true; return; } S.pending=false; render(); }
 document.addEventListener('focusout', () => setTimeout(() => { if (S.pending && !formBusy()) renderData(); }, 60));
@@ -1740,5 +2046,6 @@ auth.onAuthStateChanged(async u => {
 })();
 </script>
 
+<script>window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); window.__installPrompt = e; }); if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 </body>
 </html>

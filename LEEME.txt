@@ -3,6 +3,8 @@ APP DE PÁDEL ENTRE AMIGOS — VERSIÓN WEB CON LOGIN DE GOOGLE
 
 Esta carpeta contiene:
   index.html          La app completa.
+  manifest.webmanifest, sw.js, icon-*.png, apple-touch-icon.png
+                      Para poder instalarla en el móvil como una app (súbelos también a GitHub).
   firebase-config.js  Aquí pegas los datos de tu proyecto de Firebase (paso 4).
   firestore.rules     Las reglas de seguridad de la base de datos (paso 3).
   LEEME.txt           Esta guía.

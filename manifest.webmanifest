@@ -1,0 +1,16 @@
+{
+  "name": "Pádel entre amigos",
+  "short_name": "Pádel",
+  "description": "Ranking, partidos, convocatorias y torneos de tu grupo de pádel.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "minimal-ui",
+  "background_color": "#f1f3f6",
+  "theme_color": "#1f5ba3",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

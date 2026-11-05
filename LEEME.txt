@@ -1,0 +1,72 @@
+APP DE PÁDEL ENTRE AMIGOS — VERSIÓN WEB CON LOGIN DE GOOGLE
+============================================================
+
+Esta carpeta contiene:
+  index.html          La app completa.
+  firebase-config.js  Aquí pegas los datos de tu proyecto de Firebase (paso 4).
+  firestore.rules     Las reglas de seguridad de la base de datos (paso 3).
+  LEEME.txt           Esta guía.
+
+Todo es gratis para un grupo de amigos (plan "Spark" de Firebase y plan gratuito de Netlify).
+Tiempo estimado: 20-30 minutos, solo con el navegador.
+
+
+1. CREA EL PROYECTO DE FIREBASE
+   - Entra en https://console.firebase.google.com con tu Gmail.
+   - "Crear un proyecto" (o "Añadir proyecto"). Ponle un nombre, por ejemplo "padel-amigos".
+   - Google Analytics: desactívalo, no hace falta. Crear proyecto.
+
+2. ACTIVA EL LOGIN CON GOOGLE
+   - Menú izquierdo: Compilación > Authentication > Comenzar.
+   - Pestaña "Método de acceso" > Google > Habilitar.
+   - Elige tu correo como "correo de asistencia" > Guardar.
+
+3. CREA LA BASE DE DATOS Y PEGA LAS REGLAS
+   - Menú izquierdo: Compilación > Firestore Database > Crear base de datos.
+   - Ubicación: una de Europa (por ejemplo "eur3" o "europe-southwest1 (Madrid)").
+   - Empieza en "modo de producción".
+   - Cuando esté creada, pestaña "Reglas": borra lo que haya, pega TODO el contenido
+     del archivo firestore.rules y pulsa "Publicar".
+
+4. REGISTRA LA APP WEB Y COPIA SU CONFIGURACIÓN
+   - Rueda dentada (arriba a la izquierda) > Configuración del proyecto > General.
+   - Abajo, en "Tus apps", pulsa el icono web  </>. Ponle un nombre. NO marques Firebase Hosting.
+   - Te enseña un bloque "const firebaseConfig = { apiKey: ..., authDomain: ..., ... }".
+   - Abre firebase-config.js con cualquier editor de texto (Bloc de notas, TextEdit en modo
+     texto plano) y sustituye los valores de ejemplo por los tuyos. Guarda.
+   (Esos datos no son secretos: la seguridad la dan las reglas del paso 3.)
+
+5. PUBLICA LA WEB EN NETLIFY
+   - Crea una cuenta gratuita en https://app.netlify.com (puedes entrar con tu Gmail).
+     Hazlo ANTES de subir, para que la web quede a tu nombre y no se pierda.
+   - Ve a https://app.netlify.com/drop y arrastra ESTA CARPETA entera.
+   - Te dará una dirección tipo  https://nombre-raro-123.netlify.app
+     Puedes cambiarla en Project configuration > Change project name (ej. padel-amigos.netlify.app).
+   - Si la web te pide contraseña, en la configuración del proyecto quita la protección
+     o la visibilidad privada para que sea pública (los datos siguen protegidos por el login).
+
+6. AUTORIZA ESA DIRECCIÓN EN FIREBASE
+   - Firebase > Authentication > pestaña "Configuración" > Dominios autorizados > Añadir dominio.
+   - Escribe tu dirección de Netlify SIN https:// (ej. padel-amigos.netlify.app) > Añadir.
+   Sin este paso, el botón "Continuar con Google" dará error.
+
+7. ¡A JUGAR!
+   - Abre tu web, pulsa "Continuar con Google" y crea tu grupo. Serás el propietario.
+   - Abajo del todo, en "Acceso por Gmail", añade el Gmail de cada amigo y pulsa "Copiar enlace"
+     para mandarles el enlace del grupo (por WhatsApp, por ejemplo).
+   - En "Ajustes del propietario" puedes nombrar coadministradores.
+   - Otro grupo de amigos puede usar LA MISMA web: su organizador entra con su Gmail y pulsa
+     "Crear grupo". Cada grupo tiene sus datos aparte y su propio propietario.
+
+
+ACTUALIZAR LA APP MÁS ADELANTE
+   - En Netlify, abre tu proyecto > Deploys y arrastra la carpeta nueva sobre la zona de subida.
+     Los datos no se pierden: están en Firebase, no en los archivos.
+   - Si cambian las reglas, pégalas de nuevo en Firestore > Reglas > Publicar.
+
+PROBLEMAS FRECUENTES
+   - "Falta configurar Firebase": no se guardó bien firebase-config.js (paso 4).
+   - Error al pulsar "Continuar con Google" (unauthorized-domain): falta el paso 6.
+   - Un amigo dice que no tiene acceso: revisa que su Gmail esté en "Acceso por Gmail",
+     escrito exactamente igual que el correo con el que entra.
+   - "No se han podido cargar tus grupos" / permisos: revisa que publicaste las reglas (paso 3).

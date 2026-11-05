@@ -51,12 +51,27 @@ Tiempo estimado: 20-30 minutos, solo con el navegador.
    Sin este paso, el botón "Continuar con Google" dará error.
 
 7. ¡A JUGAR!
-   - Abre tu web, pulsa "Continuar con Google" y crea tu grupo. Serás el propietario.
-   - Abajo del todo, en "Acceso por Gmail", añade el Gmail de cada amigo y pulsa "Copiar enlace"
-     para mandarles el enlace del grupo (por WhatsApp, por ejemplo).
-   - En "Ajustes del propietario" puedes nombrar coadministradores.
-   - Otro grupo de amigos puede usar LA MISMA web: su organizador entra con su Gmail y pulsa
-     "Crear grupo". Cada grupo tiene sus datos aparte y su propio propietario.
+   - Abre tu web y pulsa "Continuar con Google" con el Gmail de superadministrador
+     (el que aparece en firebase-config.js y en firestore.rules).
+   - Crea tu grupo. Dentro, abajo del todo, abre "Solicitudes y miembros" y pulsa
+     "Copiar enlace" para mandarlo por WhatsApp.
+   - Quien abra el enlace entra con Google, elige el grupo en el desplegable y pulsa
+     "Pedir acceso". Tú (o un administrador del grupo) lo aceptas en "Solicitudes y miembros".
+   - En "Panel de superadministrador" ves todos los Gmail que han entrado y eliges
+     coadministradores: pueden crear sus propios grupos y administrarlos.
+
+ROLES
+   - Superadministrador: tú. Ves y gestionas todos los grupos y eliges coadministradores.
+   - Coadministrador: puede crear grupos. En los suyos acepta solicitudes, crea convocatorias
+     y torneos, y borra partidos, resultados y jugadores.
+   - Administrador de un grupo: el creador del grupo (o tú) puede nombrar más administradores
+     desde "Ajustes del grupo".
+   - Miembro: ve la clasificación, se apunta a convocatorias y apunta partidos.
+
+CAMBIAR EL GMAIL DE SUPERADMINISTRADOR
+   Está en dos sitios y tiene que ser idéntico en ambos:
+   - firebase-config.js  ->  window.SUPER_ADMIN_EMAIL = "...";
+   - firestore.rules     ->  función isSuper()  (después vuelve a publicar las reglas)
 
 
 ACTUALIZAR LA APP MÁS ADELANTE
@@ -67,6 +82,7 @@ ACTUALIZAR LA APP MÁS ADELANTE
 PROBLEMAS FRECUENTES
    - "Falta configurar Firebase": no se guardó bien firebase-config.js (paso 4).
    - Error al pulsar "Continuar con Google" (unauthorized-domain): falta el paso 6.
-   - Un amigo dice que no tiene acceso: revisa que su Gmail esté en "Acceso por Gmail",
-     escrito exactamente igual que el correo con el que entra.
+   - Un amigo dice que no puede entrar: que pulse "Pedir acceso" y revisa "Solicitudes y miembros".
+   - No te sale el "Panel de superadministrador": el Gmail con el que entras no coincide con
+     el de firebase-config.js y firestore.rules.
    - "No se han podido cargar tus grupos" / permisos: revisa que publicaste las reglas (paso 3).

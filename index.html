@@ -3,12 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f1b2a">
+<meta name="theme-color" content="#e4f4e9">
 <title>Pádel entre amigos</title>
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Barlow+Condensed:wght@500;600;700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px Arial,Helvetica,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <style>
 /* Layout: app shell. Sticky top bar with brand + pill nav (desktop), fixed bottom tab bar (phone), one 760px working column. Dark "ink" hero cards carry the key number of each view. */
 :root{
@@ -343,6 +340,13 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 .btn.dangerfill:hover{filter:brightness(1.07);background:var(--loss)}
 @media (prefers-reduced-motion:no-preference){.mbox{animation:pop .18s ease both}@keyframes pop{from{transform:scale(.96);opacity:.6}to{transform:none;opacity:1}}}
 .mug{width:16px;height:16px;vertical-align:-3px}
+.evblocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.evblocks{grid-template-columns:1fr}}
+.evblock{background:var(--surface-2);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.evblock.beerb{background:color-mix(in srgb,var(--ball) 16%,var(--surface))}
+.evbh{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap}
+.evbt{font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.places.beers .av{width:30px;height:30px;font-size:11px}
 @media (max-width:620px){.ev{grid-template-columns:52px 1fr}.evbody{padding:12px}.opt{padding:7px 11px}}
 
 .rwho .meta{white-space:nowrap}
@@ -371,6 +375,56 @@ body:not(.gated) #gate{display:none}
 .usermenu{display:flex;align-items:center;gap:8px}
 .usermenu img,.usermenu .av{width:30px;height:30px;border-radius:50%}
 .emails{display:flex;flex-direction:column}
+
+/* ===== Look & feel v2: light-green cards, Arial everywhere, menus in Arial Black ===== */
+:root{
+  --ink:#e4f4e9; --ink-2:#cfeadb; --ink-fg:#11301f; --ink-muted:#4d6b5a; --ink-line:rgba(17,48,31,.14);
+  --ink-accent:#1b7a47; --primary:#1b7a47; --primary-fg:#ffffff;
+  --f-display:Arial,Helvetica,sans-serif; --f-score:Arial,Helvetica,sans-serif; --f-body:Arial,Helvetica,sans-serif;
+  --f-menu:"Arial Black","Arial Bold",Arial,Helvetica,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ink:#173324; --ink-2:#20432f; --ink-fg:#e8f5ec; --ink-muted:#a3c2ae; --ink-line:rgba(232,245,236,.14);
+  --ink-accent:#7ed6a0; --primary:#2f9a5e;
+}}
+:root[data-theme="dark"]{
+  --ink:#173324; --ink-2:#20432f; --ink-fg:#e8f5ec; --ink-muted:#a3c2ae; --ink-line:rgba(232,245,236,.14);
+  --ink-accent:#7ed6a0; --primary:#2f9a5e;
+}
+.hero,.champ,.gcard{border:1px solid color-mix(in srgb,var(--ink-accent) 22%,transparent)}
+.hero .eyebrow,.evdate .m{color:var(--ink-accent)}
+.hero .pill.y{border-color:color-mix(in srgb,var(--ink-accent) 50%,transparent);color:var(--ink-accent)}
+.hbar i{background:var(--ink-accent)}
+.hero .cta{background:var(--primary);color:var(--primary-fg)}
+.rpos.p1{background:var(--ink);color:var(--ink-accent);box-shadow:inset 0 0 0 1.5px var(--ink-accent)}
+.mini .v.y{color:var(--ink-accent)}
+.adminbadge{background:var(--ink-accent);color:#fff}
+.cday.sel::after{background:var(--ink-accent)}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
+.btn.primary:hover{background:var(--primary);filter:brightness(1.07)}
+.courtviz{border-color:rgba(255,255,255,.7)}
+.courtviz .net{background:repeating-linear-gradient(90deg,rgba(255,255,255,.25) 0 2px,transparent 2px 7px),rgba(0,0,0,.18);border-bottom-color:rgba(255,255,255,.7)}
+.courtviz .half+.half{border-left-color:rgba(255,255,255,.7)}
+.courtviz .back{border-top-color:rgba(255,255,255,.7)}
+.courtviz .half .k{color:rgba(255,255,255,.82)} .courtviz .half .v{color:#fff} .courtviz .half.hl .v{color:var(--ball)} .courtviz .half .s{color:rgba(255,255,255,.75)}
+.courtviz .back span{background:rgba(255,255,255,.16);color:#fff}
+.courtviz .back span.y{background:var(--ball);color:var(--ball-ink)}
+.pillnav a,.bottomnav a,.seg button,#leagueName,.gbrand,.btn-new,.calhead .mn,.opts .opt{font-family:var(--f-menu);font-weight:900}
+.pillnav a{letter-spacing:.03em;font-size:12px}
+.bottomnav a{letter-spacing:.02em}
+h2,.hero .big,.courtviz .half .v,.h2h .big{letter-spacing:-.01em}
+.gitem{background:var(--ink-2);color:var(--ink-fg)}
+.gitem small{color:var(--ink-muted)}
+.gform input,.gform select{flex:1 1 180px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;min-width:0}
+.gcard .btn{background:var(--surface)}
+.gcard .btn.primary{background:var(--primary);color:var(--primary-fg)}
+.gcard .muted,.gcard p{color:var(--ink-muted)}
+.gbtn.light{border:1px solid var(--line)}
+.pending{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--surface);color:var(--fg);font-size:14px}
+.ulist{display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow:auto}
+.urow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surface);color:var(--fg)}
+.urow .e{font-size:13px;overflow-wrap:anywhere;min-width:0}
+.urow .e small{display:block;color:var(--muted)}
 
 </style>
 </head>
@@ -505,7 +559,7 @@ function render(){
   $('#leagueName').textContent = S.config.name || 'Pádel entre amigos';
   const v = viewName();
   const cur = v.startsWith('jugador-')?'clasificacion':v.startsWith('torneo')?'torneos':v==='evento-nuevo'?'calendario':v;
-  $('#adminBadge').hidden = !isAdmin(); $('#adminBadge').textContent = S.isOwner ? 'Admin' : 'Coadmin';
+  $('#adminBadge').hidden = !isAdmin(); $('#adminBadge').textContent = window.groupApi ? window.groupApi.role : (S.isOwner ? 'Admin' : 'Coadmin');
   document.querySelectorAll('#tabs a, #bnav a').forEach(a => { if (a.dataset.v===cur) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   const canNew = S.canWrite && S.status==='ready';
   $('#newTop').hidden = !canNew; $('#bnav .plus').hidden = !canNew;
@@ -517,8 +571,9 @@ function render(){
   const C = compute();
   let html = '';
   if (S.flash) html += `<div class="note ${S.flash.t}">${esc(S.flash.m)}</div>`;
+  if (window.groupApi && isAdmin() && (window.groupApi.requests||[]).length){ const n=window.groupApi.requests.length; html += `<div class="note ok row spread"><span><strong>${n} solicitud${n===1?'':'es'} de acceso</strong> esperando tu respuesta.</span><button class="btn" data-openreq>Ver</button></div>`; }
   if (!S.uid) html += `<div class="note">Estás viendo la clasificación sin identificarte. Para apuntar partidos, entra con tu cuenta.</div>`;
-  else if (!S.canWrite) html += `<div class="note">Tienes acceso de solo lectura. Pide al organizador que te dé acceso para apuntar partidos.</div>`;
+  else if (!S.canWrite) html += `<div class="note">Tienes acceso de solo lectura. Pide a un administrador que revise tu acceso.</div>`;
   else if (!myPlayer()) html += joinPanel();
 
   if (v==='partidos') html += viewMatches(C);
@@ -643,7 +698,7 @@ function viewMatches(C){
 }
 
 function viewNew(){
-  if (!S.canWrite || !S.uid) return `<div class="note">Necesitas acceso al grupo para apuntar partidos.</div>`;
+  if (!S.canWrite || !S.uid) return `<div class="note">Necesitas ser miembro del grupo para apuntar partidos.</div>`;
   const ps = [...S.players.values()].sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
   if (ps.length < 4) return `<section class="panel empty"><div class="court"></div><h2>Faltan jugadores</h2><p class="muted">Hacen falta al menos 4 jugadores. Ahora hay ${ps.length}. Invita a tus amigos o añádelos desde la clasificación.</p><a class="btn" href="#clasificacion">Ir a la clasificación</a></section>`;
   const mine = myPlayer()?.id || '';
@@ -1092,35 +1147,40 @@ function eventCard(e){
       <div class="row spread" style="align-items:flex-start"><div style="min-width:0"><div class="evt">${esc(e.title||'Partido')}${e.time?` · ${esc(e.time)}`:''}</div>
         <div class="small muted">${e.place?esc(e.place)+' · ':''}${sm.slots} plazas${e.note?` · ${esc(e.note)}`:''}</div></div>
         ${free===0?'<span class="full">Completo</span>':`<span class="tag">${free} libre${free===1?'':'s'}</span>`}</div>
-      <div class="places" aria-label="Plazas">${sm.starters.map(r=>`<span title="${esc(uidName(r.uid))}">${uidAv(r.uid)}</span>`).join('')}${'<span class="free"></span>'.repeat(free)}</div>
-      <div class="evline">
-        <span><strong style="color:var(--fg)">${sm.starters.length}/${sm.slots}</strong> juegan</span>
-        ${sm.bench.length?`<span>${sm.bench.length} en reserva</span>`:''}
-        ${sm.maybe.length?`<span>${sm.maybe.length} en duda</span>`:''}
-        ${sm.no.length?`<span>${sm.no.length} no pueden</span>`:''}
-        ${e.beers!==false?`<span>${MUG} <strong style="color:var(--fg)">${sm.beer.length}</strong> a cervezas ${sm.beer.length?`<span class="avs">${sm.beer.slice(0,6).map(r=>uidAv(r.uid)).join('')}</span>`:''}</span>`:''}
+      <div class="evblocks">
+        <div class="evblock">
+          <div class="evbh"><span class="evbt">Partido</span><span><strong>${sm.starters.length}/${sm.slots}</strong> plazas</span></div>
+          <div class="places" aria-label="Plazas del partido">${sm.starters.map(r=>`<span title="${esc(uidName(r.uid))}">${uidAv(r.uid)}</span>`).join('')}${'<span class="free"></span>'.repeat(free)}</div>
+          <div class="evline">${free?`<span>${free} plaza${free===1?'':'s'} libre${free===1?'':'s'}</span>`:'<span class="full">Completo</span>'}${sm.bench.length?`<span>${sm.bench.length} en reserva</span>`:''}${sm.maybe.length?`<span>${sm.maybe.length} en duda</span>`:''}</div>
+        </div>
+        ${e.beers!==false?`<div class="evblock beerb">
+          <div class="evbh"><span class="evbt">${MUG} Cervezas</span><span><strong>${sm.beer.length}</strong> apuntado${sm.beer.length===1?'':'s'} · sin límite</span></div>
+          ${sm.beer.length?`<div class="places beers" aria-label="Van a cervezas">${sm.beer.map(r=>`<span title="${esc(uidName(r.uid))}${r.play!=='si'?' (solo cervezas)':''}">${uidAv(r.uid)}</span>`).join('')}</div>`:'<span class="small muted">Nadie todavía. Puedes venir aunque no juegues.</span>'}
+          ${sm.beer.some(r=>r.play!=='si')?`<div class="evline"><span>${sm.beer.filter(r=>r.play!=='si').length} solo a cervezas</span></div>`:''}
+        </div>`:''}
       </div>
       ${canAnswer?`<div class="ask">
-        <span class="q">¿Juegas?</span>
+        <span class="q">¿Juegas el partido? · ${sm.slots} plazas</span>
         <div class="opts">
           <button class="opt yes" data-rsvp="${esc(e.id)}" data-play="si" aria-pressed="${mine?.play==='si'}">Juego</button>
           <button class="opt maybe" data-rsvp="${esc(e.id)}" data-play="duda" aria-pressed="${mine?.play==='duda'}">En duda</button>
-          <button class="opt no" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${mine?.play==='no'}">No puedo</button>
+          <button class="opt no" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${mine?.play==='no'}">No juego</button>
         </div>
-        ${e.beers!==false?`<span class="q" style="margin-top:4px">¿Te apuntas a cervezas después?</span>
-        <div class="opts">
-          <button class="opt beer" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${MUG} Sí, cervezas</button>
-          <button class="opt" data-beer="${esc(e.id)}" data-v="0" aria-pressed="${mine?.beer===false}">Esta vez no</button>
-        </div>`:''}
         ${mine?.play==='si' && sm.bench.some(r=>r.uid===S.uid)?'<span class="small muted">Estás en reserva: entras si alguien se borra.</span>':''}
+        ${e.beers!==false?`<span class="q" style="margin-top:6px">¿Vienes a las cervezas? · sin límite</span>
+        <div class="opts">
+          <button class="opt beer" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${MUG} Sí, voy</button>
+          <button class="opt" data-beer="${esc(e.id)}" data-v="0" aria-pressed="${mine?.beer===false}">No voy</button>
+        </div>
+        ${mine?.beer===true && mine?.play!=='si'?'<span class="small muted">Vas solo a las cervezas.</span>':''}`:''}
       </div>`:''}
       <details><summary class="small" style="cursor:pointer;font-weight:700">Ver quién se ha apuntado</summary>
         <div class="who-list" style="margin-top:10px">
-          <div><h5>Juegan</h5>${li(sm.starters)}</div>
+          <div><h5>Juegan (${sm.starters.length}/${sm.slots})</h5>${li(sm.starters)}</div>
           ${sm.bench.length?`<div><h5>Reserva</h5>${li(sm.bench)}</div>`:''}
           <div><h5>En duda</h5>${li(sm.maybe)}</div>
-          <div><h5>No pueden</h5>${li(sm.no)}</div>
-          ${e.beers!==false?`<div><h5>Cervezas</h5>${li(sm.beer)}</div>`:''}
+          <div><h5>No juegan</h5>${li(sm.no)}</div>
+          ${e.beers!==false?`<div><h5>Cervezas (${sm.beer.length})</h5>${sm.beer.length?`<ul>${sm.beer.map(r=>`<li>${uidAv(r.uid)}<span>${esc(uidName(r.uid))}</span>${r.play!=='si'?'<span class="tag">solo cervezas</span>':''}</li>`).join('')}</ul>`:'<span class="muted">Nadie</span>'}</div>`:''}
         </div>
       </details>
       ${(isAdmin() || canResult) ? `<div class="row" style="gap:6px">
@@ -1244,18 +1304,18 @@ function foot(){
   if (S.isOwner && S.status==='ready'){
     const cands = [...S.players.values()].filter(p => p.uid && p.uid!==S.uid).sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
     const admins = S.admins||[];
-    f.innerHTML = `<details class="panel" ${S.footOpen?'open':''} id="footDet"><summary style="cursor:pointer;font-weight:700;color:var(--fg)">Ajustes del propietario</summary>
+    f.innerHTML = `<details class="panel" ${S.footOpen?'open':''} id="footDet"><summary style="cursor:pointer;font-weight:700;color:var(--fg)">Ajustes del grupo</summary>
       <div class="stack" style="gap:16px;margin-top:14px">
         <form id="cfgForm" class="row"><input type="text" id="cfgName" maxlength="40" value="${esc(S.config.name||'Pádel entre amigos')}" aria-label="Nombre de la clasificación" style="flex:1 1 200px"><button class="btn" type="submit">Cambiar nombre</button></form>
         <div>
           <h3>Administradores</h3>
-          <p class="small" style="margin:0 0 10px">Un coadministrador puede crear y borrar convocatorias y torneos, y borrar partidos, resultados y jugadores. Solo tú puedes nombrarlos, quitarlos y cambiar el nombre de la app.</p>
-          <div class="kv"><span class="pname">${myPlayer()?av(myPlayer().id):''}<span>${esc(myPlayer()?.nick||'Tú')}</span></span><span class="tag">Propietario</span></div>
+          <p class="small" style="margin:0 0 10px">Un coadministrador puede crear y borrar convocatorias y torneos, y borrar partidos, resultados y jugadores. Solo el creador del grupo y el superadministrador pueden nombrarlos, quitarlos y cambiar el nombre.</p>
+          <div class="kv"><span class="pname">${myPlayer()?av(myPlayer().id):''}<span>${esc(myPlayer()?.nick||'Tú')}</span></span><span class="tag">Tú</span></div>
           ${cands.length ? cands.map(p => { const on = admins.includes(p.uid);
             return `<div class="kv"><span class="pname">${av(p.id)}<span>${esc(p.nick)}</span></span>${on?`<span class="row" style="gap:6px"><span class="tag" style="background:var(--ink);color:var(--ball)">Coadmin</span><button class="btn link danger" data-unadmin="${esc(p.uid)}" data-nm="${esc(p.nick)}">Quitar</button></span>`:`<button class="btn" data-mkadmin="${esc(p.uid)}" data-nm="${esc(p.nick)}">Hacer administrador</button>`}</div>`; }).join('')
             : '<p class="small muted" style="margin:0">Aún no hay amigos con cuenta. Cuando se unan con su cuenta aparecerán aquí.</p>'}
         </div>
-        <p class="small" style="margin:0">Para que tus amigos entren, añade su Gmail en «Acceso por Gmail» y mándales el enlace del grupo.</p>
+        <p class="small" style="margin:0">Para que tus amigos entren, mándales el enlace del grupo: pedirán acceso y lo aceptas en «Solicitudes y miembros».</p>
       </div></details>`;
     $('#footDet').ontoggle = e => { S.footOpen = e.target.open; };
     $('#cfgForm').onsubmit = async e => { e.preventDefault(); const n = $('#cfgName').value.trim(); if (!n) return; await write(()=>S.db.doc('config/liga').set({name:n}), 'Nombre actualizado.'); };
@@ -1263,28 +1323,36 @@ function foot(){
     f.querySelectorAll('[data-mkadmin]').forEach(b => b.onclick = () => askConfirm({title:`¿Hacer administrador a ${b.dataset.nm}?`, text:'Podrá crear y borrar convocatorias y torneos, y borrar partidos, resultados y jugadores. Puedes quitárselo cuando quieras.', actions:[{label:'Sí, hacer administrador', run:()=>saveAdmins([...new Set([...admins, b.dataset.mkadmin])])}]}));
     f.querySelectorAll('[data-unadmin]').forEach(b => b.onclick = () => askConfirm({title:`¿Quitar a ${b.dataset.nm} como administrador?`, text:'Volverá a ser un jugador normal. Lo que haya creado se mantiene.', actions:[{label:'Sí, quitar', danger:true, run:()=>saveAdmins(admins.filter(u=>u!==b.dataset.unadmin))}]}));
   } else if (isAdmin() && S.status==='ready'){
-    f.innerHTML = `<p class="small">Eres coadministrador de esta clasificación. Solo el propietario puede nombrar administradores y cambiar el nombre de la app.</p>`;
+    f.innerHTML = `<p class="small">Eres administrador de este grupo. El creador del grupo y el superadministrador nombran administradores y cambian el nombre.</p>`;
   } else f.innerHTML = '';
   if (window.groupApi && isAdmin() && S.status==='ready'){
-    const g = window.groupApi.data || {}, emails = [...(g.emails||[])].sort();
-    const sec = document.createElement('details'); sec.className='panel'; sec.id='accDet'; if (S.accOpen) sec.open = true;
-    sec.innerHTML = `<summary style="cursor:pointer;font-weight:700;color:var(--fg)">Acceso por Gmail (${emails.length})</summary>
-      <div class="stack" style="gap:12px;margin-top:14px">
-        <p class="small" style="margin:0">Solo los Gmail de esta lista pueden entrar al grupo. Añade su correo y mándales el enlace.</p>
-        <div class="row"><input type="text" id="invLink" readonly value="${esc(window.groupApi.inviteLink())}" style="flex:1 1 220px" aria-label="Enlace del grupo"><button class="btn" id="invCopy" type="button">Copiar enlace</button></div>
-        <form id="accForm" class="row"><input type="email" id="accEmail" placeholder="amigo@gmail.com" required style="flex:1 1 220px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px"><button class="btn primary" type="submit">Dar acceso</button></form>
-        <div class="emails">${emails.map(e=>`<div class="kv"><span class="small">${esc(e)}</span>${e===(g.ownerEmail||'')?'<span class="tag">Propietario</span>':`<button class="btn link danger" data-rmail="${esc(e)}">Quitar</button>`}</div>`).join('')}</div>
+    const ga = window.groupApi, reqs = ga.requests||[], mem = ga.members||[];
+    const sec = document.createElement('details'); sec.className='panel'; sec.id='reqDet'; if (S.reqOpen || reqs.length) sec.open = true;
+    sec.innerHTML = `<summary style="cursor:pointer;font-weight:700;color:var(--fg)">Solicitudes y miembros${reqs.length?` · <span class="tag" style="background:var(--win-bg);color:var(--win)">${reqs.length} pendiente${reqs.length===1?'':'s'}</span>`:''}</summary>
+      <div class="stack" style="gap:14px;margin-top:14px">
+        <div><h3>Enlace del grupo</h3>
+          <p class="small" style="margin:0 0 8px">Mándalo por WhatsApp. Quien lo abra entra con Google, pide acceso y lo aceptas aquí.</p>
+          <div class="row"><input type="text" id="invLink" readonly value="${esc(ga.inviteLink())}" style="flex:1 1 220px" aria-label="Enlace del grupo"><button class="btn" id="invCopy" type="button">Copiar enlace</button></div></div>
+        <div><h3>Solicitudes pendientes (${reqs.length})</h3>
+          ${reqs.length ? reqs.map(r=>`<div class="kv"><span class="small" style="min-width:0;overflow-wrap:anywhere"><strong>${esc(r.name||r.email)}</strong><br><span class="muted">${esc(r.email)}</span></span>
+            <span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn primary" data-racc="${esc(r.uid)}">Aceptar</button><button class="btn link danger" data-rrej="${esc(r.uid)}">Rechazar</button></span></div>`).join('') : '<p class="small muted" style="margin:0">No hay solicitudes ahora mismo.</p>'}</div>
+        <div><h3>Miembros (${mem.length})</h3>
+          ${mem.map(m=>`<div class="kv"><span class="small" style="min-width:0;overflow-wrap:anywhere"><strong>${esc(m.name||m.email)}</strong><br><span class="muted">${esc(m.email)}</span></span>
+            ${m.uid===(ga.data||{}).createdBy?'<span class="tag">Creador</span>':ga.canRemove(m.uid)?`<button class="btn link danger" data-rmem="${esc(m.uid)}">Quitar</button>`:'<span class="tag">Admin</span>'}</div>`).join('')}</div>
       </div>`;
     f.appendChild(sec);
-    sec.ontoggle = () => { S.accOpen = sec.open; };
+    sec.ontoggle = () => { S.reqOpen = sec.open; };
     $('#invCopy').onclick = () => { const i=$('#invLink'); navigator.clipboard?.writeText(i.value).then(()=>{ $('#invCopy').textContent='Copiado'; }).catch(()=>{ i.select(); }); };
-    $('#accForm').onsubmit = e => { e.preventDefault(); const v=$('#accEmail').value.trim().toLowerCase(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) return; write(()=>window.groupApi.addEmail(v), `${v} ya puede entrar.`); };
-    f.querySelectorAll('[data-rmail]').forEach(b => b.onclick = () => askConfirm({title:'¿Quitar el acceso?', text:`${b.dataset.rmail} dejará de poder entrar al grupo. Sus partidos se mantienen.`, actions:[{label:'Sí, quitar acceso', danger:true, run:()=>write(()=>window.groupApi.removeEmail(b.dataset.rmail), 'Acceso quitado.')}]}));
+    const findR = uid => reqs.find(r=>r.uid===uid), findM = uid => mem.find(m=>m.uid===uid);
+    f.querySelectorAll('[data-racc]').forEach(b => b.onclick = () => { const r=findR(b.dataset.racc); askConfirm({title:'¿Aceptar la solicitud?', text:`${r.email} podrá entrar al grupo, ver la clasificación y apuntarse.`, actions:[{label:'Sí, aceptar', run:()=>write(()=>ga.approve(r), `${r.email} ya es miembro del grupo.`)}]}); });
+    f.querySelectorAll('[data-rrej]').forEach(b => b.onclick = () => { const r=findR(b.dataset.rrej); askConfirm({title:'¿Rechazar la solicitud?', text:`${r.email} no podrá entrar. Si vuelve a pedirlo, te llegará otra solicitud.`, actions:[{label:'Sí, rechazar', danger:true, run:()=>write(()=>ga.reject(r), 'Solicitud rechazada.')}]}); });
+    f.querySelectorAll('[data-rmem]').forEach(b => b.onclick = () => { const m=findM(b.dataset.rmem); askConfirm({title:'¿Quitar del grupo?', text:`${m.email} dejará de poder entrar. Sus partidos se mantienen en la clasificación.`, actions:[{label:'Sí, quitar', danger:true, run:()=>write(()=>ga.removeMember(m.uid), 'Miembro quitado.')}]}); });
   }
   if (window.groupApi && S.status==='ready'){
     const u = document.createElement('div'); u.className='row spread small'; u.style.marginTop='14px';
-    u.innerHTML = `<span class="muted">${esc(window.groupApi.email||'')}</span><span class="row" style="gap:4px"><button class="btn link" id="swG">Cambiar de grupo</button><button class="btn link" id="outG">Cerrar sesión</button></span>`;
+    u.innerHTML = `<span class="muted">${esc(window.groupApi.email||'')}</span><span class="row" style="gap:4px">${window.groupApi.isSuper?'<button class="btn link" id="supG">Panel de superadmin</button>':''}<button class="btn link" id="swG">Cambiar de grupo</button><button class="btn link" id="outG">Cerrar sesión</button></span>`;
     f.appendChild(u); $('#swG').onclick = () => window.groupApi.switchGroup(); $('#outG').onclick = () => window.groupApi.signOut();
+    const sg = $('#supG'); if (sg) sg.onclick = () => window.groupApi.openSuper();
   }
 }
 
@@ -1293,7 +1361,7 @@ async function write(fn, okMsg){
   if (S.busy) return; S.busy = true;
   try { await fn(); S.flash = okMsg ? {t:'ok',m:okMsg} : null; }
   catch(e){
-    if (e && e.code==='invalid_argument') { S.canWrite=false; S.flash={t:'err',m:'No tienes permiso para guardar cambios. Pide al organizador que revise tu acceso.'}; }
+    if (e && e.code==='invalid_argument') { S.canWrite=false; S.flash={t:'err',m:'No tienes permiso para guardar cambios. Pide a un administrador que revise tu acceso.'}; }
     else if (e && e.code==='quota_exceeded') S.flash={t:'err',m:'Se ha llenado el espacio de datos. Borra partidos antiguos para seguir.'};
     else S.flash={t:'err',m:'No se ha podido guardar. Inténtalo de nuevo en un momento.'};
   }
@@ -1328,6 +1396,7 @@ function bindView(v){
   const nfm = $('#newForm'); if (nfm) bindNew(nfm);
   bindTournaments(v);
   bindCalendar(v);
+  app.querySelectorAll('[data-openreq]').forEach(b => b.onclick = () => { S.reqOpen = true; foot(); const d=$('#reqDet'); if (d){ d.open=true; d.scrollIntoView({behavior:'smooth'}); } });
 }
 
 function bindNew(form){
@@ -1356,6 +1425,7 @@ function bindNew(form){
 
 /* ---------- boot ---------- */
 function formBusy(){ const ae=document.activeElement; return ['nuevo','torneo-nuevo','evento-nuevo'].includes(viewName()) || !!S.tEdit || (ae && ['INPUT','SELECT','TEXTAREA'].includes(ae.tagName)); }
+window.appRefresh = () => renderData();
 function renderData(){ if (S.status==='ready' && formBusy()){ S.pending=true; return; } S.pending=false; render(); }
 document.addEventListener('focusout', () => setTimeout(() => { if (S.pending && !formBusy()) renderData(); }, 60));
 function checkReady(){ if (S.ready.p && S.ready.m && S.status==='loading'){ S.status='ready'; render(); return; } renderData(); }
@@ -1403,21 +1473,27 @@ window.startApp = boot;
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
 <script>
-/* ===== Web shell: Google login, groups, and a Firestore adapter that gives the app the same db/user API ===== */
+/* ===== Web shell v2: Google login, super admin, group requests, Firestore adapter ===== */
 (() => {
 const gb = () => document.getElementById('gateBody');
 const escH = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const GOOGLE = '<svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg>';
+const fmtD = t => { if (!t) return '—'; const d = new Date(t); return d.toLocaleDateString('es-ES',{day:'numeric',month:'short'}) + ' ' + d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}); };
 
 if (!window.firebase || !window.FIREBASE_CONFIG || String(window.FIREBASE_CONFIG.apiKey||'').startsWith('PEGA')){
   gb().innerHTML = `<div class="gcard"><h2>Falta configurar Firebase</h2><p>Abre <strong>firebase-config.js</strong> y pega los datos de tu proyecto de Firebase, como explica la guía LEEME.</p></div>`;
   return;
 }
 firebase.initializeApp(window.FIREBASE_CONFIG);
-const auth = firebase.auth(), fs = firebase.firestore();
-let user = null, group = null, groupData = null;
+const auth = firebase.auth(), fs = firebase.firestore(), FV = firebase.firestore.FieldValue;
+const SUPER = String(window.SUPER_ADMIN_EMAIL||'').toLowerCase().trim();
+let user = null, isSuper = false, appCfg = {creators:[]}, group = null, groupData = null;
+const myEmail = () => (user.email||'').toLowerCase();
+const isCreator = () => isSuper || (appCfg.creators||[]).includes(user.uid);
+const isMemberOf = g => isSuper || (g.members||[]).includes(user.uid) || (g.admins||[]).includes(user.uid);
+const isAdminOf = g => isSuper || (g.admins||[]).includes(user.uid);
 
-/* nested arrays are not allowed in Firestore: wrap inner arrays as {__a:[...]} */
+/* Firestore has no arrays inside arrays: wrap inner arrays as {__a:[...]} */
 const enc = x => Array.isArray(x) ? x.map(e => Array.isArray(e) ? {__a: enc(e)} : enc(e)) : (x && typeof x==='object') ? Object.fromEntries(Object.entries(x).map(([k,v])=>[k,enc(v)])) : x;
 const dec = x => Array.isArray(x) ? x.map(dec) : (x && typeof x==='object') ? (Object.keys(x).length===1 && '__a' in x ? dec(x.__a) : Object.fromEntries(Object.entries(x).map(([k,v])=>[k,dec(v)]))) : x;
 const mapErr = e => ({code: e && e.code==='permission-denied' ? 'invalid_argument' : e && e.code==='resource-exhausted' ? 'quota_exceeded' : 'unavailable', message: String(e && e.message || e)});
@@ -1425,10 +1501,10 @@ const rethrow = e => { throw mapErr(e); };
 
 function makeDb(gid){
   const base = `groups/${gid}/`, gref = fs.doc('groups/'+gid);
-  const ws = s => ({id:s.id, exists:s.exists, data:()=> s.exists ? dec(s.data()) : undefined, metadata:{fromCache:false, hasPendingWrites:!!s.metadata.hasPendingWrites}});
+  const ws = s => ({id:s.id, exists:s.exists, data:()=> s.exists ? dec(s.data()) : undefined, metadata:{fromCache:false, hasPendingWrites:!!(s.metadata&&s.metadata.hasPendingWrites)}});
   const special = {
     'config/liga':   {snap:d=>({name:d.name}), set:v=>gref.update({name:String(v.name||'').slice(0,40)})},
-    'config/admins': {snap:d=>({uids:d.admins||[]}), set:v=>gref.update({admins:v.uids||[]})}
+    'config/admins': {snap:d=>({uids:(d.admins||[]).filter(u=>u!==d.createdBy)}), set:v=>gref.update({admins:[...new Set([groupData.createdBy, ...(v.uids||[])].filter(Boolean))]})}
   };
   const docRef = path => {
     if (special[path]) { const sp = special[path]; return {id:path.split('/')[1], path,
@@ -1451,22 +1527,38 @@ function makeDb(gid){
 
 const photos = {};
 function makeUser(){
-  const me = {id:user.uid, name:user.displayName||'', avatarUrl:user.photoURL||'', color:'#1f5ba3', email:user.email, isOwner: groupData.owner===user.uid, canEdit:false};
-  return { me: async()=>me, id: async()=>user.uid, isOwner: async()=>me.isOwner, canEdit: async()=>false, can: async()=>true,
+  const owner = isSuper || groupData.createdBy===user.uid;
+  const me = {id:user.uid, name:user.displayName||'', avatarUrl:user.photoURL||'', color:'#1b7a47', email:user.email, isOwner: owner, canEdit:false};
+  return { me: async()=>me, id: async()=>user.uid, isOwner: async()=>owner, canEdit: async()=>false, can: async()=>true,
     profiles: async ids => Object.fromEntries([].concat(ids).map(i=>[i,{id:i, name: photos[i]?'·':'', avatarUrl: photos[i]||'', isMe:i===user.uid}])) };
 }
+const refresh = () => { if (window.appRefresh) window.appRefresh(); };
 
 window.groupApi = {
   get data(){ return groupData; }, get id(){ return group; }, get email(){ return user && user.email; },
+  get isSuper(){ return isSuper; }, requests: [], members: [],
+  get role(){ return isSuper ? 'Superadmin' : (groupData && groupData.createdBy===user.uid) ? 'Admin' : 'Coadmin'; },
   inviteLink(){ return location.origin + location.pathname + '?g=' + group; },
-  async addEmail(e){ await fs.doc('groups/'+group).update({emails: firebase.firestore.FieldValue.arrayUnion(e.toLowerCase().trim())}).catch(rethrow); },
-  async removeEmail(e){ await fs.doc('groups/'+group).update({emails: firebase.firestore.FieldValue.arrayRemove(e)}).catch(rethrow); },
+  async approve(r){
+    await fs.doc('groups/'+group).update({members: FV.arrayUnion(r.uid)}).catch(rethrow);
+    await fs.doc(`groups/${group}/members/${r.uid}`).set({email:r.email||'', name:r.name||'', photo:r.photo||null, at:Date.now(), by:user.uid}).catch(rethrow);
+    await fs.doc(`groups/${group}/requests/${r.uid}`).delete().catch(rethrow);
+  },
+  async reject(r){ await fs.doc(`groups/${group}/requests/${r.uid}`).delete().catch(rethrow); },
+  async removeMember(uid){
+    const upd = {members: FV.arrayRemove(uid)};
+    if ((groupData.admins||[]).includes(uid)) upd.admins = FV.arrayRemove(uid);
+    await fs.doc('groups/'+group).update(upd).catch(rethrow);
+    await fs.doc(`groups/${group}/members/${uid}`).delete().catch(rethrow);
+  },
+  canRemove(uid){ return uid!==groupData.createdBy && uid!==user.uid && (isSuper || groupData.createdBy===user.uid || !(groupData.admins||[]).includes(uid)); },
   switchGroup(){ try{localStorage.removeItem('ptg_group')}catch(_){} location.href = location.pathname; },
+  openSuper(){ try{localStorage.removeItem('ptg_group')}catch(_){} location.href = location.pathname + '?panel=super'; },
   signOut(){ try{localStorage.removeItem('ptg_group')}catch(_){} auth.signOut().then(()=>location.href=location.pathname); }
 };
 
 function showLogin(msg){
-  gb().innerHTML = `<div class="gcard"><span class="eyebrow" style="color:var(--ball);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Clasificación entre amigos</span>
+  gb().innerHTML = `<div class="gcard"><span class="eyebrow" style="color:var(--ink-accent);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Clasificación entre amigos</span>
     <h2>Entra con tu Gmail</h2><p>Partidos, ranking, convocatorias y torneos de tu grupo de pádel.</p>
     <button class="gbtn light" id="gLogin">${GOOGLE} Continuar con Google</button>
     ${msg?`<p style="color:var(--loss)">${escH(msg)}</p>`:''}</div>`;
@@ -1477,36 +1569,114 @@ function showLogin(msg){
   };
 }
 
-async function showGroups(note){
-  const email = (user.email||'').toLowerCase();
-  let list = [];
-  try { const q = await fs.collection('groups').where('emails','array-contains', email).get(); list = q.docs.map(d=>({id:d.id, ...d.data()})); }
-  catch(e){ note = 'No se han podido cargar tus grupos: '+(e.message||e.code); }
-  gb().innerHTML = `<div class="gcard">
-    <h2>Tus grupos</h2>
-    ${note?`<p style="color:var(--ball)">${escH(note)}</p>`:''}
-    ${list.length?`<div class="glist">${list.sort((a,b)=>(a.name||'').localeCompare(b.name||'')).map(g=>`<button class="gitem" data-g="${escH(g.id)}"><span>${escH(g.name||'Grupo')}<small>${g.owner===user.uid?'Eres el propietario':(g.admins||[]).includes(user.uid)?'Eres administrador':'Miembro'}</small></span><span aria-hidden="true">›</span></button>`).join('')}</div>`
-      :`<p>Todavía no estás en ningún grupo. Si te han invitado, pide el enlace del grupo al organizador y comprueba que añadió este Gmail. O crea tu propio grupo.</p>`}
-    <form class="gform" id="gNew"><input type="text" id="gName" maxlength="40" placeholder="Nombre del grupo nuevo" required><button class="btn" type="submit" style="background:var(--ball);border-color:var(--ball);color:var(--ball-ink)">Crear grupo</button></form>
-  </div>
-  <div class="gmeta"><span>${escH(user.email)}</span><button class="btn link" id="gOut">Cerrar sesión</button></div>`;
+async function loadGroups(){
+  const q = await fs.collection('groups').get();
+  return q.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+}
+
+async function showHome(note, preselect){
+  let all = [];
+  try { all = await loadGroups(); } catch(e){ note = 'No se han podido cargar los grupos: '+(e.message||e.code); }
+  const mine = all.filter(isMemberOf), others = all.filter(g=>!isMemberOf(g));
+  const pending = {};
+  await Promise.all(others.map(async g => { try { const s = await fs.doc(`groups/${g.id}/requests/${user.uid}`).get(); if (s.exists) pending[g.id] = true; } catch(_){} }));
+  const sel = preselect && others.some(g=>g.id===preselect) ? preselect : (others[0]||{}).id;
+  gb().innerHTML = `
+    ${note?`<div class="note">${escH(note)}</div>`:''}
+    <div class="gcard">
+      <h2>Tus grupos</h2>
+      ${mine.length?`<div class="glist">${mine.map(g=>`<button class="gitem" data-g="${escH(g.id)}"><span>${escH(g.name||'Grupo')}<small>${isSuper?'Superadministrador':g.createdBy===user.uid?'Lo creaste tú':(g.admins||[]).includes(user.uid)?'Eres administrador':'Miembro'} · ${(g.members||[]).length} miembro${(g.members||[]).length===1?'':'s'}</small></span><span aria-hidden="true">›</span></button>`).join('')}</div>`
+        :`<p>Todavía no estás en ningún grupo. Elige uno abajo y pide acceso.</p>`}
+    </div>
+    ${others.length?`<div class="gcard">
+      <h2>Unirte a un grupo</h2>
+      <p>Elige el grupo y pide acceso. Un administrador del grupo tiene que aceptarte.</p>
+      <div class="gform"><select id="gPick" aria-label="Grupo">${others.map(g=>`<option value="${escH(g.id)}"${g.id===sel?' selected':''}>${escH(g.name||'Grupo')}</option>`).join('')}</select></div>
+      <div id="gReqBox"></div>
+    </div>`:''}
+    ${isCreator()?`<div class="gcard">
+      <h2>Crear un grupo</h2>
+      <p>Serás su administrador${isSuper?'':' y podrás aceptar a quien pida entrar'}.</p>
+      <form class="gform" id="gNew"><input type="text" id="gName" maxlength="40" placeholder="Nombre del grupo" required><button class="btn primary" type="submit">Crear grupo</button></form>
+    </div>`:''}
+    ${isSuper?`<button class="gbtn" id="gSuper" style="background:var(--primary);color:var(--primary-fg)">Panel de superadministrador</button>`:''}
+    <div class="gmeta"><span>${escH(user.email)}</span><button class="btn link" id="gOut">Cerrar sesión</button></div>`;
   gb().querySelectorAll('[data-g]').forEach(b => b.onclick = () => openGroup(b.dataset.g));
   document.getElementById('gOut').onclick = () => window.groupApi.signOut();
-  document.getElementById('gNew').onsubmit = async e => { e.preventDefault();
+  const sp = document.getElementById('gSuper'); if (sp) sp.onclick = () => showSuper();
+  const pick = document.getElementById('gPick');
+  const drawReq = () => {
+    const gid = pick.value, box = document.getElementById('gReqBox');
+    if (pending[gid]) {
+      box.innerHTML = `<div class="pending"><span style="flex:1">Solicitud enviada. Cuando un administrador la acepte, podrás entrar al grupo desde esta pantalla.</span><button class="btn link danger" id="gCancel">Cancelar</button></div>`;
+      document.getElementById('gCancel').onclick = async () => { try { await fs.doc(`groups/${gid}/requests/${user.uid}`).delete(); delete pending[gid]; drawReq(); } catch(e){ alertBox(e); } };
+    } else {
+      box.innerHTML = `<button class="btn primary" id="gAsk" style="width:100%;padding:12px">Pedir acceso</button>`;
+      document.getElementById('gAsk').onclick = async () => {
+        try { await fs.doc(`groups/${gid}/requests/${user.uid}`).set({uid:user.uid, email:myEmail(), name:user.displayName||'', photo:user.photoURL||null, at:Date.now()}); pending[gid]=true; drawReq(); }
+        catch(e){ alertBox(e); } };
+    }
+  };
+  const alertBox = e => { document.getElementById('gReqBox').insertAdjacentHTML('beforeend', `<p style="color:var(--loss)">No se ha podido enviar: ${escH(e.message||e.code)}</p>`); };
+  if (pick) { pick.onchange = drawReq; drawReq(); }
+  const nf = document.getElementById('gNew');
+  if (nf) nf.onsubmit = async e => { e.preventDefault();
     const name = document.getElementById('gName').value.trim(); if (!name) return;
-    try { const r = await fs.collection('groups').add({name, owner:user.uid, ownerEmail:email, admins:[], emails:[email], createdAt:Date.now()}); openGroup(r.id); }
-    catch(err){ showGroups('No se ha podido crear el grupo: '+(err.message||err.code)); } };
+    try { const r = await fs.collection('groups').add({name, createdBy:user.uid, admins:[user.uid], members:[user.uid], createdAt:Date.now()});
+      await fs.doc(`groups/${r.id}/members/${user.uid}`).set({email:myEmail(), name:user.displayName||'', photo:user.photoURL||null, at:Date.now(), by:user.uid});
+      openGroup(r.id); }
+    catch(err){ showHome('No se ha podido crear el grupo: '+(err.message||err.code)); } };
+}
+
+async function showSuper(msg){
+  if (!isSuper) return showHome();
+  history.replaceState(null,'', location.pathname+'?panel=super');
+  let users = [], groups = [];
+  try { users = (await fs.collection('users').get()).docs.map(d=>({uid:d.id, ...d.data()})); groups = await loadGroups(); }
+  catch(e){ msg = 'No se han podido cargar los datos: '+(e.message||e.code); }
+  users.sort((a,b)=>(b.lastSeen||0)-(a.lastSeen||0));
+  const creators = appCfg.creators||[];
+  gb().innerHTML = `
+    <button class="btn link" id="sBack" style="align-self:flex-start">← Volver a grupos</button>
+    ${msg?`<div class="note">${escH(msg)}</div>`:''}
+    <div class="gcard">
+      <h2>Usuarios (${users.length})</h2>
+      <p>Todos los Gmail que han entrado alguna vez. Un <strong>coadministrador</strong> puede crear grupos y administrar los suyos.</p>
+      <div class="ulist">${users.map(u => { const sup = (u.email||'').toLowerCase()===SUPER, co = creators.includes(u.uid);
+        return `<div class="urow"><span class="e"><strong>${escH(u.name||u.email)}</strong><small>${escH(u.email)} · último acceso ${escH(fmtD(u.lastSeen))}</small></span>
+          ${sup?'<span class="tag">Superadmin</span>':co?`<button class="btn link danger" data-unco="${escH(u.uid)}" data-nm="${escH(u.email)}">Quitar coadmin</button>`:`<button class="btn" data-co="${escH(u.uid)}" data-nm="${escH(u.email)}">Hacer coadmin</button>`}</div>`; }).join('') || '<p>Nadie ha entrado todavía.</p>'}</div>
+    </div>
+    <div class="gcard">
+      <h2>Grupos (${groups.length})</h2>
+      <div class="ulist">${groups.map(g => { const cr = users.find(u=>u.uid===g.createdBy);
+        return `<div class="urow"><span class="e"><strong>${escH(g.name||'Grupo')}</strong><small>${(g.members||[]).length} miembros · creado por ${escH(cr?cr.email:'—')}</small></span><button class="btn" data-g="${escH(g.id)}">Entrar</button></div>`; }).join('') || '<p>No hay grupos.</p>'}</div>
+    </div>`;
+  document.getElementById('sBack').onclick = () => { history.replaceState(null,'',location.pathname); showHome(); };
+  gb().querySelectorAll('[data-g]').forEach(b => b.onclick = () => openGroup(b.dataset.g));
+  const setCreators = async list => { try { await fs.doc('config/app').set({creators:list, at:Date.now()}, {merge:true}); appCfg.creators = list; showSuper('Cambios guardados.'); } catch(e){ showSuper('No se ha podido guardar: '+(e.message||e.code)); } };
+  gb().querySelectorAll('[data-co]').forEach(b => b.onclick = () => setCreators([...new Set([...creators, b.dataset.co])]));
+  gb().querySelectorAll('[data-unco]').forEach(b => b.onclick = () => setCreators(creators.filter(x=>x!==b.dataset.unco)));
 }
 
 async function openGroup(gid){
   let snap;
   try { snap = await fs.doc('groups/'+gid).get(); } catch(e){ snap = null; }
-  if (!snap || !snap.exists){ history.replaceState(null,'',location.pathname); return showGroups(`No tienes acceso a ese grupo con ${user.email}. Pide al organizador que añada este Gmail.`); }
-  group = gid; groupData = snap.data();
+  if (!snap || !snap.exists){ history.replaceState(null,'',location.pathname); try{localStorage.removeItem('ptg_group')}catch(_){} return showHome('Ese grupo ya no existe.'); }
+  const g = snap.data();
+  if (isSuper && !g.createdBy){ // grupo creado con la versión anterior: lo adapta
+    const cb = g.owner || user.uid;
+    try { await fs.doc('groups/'+gid).update({createdBy:cb, members:FV.arrayUnion(cb), admins:FV.arrayUnion(cb)}); Object.assign(g,{createdBy:cb, members:[...new Set([...(g.members||[]),cb])], admins:[...new Set([...(g.admins||[]),cb])]}); } catch(_){}
+  }
+  if (!isMemberOf(g)){ history.replaceState(null,'',location.pathname); try{localStorage.removeItem('ptg_group')}catch(_){} return showHome(`Todavía no formas parte de «${g.name||'este grupo'}». Pide acceso abajo.`, gid); }
+  group = gid; groupData = g;
   try{ localStorage.setItem('ptg_group', gid); }catch(_){}
   if (new URLSearchParams(location.search).get('g')!==gid) history.replaceState(null,'', location.pathname+'?g='+gid+location.hash);
-  fs.doc('groups/'+gid).onSnapshot(s => { if (s.exists) groupData = s.data(); }, ()=>{});
+  fs.doc('groups/'+gid).onSnapshot(s => { if (s.exists) { groupData = s.data(); refresh(); } }, ()=>{});
   fs.collection('groups/'+gid+'/players').onSnapshot(q => q.docs.forEach(d => { const x=d.data(); if (x.uid && x.photo) photos[x.uid]=x.photo; }), ()=>{});
+  if (isAdminOf(g)) {
+    fs.collection('groups/'+gid+'/requests').onSnapshot(q => { window.groupApi.requests = q.docs.map(d=>({uid:d.id, ...d.data()})).sort((a,b)=>(a.at||0)-(b.at||0)); refresh(); }, ()=>{});
+    fs.collection('groups/'+gid+'/members').onSnapshot(q => { window.groupApi.members = q.docs.map(d=>({uid:d.id, ...d.data()})).sort((a,b)=>(a.email||'').localeCompare(b.email||'')); refresh(); }, ()=>{});
+  }
   const db = makeDb(gid), usr = makeUser();
   window.claude = { use: async n => n==='db' ? db : n==='user' ? usr : null };
   document.body.classList.remove('gated');
@@ -1514,12 +1684,16 @@ async function openGroup(gid){
 }
 
 auth.getRedirectResult().catch(e => showLogin('No se ha podido entrar: '+(e.message||e.code)));
-auth.onAuthStateChanged(u => {
+auth.onAuthStateChanged(async u => {
   if (!u) return showLogin();
-  user = u;
-  const want = new URLSearchParams(location.search).get('g');
+  user = u; isSuper = !!SUPER && myEmail()===SUPER;
+  gb().innerHTML = '<p class="muted">Cargando…</p>';
+  try { await fs.doc('users/'+u.uid).set({email:myEmail(), name:u.displayName||'', photo:u.photoURL||null, lastSeen:Date.now()}, {merge:true}); } catch(_){}
+  try { const c = await fs.doc('config/app').get(); if (c.exists) appCfg = {creators:[], ...c.data()}; } catch(_){}
+  const qs = new URLSearchParams(location.search), want = qs.get('g');
   let last = null; try{ last = localStorage.getItem('ptg_group'); }catch(_){}
-  if (want) openGroup(want); else if (last) openGroup(last); else showGroups();
+  if (qs.get('panel')==='super' && isSuper) showSuper();
+  else if (want) openGroup(want); else if (last) openGroup(last); else showHome();
 });
 })();
 </script>

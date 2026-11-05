@@ -8,3 +8,5 @@ window.FIREBASE_CONFIG = {
   messagingSenderId: "30792018515",
   appId: "1:30792018515:web:38171a8571f085b2b434a6"
 };
+// Gmail del superadministrador. Debe coincidir con el de firestore.rules (función isSuper).
+window.SUPER_ADMIN_EMAIL = "nacho.ramosgarcia@gmail.com";

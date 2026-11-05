@@ -1,30 +1,64 @@
 rules_version = '2';
-// Reglas de seguridad de la app de pádel. Cópialas entera en Firebase > Firestore Database > Reglas > Publicar.
+// Reglas de seguridad de la app de pádel (versión con superadministrador y solicitudes).
+// IMPORTANTE: el correo del superadministrador aparece en la función isSuper(). Debe ser el
+// mismo que en firebase-config.js. Copia este archivo entero en Firestore > Reglas > Publicar.
 service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null && request.auth.token.email_verified == true; }
     function myEmail() { return request.auth.token.email.lower(); }
+    function isSuper() { return signedIn() && myEmail() == 'nacho.ramosgarcia@gmail.com'; }
+    function isCreator() {
+      return isSuper() || (signedIn()
+        && exists(/databases/$(database)/documents/config/app)
+        && request.auth.uid in get(/databases/$(database)/documents/config/app).data.creators);
+    }
+
+    // Global settings: list of co-admins who may create groups. Only the super admin edits it.
+    match /config/{id} {
+      allow read: if signedIn();
+      allow write: if isSuper();
+    }
+
+    // Everyone who has signed in, so the super admin can see all Gmails.
+    match /users/{uid} {
+      allow read: if isSuper() || (signedIn() && request.auth.uid == uid);
+      allow create, update: if signedIn() && request.auth.uid == uid;
+      allow delete: if isSuper();
+    }
 
     match /groups/{g} {
       function grp() { return get(/databases/$(database)/documents/groups/$(g)).data; }
-      function isOwner() { return signedIn() && grp().owner == request.auth.uid; }
-      function isAdmin() { return isOwner() || (signedIn() && request.auth.uid in grp().admins); }
-      function isMember() { return isAdmin() || (signedIn() && myEmail() in grp().emails); }
+      function isAdmin() { return isSuper() || (signedIn() && request.auth.uid in grp().admins); }
+      function isMember() { return isAdmin() || (signedIn() && request.auth.uid in grp().members); }
+      function isGroupCreator() { return signedIn() && grp().createdBy == request.auth.uid; }
 
-      // The group itself: name, owner, admins and the Gmail allow-list.
-      allow read: if signedIn() && (resource.data.owner == request.auth.uid || myEmail() in resource.data.emails);
-      allow create: if signedIn()
-        && request.resource.data.owner == request.auth.uid
-        && request.resource.data.admins.size() == 0
-        && myEmail() in request.resource.data.emails;
-      allow update: if signedIn() && (
-          // owner: everything except handing over ownership
-          (resource.data.owner == request.auth.uid && request.resource.data.owner == resource.data.owner)
-          // co-admins: only the Gmail allow-list
-          || (request.auth.uid in resource.data.admins && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emails']))
-        );
-      allow delete: if signedIn() && resource.data.owner == request.auth.uid;
+      // Group names are visible to signed-in users so they can pick one and ask to join.
+      allow read: if signedIn();
+      allow create: if isCreator()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.admins == [request.auth.uid]
+        && request.resource.data.members == [request.auth.uid];
+      allow update: if isSuper()
+        || (signedIn() && resource.data.createdBy == request.auth.uid
+            && request.resource.data.createdBy == resource.data.createdBy)
+        || (signedIn() && request.auth.uid in resource.data.admins
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'name']));
+      allow delete: if isSuper() || (signedIn() && resource.data.createdBy == request.auth.uid);
+
+      // Join requests: anyone signed in asks for themselves; group admins see and resolve them.
+      match /requests/{uid} {
+        allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+        allow create: if signedIn() && request.auth.uid == uid
+          && request.resource.data.email == myEmail();
+        allow update: if false;
+        allow delete: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      }
+      // Member details (email, name) for the admins' list.
+      match /members/{uid} {
+        allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+        allow write: if isAdmin() || (isGroupCreator() && request.auth.uid == uid);
+      }
 
       match /players/{id} {
         allow read: if isMember();

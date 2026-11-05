@@ -1348,6 +1348,12 @@ function foot(){
     f.querySelectorAll('[data-rrej]').forEach(b => b.onclick = () => { const r=findR(b.dataset.rrej); askConfirm({title:'¿Rechazar la solicitud?', text:`${r.email} no podrá entrar. Si vuelve a pedirlo, te llegará otra solicitud.`, actions:[{label:'Sí, rechazar', danger:true, run:()=>write(()=>ga.reject(r), 'Solicitud rechazada.')}]}); });
     f.querySelectorAll('[data-rmem]').forEach(b => b.onclick = () => { const m=findM(b.dataset.rmem); askConfirm({title:'¿Quitar del grupo?', text:`${m.email} dejará de poder entrar. Sus partidos se mantienen en la clasificación.`, actions:[{label:'Sí, quitar', danger:true, run:()=>write(()=>ga.removeMember(m.uid), 'Miembro quitado.')}]}); });
   }
+  if (window.groupApi && window.groupApi.canDeleteGroup && S.status==='ready'){
+    const z = document.createElement('div'); z.className='panel row spread'; z.style.marginTop='14px';
+    z.innerHTML = `<span class="small"><strong>Borrar este grupo</strong><br><span class="muted">Se borra todo: clasificación, partidos, convocatorias y torneos.</span></span><button class="btn danger" id="delGrp">Borrar grupo</button>`;
+    f.appendChild(z);
+    $('#delGrp').onclick = () => askConfirm({title:`¿Borrar «${S.config.name||'este grupo'}»?`, text:'Se borrarán para siempre su clasificación, partidos, convocatorias, torneos y miembros. No se puede deshacer.', actions:[{label:'Sí, borrar el grupo', danger:true, run:()=>write(()=>window.groupApi.deleteGroup(), null)}]});
+  }
   if (window.groupApi && S.status==='ready'){
     const u = document.createElement('div'); u.className='row spread small'; u.style.marginTop='14px';
     u.innerHTML = `<span class="muted">${esc(window.groupApi.email||'')}</span><span class="row" style="gap:4px">${window.groupApi.isSuper?'<button class="btn link" id="supG">Panel de superadmin</button>':''}<button class="btn link" id="swG">Cambiar de grupo</button><button class="btn link" id="outG">Cerrar sesión</button></span>`;
@@ -1551,11 +1557,26 @@ window.groupApi = {
     await fs.doc('groups/'+group).update(upd).catch(rethrow);
     await fs.doc(`groups/${group}/members/${uid}`).delete().catch(rethrow);
   },
+  async deleteGroup(){ await deleteGroupAll(group); try{localStorage.removeItem('ptg_group')}catch(_){} location.href = location.pathname; },
+  get canDeleteGroup(){ return isSuper || (groupData && groupData.createdBy===user.uid); },
   canRemove(uid){ return uid!==groupData.createdBy && uid!==user.uid && (isSuper || groupData.createdBy===user.uid || !(groupData.admins||[]).includes(uid)); },
   switchGroup(){ try{localStorage.removeItem('ptg_group')}catch(_){} location.href = location.pathname; },
   openSuper(){ try{localStorage.removeItem('ptg_group')}catch(_){} location.href = location.pathname + '?panel=super'; },
   signOut(){ try{localStorage.removeItem('ptg_group')}catch(_){} auth.signOut().then(()=>location.href=location.pathname); }
 };
+
+async function deleteGroupAll(gid, onProgress){
+  const subs = ['matches','players','tresults','events','tournaments','rsvp','requests','members'];
+  for (const sub of subs){
+    const q = await fs.collection(`groups/${gid}/${sub}`).get().catch(rethrow);
+    let n = 0;
+    for (const d of q.docs){ await fs.doc(`groups/${gid}/${sub}/${d.id}`).delete().catch(rethrow); n++; }
+    if (onProgress) onProgress(sub, n);
+  }
+  await fs.doc('groups/'+gid).delete().catch(rethrow);
+  try { if (localStorage.getItem('ptg_group')===gid) localStorage.removeItem('ptg_group'); } catch(_){}
+}
+window.groupApi_deleteGroupAll = deleteGroupAll;
 
 function showLogin(msg){
   gb().innerHTML = `<div class="gcard"><span class="eyebrow" style="color:var(--ink-accent);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Clasificación entre amigos</span>
@@ -1649,10 +1670,20 @@ async function showSuper(msg){
     <div class="gcard">
       <h2>Grupos (${groups.length})</h2>
       <div class="ulist">${groups.map(g => { const cr = users.find(u=>u.uid===g.createdBy);
-        return `<div class="urow"><span class="e"><strong>${escH(g.name||'Grupo')}</strong><small>${(g.members||[]).length} miembros · creado por ${escH(cr?cr.email:'—')}</small></span><button class="btn" data-g="${escH(g.id)}">Entrar</button></div>`; }).join('') || '<p>No hay grupos.</p>'}</div>
+        return `<div class="urow" id="row-${escH(g.id)}"><span class="e"><strong>${escH(g.name||'Grupo')}</strong><small>${(g.members||[]).length} miembros · creado por ${escH(cr?cr.email:'—')}</small></span><span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn" data-g="${escH(g.id)}">Entrar</button><button class="btn link danger" data-gdel="${escH(g.id)}" data-nm="${escH(g.name||'Grupo')}">Borrar</button></span></div>`; }).join('') || '<p>No hay grupos.</p>'}</div>
     </div>`;
   document.getElementById('sBack').onclick = () => { history.replaceState(null,'',location.pathname); showHome(); };
   gb().querySelectorAll('[data-g]').forEach(b => b.onclick = () => openGroup(b.dataset.g));
+  gb().querySelectorAll('[data-gdel]').forEach(b => b.onclick = () => {
+    const gid = b.dataset.gdel, row = document.getElementById('row-'+gid);
+    row.innerHTML = `<span class="e"><strong>¿Borrar «${escH(b.dataset.nm)}»?</strong><small>Se borrarán su clasificación, partidos, convocatorias y torneos. No se puede deshacer.</small></span><span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn" data-gno>Cancelar</button><button class="btn" data-gyes style="background:var(--loss);border-color:var(--loss);color:#fff">Sí, borrar</button></span>`;
+    row.querySelector('[data-gno]').onclick = () => showSuper();
+    row.querySelector('[data-gyes]').onclick = async () => {
+      row.innerHTML = '<span class="e">Borrando…</span>';
+      try { await deleteGroupAll(gid); showSuper(`Grupo «${b.dataset.nm}» borrado.`); }
+      catch(e){ showSuper('No se ha podido borrar: '+(e.message||e.code)); }
+    };
+  });
   const setCreators = async list => { try { await fs.doc('config/app').set({creators:list, at:Date.now()}, {merge:true}); appCfg.creators = list; showSuper('Cambios guardados.'); } catch(e){ showSuper('No se ha podido guardar: '+(e.message||e.code)); } };
   gb().querySelectorAll('[data-co]').forEach(b => b.onclick = () => setCreators([...new Set([...creators, b.dataset.co])]));
   gb().querySelectorAll('[data-unco]').forEach(b => b.onclick = () => setCreators(creators.filter(x=>x!==b.dataset.unco)));

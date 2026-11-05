@@ -1578,15 +1578,26 @@ async function deleteGroupAll(gid, onProgress){
 }
 window.groupApi_deleteGroupAll = deleteGroupAll;
 
-function showLogin(msg){
+function showLogin(msg, help){
+  const ua = navigator.userAgent||'', inApp = /FBAN|FBAV|Instagram|Line\/|WhatsApp|wv\)/i.test(ua);
+  const isIOS = /iPhone|iPad|iPod/.test(ua);
+  if (inApp && !help) help = 'inapp';
   gb().innerHTML = `<div class="gcard"><span class="eyebrow" style="color:var(--ink-accent);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Clasificación entre amigos</span>
     <h2>Entra con tu Gmail</h2><p>Partidos, ranking, convocatorias y torneos de tu grupo de pádel.</p>
     <button class="gbtn light" id="gLogin">${GOOGLE} Continuar con Google</button>
-    ${msg?`<p style="color:var(--loss)">${escH(msg)}</p>`:''}</div>`;
+    ${msg?`<p style="color:var(--loss)">${escH(msg)}</p>`:''}
+    ${help==='blocked'?`<div class="pending" style="flex-direction:column;align-items:flex-start;gap:6px"><strong>El navegador ha bloqueado la ventana de Google.</strong>${isIOS?'<span>En el iPhone: <b>Ajustes → Apps → Safari</b> y desactiva <b>«Bloquear ventanas emergentes»</b>. Luego vuelve aquí y pulsa otra vez «Continuar con Google».</span>':'<span>Permite las ventanas emergentes para esta web (icono junto a la barra de direcciones) y pulsa otra vez «Continuar con Google».</span>'}</div>`:''}
+    ${help==='inapp'?`<div class="pending" style="flex-direction:column;align-items:flex-start;gap:6px"><strong>Abre la web en ${isIOS?'Safari':'Chrome'}.</strong><span>Desde dentro de WhatsApp u otras apps el login de Google puede fallar. Copia el enlace y pégalo en ${isIOS?'Safari':'Chrome'}${isIOS?', o pulsa el icono de compartir y «Abrir en Safari»':''}.</span></div>`:''}
+    </div>`;
   document.getElementById('gLogin').onclick = async () => {
     const prov = new firebase.auth.GoogleAuthProvider(); prov.setCustomParameters({prompt:'select_account'});
     try { await auth.signInWithPopup(prov); }
-    catch(e){ if (e.code==='auth/popup-blocked' || e.code==='auth/operation-not-supported-in-this-environment') auth.signInWithRedirect(prov); else if (e.code!=='auth/popup-closed-by-user') showLogin('No se ha podido entrar: '+(e.message||e.code)); }
+    catch(e){
+      if (e.code==='auth/popup-closed-by-user' || e.code==='auth/cancelled-popup-request') return;
+      if (e.code==='auth/popup-blocked') return showLogin('', 'blocked');
+      if (e.code==='auth/operation-not-supported-in-this-environment' || e.code==='auth/web-storage-unsupported') return showLogin('', 'inapp');
+      showLogin('No se ha podido entrar ('+(e.code||'error')+'). Prueba a abrir la web en Safari o Chrome.');
+    }
   };
 }
 
@@ -1714,7 +1725,7 @@ async function openGroup(gid){
   window.startApp();
 }
 
-auth.getRedirectResult().catch(e => showLogin('No se ha podido entrar: '+(e.message||e.code)));
+auth.getRedirectResult().catch(() => {});
 auth.onAuthStateChanged(async u => {
   if (!u) return showLogin();
   user = u; isSuper = !!SUPER && myEmail()===SUPER;

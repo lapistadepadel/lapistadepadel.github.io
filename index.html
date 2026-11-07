@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
-<meta name="app-version" content="20261107160851">
+<meta name="app-version" content="20261107161437">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -379,7 +379,7 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 .brandhero.gone .mark{pointer-events:none}
 #lightbox{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(6,12,20,.82);backdrop-filter:blur(3px);cursor:zoom-out;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 #lightbox[hidden]{display:none}
-#lightbox img{max-width:min(88vw,720px);max-height:82vh;width:auto;height:auto;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:default;background:var(--surface)}
+#lightbox img{width:min(92vw,78vh,360px);height:auto;max-height:80vh;object-fit:contain;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:default;background:var(--surface)}
 #lightbox .lbname{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:#fff;font-family:var(--f-menu,var(--f-display));font-weight:900;font-size:20px;pointer-events:none}
 @media (prefers-reduced-motion:no-preference){#lightbox:not([hidden]) img{animation:lbz .22s ease both}@keyframes lbz{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}}
 .mark.haslogo{background:var(--surface);box-shadow:0 0 0 1px var(--line)}
@@ -2203,7 +2203,8 @@ function shrinkImage(file, max){
       const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); g.drawImage(img, 0, 0, w, h);
       URL.revokeObjectURL(url); const png = /png|svg|gif/.test(file.type);
       let out = png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.85);
-      if (out.length > 180000) out = c.toDataURL('image/jpeg', 0.7);
+      if (out.length > 300000) out = c.toDataURL('image/jpeg', 0.8);
+      if (out.length > 300000) out = c.toDataURL('image/jpeg', 0.6);
       ok(out); };
     img.onerror = () => { URL.revokeObjectURL(url); ko(new Error('img')); };
     img.src = url;
@@ -2218,7 +2219,7 @@ function appendLogoPanel(f){
     <span class="row" style="gap:6px"><label class="btn" for="logoFile" style="cursor:pointer">${lg?'Cambiar':'Subir logo'}</label><input type="file" id="logoFile" accept="image/*" hidden>${lg?'<button class="btn link danger" id="logoDel">Quitar</button>':''}</span>`;
   f.appendChild(box);
   $('#logoFile').onchange = async e => { const file = e.target.files && e.target.files[0]; if (!file) return;
-    let data; try { data = await shrinkImage(file, 256); } catch(_){ S.flash = {t:'err', m:'No se ha podido leer esa imagen. Prueba con un JPG o PNG.'}; render(); return; }
+    let data; try { data = await shrinkImage(file, 512); } catch(_){ S.flash = {t:'err', m:'No se ha podido leer esa imagen. Prueba con un JPG o PNG.'}; render(); return; }
     write(()=>S.db.doc('config/liga').set({name:S.config.name||'Pádel entre amigos', logo:data}), 'Logo actualizado.'); };
   const del = $('#logoDel'); if (del) del.onclick = () => askConfirm({title:'¿Quitar el logo?', text:'Volverá a salir el icono de la pista.', actions:[{label:'Sí, quitar', danger:true, run:()=>write(()=>S.db.doc('config/liga').set({name:S.config.name||'Pádel entre amigos', logo:null}), 'Logo quitado.')}]});
 }

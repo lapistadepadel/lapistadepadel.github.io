@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
-<meta name="app-version" content="20261107160208">
+<meta name="app-version" content="20261107160851">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -353,21 +353,35 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 .evacts{gap:6px}.evacts .btn{font-size:13px;padding:8px 12px}
 .btn.wa{background:#25d366;border-color:#25d366;color:#08331a}
 :root{--sp:0}
-.topbar .mark{width:44px;height:44px;border-radius:13px}
+.topbar .mark{width:66px;height:66px;border-radius:18px}
+.topbar .mark::before{inset:12px 9px;border-width:2px}
+.topbar .mark::after{top:12px;bottom:12px;border-left-width:2px}
+.topbar .mark i{width:14px;height:14px;right:6px;top:6px;box-shadow:0 0 0 3px var(--court)}
+.topbar .wrap{min-height:84px!important}
 .topbar .brand{gap:12px}
 .topbar .brand .mark,.topbar #leagueName,.topbar .adminbadge{opacity:calc((var(--sp) - .35)*1.6);transform:translateY(calc((1 - var(--sp))*6px))}
 .topbar{background:transparent!important;box-shadow:none!important}
 .topbar::before{content:"";position:absolute;inset:0;background:var(--surface);box-shadow:0 1px 3px rgba(20,40,28,.08);opacity:calc(var(--sp)*2.2);z-index:-1}
-.brandhero{display:flex;align-items:center;gap:18px;padding-block:0 4px;margin-top:-52px;position:relative;z-index:19;transform-origin:left center;
+.brandhero{display:flex;align-items:center;gap:18px;padding-block:0 4px;margin-top:-74px;position:relative;z-index:19;transform-origin:left center;
   opacity:calc(1 - var(--sp)*2.2);transform:scale(calc(1 - var(--sp)*.45)) translateY(calc(var(--sp)*-14px));pointer-events:none}
-.mark.big{width:104px;height:104px;border-radius:28px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
-.mark.big::before{inset:22px 15px;border-width:3px;border-radius:4px}
-.mark.big::after{top:22px;bottom:22px;border-left-width:3px}
-.mark.big i{width:26px;height:26px;right:11px;top:11px;box-shadow:0 0 0 5px var(--court)}
+.mark.big{width:156px;height:156px;border-radius:38px;box-shadow:0 4px 16px rgba(0,0,0,.14)}
+.mark.big::before{inset:33px 22px;border-width:4px;border-radius:5px}
+.mark.big::after{top:33px;bottom:33px;border-left-width:4px}
+.mark.big i{width:38px;height:38px;right:16px;top:16px;box-shadow:0 0 0 7px var(--court)}
 .bhtext{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
-.bhname{font-family:var(--f-menu,var(--f-display));font-weight:900;font-size:28px;line-height:1.1;letter-spacing:-.01em;text-wrap:balance;min-width:0;overflow-wrap:anywhere}
-@media (max-width:640px){.mark.big{width:88px;height:88px;border-radius:24px}.bhname{font-size:24px}}
+.bhname{font-family:var(--f-menu,var(--f-display));font-weight:900;font-size:32px;line-height:1.1;letter-spacing:-.01em;text-wrap:balance;min-width:0;overflow-wrap:anywhere}
+@media (max-width:640px){.mark.big{width:132px;height:132px;border-radius:32px}.mark.big::before{inset:28px 19px}.mark.big::after{top:28px;bottom:28px}.mark.big i{width:32px;height:32px;right:13px;top:13px}.bhname{font-size:26px}}
 @media (prefers-reduced-motion:reduce){.topbar .brand .mark,.topbar #leagueName{transform:none}}
+.mark.haslogo{cursor:zoom-in}
+.topbar{pointer-events:none}
+.topbar .btn-new,html.scrolled .topbar .brand{pointer-events:auto}
+.brandhero .mark{pointer-events:auto}
+.brandhero.gone .mark{pointer-events:none}
+#lightbox{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(6,12,20,.82);backdrop-filter:blur(3px);cursor:zoom-out;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+#lightbox[hidden]{display:none}
+#lightbox img{max-width:min(88vw,720px);max-height:82vh;width:auto;height:auto;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:default;background:var(--surface)}
+#lightbox .lbname{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;color:#fff;font-family:var(--f-menu,var(--f-display));font-weight:900;font-size:20px;pointer-events:none}
+@media (prefers-reduced-motion:no-preference){#lightbox:not([hidden]) img{animation:lbz .22s ease both}@keyframes lbz{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}}
 .mark.haslogo{background:var(--surface);box-shadow:0 0 0 1px var(--line)}
 .mark.haslogo::before,.mark.haslogo::after{display:none}
 .mark img,.logoprev img{width:100%;height:100%;object-fit:cover;display:block}
@@ -673,6 +687,7 @@ label.f{font-size:11px;letter-spacing:.06em}
 <main class="wrap" id="app"></main>
 <footer class="wrap" id="foot"></footer>
 <div id="modal" hidden></div>
+<div id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Logo del grupo"><img alt=""><span class="lbname"></span></div>
 
 <script>
 (() => {
@@ -2300,7 +2315,22 @@ function checkReady(){ if (S.ready.p && S.ready.m && S.status==='loading'){ S.st
 function onScrollBrand(){
   const p = Math.max(0, Math.min(1, (window.scrollY||0) / 110));
   document.documentElement.style.setProperty('--sp', p.toFixed(3));
+  const y = window.scrollY||0, hb = document.getElementById('brandHero'); if (hb) hb.classList.toggle('gone', y > 50);
+  document.documentElement.classList.toggle('scrolled', y > 50);
 }
+function openLogo(e){
+  const lg = S.config && S.config.logo; if (!lg) return;
+  if (e){ e.preventDefault(); e.stopPropagation(); }
+  const lb = document.getElementById('lightbox'); lb.querySelector('img').src = lg; lb.querySelector('.lbname').textContent = S.config.name || '';
+  lb.hidden = false; document.body.style.overflow = 'hidden';
+}
+function closeLogo(){ const lb = document.getElementById('lightbox'); if (!lb || lb.hidden) return; lb.hidden = true; document.body.style.overflow = ''; }
+document.addEventListener('click', e => {
+  const lb = document.getElementById('lightbox');
+  if (lb && !lb.hidden){ if (e.target.tagName !== 'IMG' || !lb.contains(e.target)) { e.preventDefault(); e.stopPropagation(); closeLogo(); } return; }
+  if (e.target.closest && e.target.closest('#brandMark, #heroMark')) openLogo(e);
+}, true);
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeLogo(); });
 let brandTick = false;
 window.addEventListener('scroll', () => { if (!brandTick){ brandTick = true; requestAnimationFrame(() => { brandTick = false; onScrollBrand(); }); } }, {passive:true});
 async function boot(){

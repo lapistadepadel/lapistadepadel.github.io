@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
+<meta name="app-version" content="20261107154506">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -112,7 +113,8 @@ label.f{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:70
 .pname{display:flex;align-items:center;gap:10px;font-weight:600;min-width:0}
 .form{display:inline-flex;gap:3px}
 .form i{width:8px;height:8px;border-radius:50%;display:inline-block}
-.form i.G{background:var(--win)} .form i.P{background:var(--loss)}
+.form i.G{background:var(--win)} .form i.P{background:var(--loss)} .form i.E{background:var(--muted);opacity:.55}
+.team.d .names{color:var(--fg)}
 .pos-up{color:var(--win)} .pos-down{color:var(--loss)}
 .empty{text-align:center;padding:36px 18px}
 .empty .court{width:110px;height:64px;margin:0 auto 14px;border:2px solid var(--line);border-radius:4px;position:relative}
@@ -325,6 +327,7 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 .opt[aria-pressed="true"].yes{background:var(--win);border-color:var(--win);color:#fff}
 .opt[aria-pressed="true"].maybe{background:var(--gold);border-color:var(--gold);color:#3a2c00}
 .opt[aria-pressed="true"].no{background:var(--loss);border-color:var(--loss);color:#fff}
+.opt[aria-pressed="true"].sub{background:var(--court);border-color:var(--court);color:#fff}
 .opt[aria-pressed="true"].beerno{background:var(--loss);border-color:var(--loss);color:#fff}
 .hero .big.sm{font-size:32px;line-height:1.1;margin-top:12px}
 .opt[aria-pressed="true"].beer{background:var(--ball);border-color:var(--ball);color:var(--ball-ink)}
@@ -349,6 +352,41 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 .sidelab{gap:4px}.sidelab span{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .evacts{gap:6px}.evacts .btn{font-size:13px;padding:8px 12px}
 .btn.wa{background:#25d366;border-color:#25d366;color:#08331a}
+.mark.haslogo{background:var(--surface);box-shadow:0 0 0 1px var(--line)}
+.mark.haslogo::before,.mark.haslogo::after{display:none}
+.mark img,.logoprev img{width:100%;height:100%;object-fit:cover;display:block}
+.logoprev{width:48px;height:48px;border-radius:12px;overflow:hidden;flex:none;display:grid;place-items:center}
+.repeatbox{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:14px;background:var(--surface-2)}
+.typepick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tpick{display:flex;flex-direction:column;gap:4px;text-align:left;padding:14px 16px;border-radius:16px;border:2px solid var(--line);background:var(--surface);cursor:pointer;color:var(--fg)}
+.tpick span{font-size:13px;color:var(--muted)}
+.tpick.on{border-color:var(--primary,var(--court));background:var(--tonal,var(--court-soft))}
+@media (max-width:520px){.typepick{grid-template-columns:1fr}}
+.pzpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.pzp{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--surface-2);cursor:pointer;font-size:14px;min-width:0}
+.pzp input{position:absolute;opacity:0;pointer-events:none}
+.pzp.on{background:var(--tonal,var(--court-soft));box-shadow:inset 0 0 0 2px var(--primary,var(--court))}
+.pzp:focus-within{outline:2px solid var(--focus);outline-offset:2px}
+.pzgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.pzcourt{background:var(--surface-2);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.pzcourt.top{box-shadow:inset 0 0 0 2px var(--gold)}
+.pzhead{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pzteam{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+.pzteam strong{font-size:20px;color:var(--fg);font-variant-numeric:tabular-nums}
+.pzteam.w{color:var(--fg);font-weight:700}
+.pzedit{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;padding-top:8px;border-top:1px dashed var(--line)}
+.pzedit label{flex:1 1 110px}.pzedit input{width:100%;font-size:18px;text-align:center}
+.pztable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.pztable th,.pztable td{padding:9px 8px;text-align:right;white-space:nowrap}
+.pztable th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pztable td{border-top:1px solid var(--surface-2)}
+.pztable .l{text-align:left}
+@media (max-width:520px){.pztable th,.pztable td{padding:8px 5px;font-size:13px}.pztable th{font-size:10px;letter-spacing:.04em}.pztable .pname .av{width:24px;height:24px;font-size:10px}}
+.amround{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:18px;background:var(--surface);box-shadow:var(--elev1, none)}
+.amround.now{box-shadow:inset 0 0 0 2px var(--gold)}
+.pzcourt.todo{background:var(--surface-2)}
+.pztable tr.lead td{background:color-mix(in srgb,var(--gold) 14%,transparent)}
+.pending-m{box-shadow:inset 0 0 0 1.5px var(--line)}
 .pairsbox{background:var(--court-soft);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
 .court1{display:flex;flex-direction:column;gap:6px}
 .pairrow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
@@ -364,7 +402,15 @@ footer{padding-block:0 30px;font-size:13px;color:var(--muted)}
 @media (max-width:620px){.ev{grid-template-columns:52px 1fr}.evbody{padding:12px}.opt{padding:7px 11px}}
 
 .rwho .meta{white-space:nowrap}
-@media (max-width:620px){.rhead,.rrow{grid-template-columns:34px 1fr 30px 58px;gap:8px;padding-left:12px;padding-right:12px}.rwho{gap:10px}.rwho .av{width:36px;height:36px;font-size:13px}.rwho .nm .tag{display:none}.rpos{width:30px;height:30px;font-size:14px}}
+.rhead,.rrow{grid-template-columns:44px 1fr 44px 36px 64px}
+.rnum.e{font-size:17px;color:var(--muted)}
+.rhead .rsort{background:none;border:0;padding:0;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;text-align:left}
+.rhead .rsort:nth-child(n+3){text-align:right}
+.rhead .rsort.on{color:var(--fg)}
+.rsorts{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 4px;scrollbar-width:none}
+.rsorts button{flex:none;border:0;background:var(--surface-2);color:var(--muted);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.rsorts button.on{background:var(--tonal,var(--court-soft));color:var(--tonal-fg,var(--fg))}
+@media (max-width:620px){.rhead,.rrow{grid-template-columns:30px 1fr 28px 24px 54px;gap:8px;padding-left:12px;padding-right:12px}.rwho{gap:10px}.rwho .av{width:36px;height:36px;font-size:13px}.rwho .nm .tag{display:none}.rpos{width:30px;height:30px;font-size:14px}}
 @media (max-width:620px){.hide-sm{display:none}.bcol{flex-basis:175px;min-width:175px}.gm{flex-wrap:wrap;gap:4px 10px}.gm .sc{order:-1;flex-basis:100%;font-size:17px}.hero .big{font-size:56px}.hstats .v{font-size:24px}}
 @media (prefers-reduced-motion:no-preference){.match,.tile,.panel,.hero,.rlist{animation:in .25s ease both}@keyframes in{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}}
 /* Login and group picker (web version) */
@@ -572,6 +618,10 @@ label.f{font-size:11px;letter-spacing:.06em}
 .mbox{border-radius:28px}
 .empty .court{border-color:var(--line)}
 
+.updbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:14px;background:var(--fg);color:var(--bg);padding:10px 10px 10px 18px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-weight:700;font-size:14px;max-width:calc(100% - 32px);white-space:nowrap;width:max-content}
+.updbar span{overflow:hidden;text-overflow:ellipsis}
+@media (max-width:640px){.updbar{bottom:calc(92px + env(safe-area-inset-bottom,0px))}}
+
 </style>
 </head>
 <body class="gated">
@@ -584,7 +634,7 @@ label.f{font-size:11px;letter-spacing:.06em}
 
 <header class="topbar">
   <div class="wrap">
-    <a class="brand" href="#clasificacion"><span class="mark" aria-hidden="true"><i></i></span><h1 id="leagueName">Pádel entre amigos</h1><span class="adminbadge" id="adminBadge" hidden>Admin</span></a>
+    <a class="brand" href="#clasificacion"><span class="mark" id="brandMark" aria-hidden="true"><i></i></span><h1 id="leagueName">Pádel entre amigos</h1><span class="adminbadge" id="adminBadge" hidden>Admin</span></a>
     <a href="#nuevo" class="btn-new" id="newTop">+ Apuntar partido</a>
   </div>
 </header>
@@ -630,14 +680,19 @@ const initials = n => (n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join(
 /* ---------- maths ---------- */
 function result(m){
   let sa=0,sb=0,ga=0,gb=0;
-  for (const [x,y] of m.sets||[]) { ga+=x; gb+=y; if (x>y) sa++; else if (y>x) sb++; }
-  const aWins = sa!==sb ? sa>sb : ga>gb;
-  return {sa,sb,ga,gb,aWins};
+  for (const [x,y] of m.sets||[]) { ga+=x; gb+=y; if (!validSet(x,y)) continue; if (x>y) sa++; else if (y>x) sb++; }  // an unfinished set counts its games but not as a set won
+  const draw = sa===sb && ga===gb;
+  const aWins = !draw && (sa!==sb ? sa>sb : ga>gb);
+  return {sa,sb,ga,gb,aWins,draw};
 }
+const AUTO_MS = 4*3600*1000;   // a result nobody confirms or disputes is published after 4 hours
+const autoPublished = m => m.confirmed===false && !m.disputed && (Date.now() - (m.at||0)) >= AUTO_MS;
+const isCounted = m => m.confirmed!==false || autoPublished(m);
+function autoLeft(m){ const tot = Math.max(1, Math.ceil(Math.max(0, AUTO_MS - (Date.now() - (m.at||0)))/60000)), h = Math.floor(tot/60), mi = tot%60; return h ? (mi ? `${h} h ${mi} min` : `${h} h`) : `${mi} min`; }
 function compute(period){
   const st = new Map();
-  for (const p of S.allPlayers.values()) st.set(p.id,{pj:0,pg:0,sf:0,sc:0,gf:0,gc:0,form:[],log:[],partners:{},rivals:{},sd:{drive:{pj:0,pg:0},reves:{pj:0,pg:0}}});
-  const ms = [...S.matches, ...tournamentMatches()].filter(m => [...m.a,...m.b].every(id => st.has(id)))
+  for (const p of S.allPlayers.values()) st.set(p.id,{pj:0,pg:0,pe:0,sf:0,sc:0,gf:0,gc:0,form:[],log:[],partners:{},rivals:{},sd:{drive:{pj:0,pg:0},reves:{pj:0,pg:0}}});
+  const ms = [...S.matches.filter(isCounted), ...tournamentMatches()].filter(m => [...m.a,...m.b].every(id => st.has(id)))
     .sort((x,y)=> (x.date||'').localeCompare(y.date||'') || (x.at||0)-(y.at||0))
     .filter(m => !period || period==='todo' || (m.date||'').startsWith(period==='mes'? today().slice(0,7) : today().slice(0,4)));
   for (const m of ms){
@@ -645,15 +700,15 @@ function compute(period){
     const side = (team, opp, won, sf, sc, gf, gc) => {
       for (const id of team){
         const s = st.get(id); const mate = team.find(x=>x!==id);
-        s.pj++; if (won) s.pg++; s.sf+=sf; s.sc+=sc; s.gf+=gf; s.gc+=gc;
-        s.form.push(won?'G':'P'); s.log.push({won, diff:gf-gc, date:m.date, sets:(m.sets||[]).map(([x,y])=> team===m.a? `${x}-${y}` : `${y}-${x}`).join(' ')});
+        s.pj++; if (won) s.pg++; if (r.draw) s.pe++; s.sf+=sf; s.sc+=sc; s.gf+=gf; s.gc+=gc;
+        s.form.push(r.draw?'E':won?'G':'P'); s.log.push({won, draw:r.draw, diff:gf-gc, date:m.date, sets:(m.sets||[]).map(([x,y])=> team===m.a? `${x}-${y}` : `${y}-${x}`).join(' ')});
         const sdv = m.sides && m.sides[id]; if (sdv==='drive'||sdv==='reves'){ s.sd[sdv].pj++; if (won) s.sd[sdv].pg++; }
-        const pp = s.partners[mate] ||= {pj:0,pg:0}; pp.pj++; if (won) pp.pg++;
-        for (const o of opp){ const rr = s.rivals[o] ||= {pj:0,pg:0}; rr.pj++; if (won) rr.pg++; }
+        const pp = s.partners[mate] ||= {pj:0,pg:0,pe:0}; pp.pj++; if (won) pp.pg++; if (r.draw) pp.pe++;
+        for (const o of opp){ const rr = s.rivals[o] ||= {pj:0,pg:0,pe:0}; rr.pj++; if (won) rr.pg++; if (r.draw) rr.pe++; }
       }
     };
     side(m.a,m.b, r.aWins, r.sa,r.sb,r.ga,r.gb);
-    side(m.b,m.a,!r.aWins, r.sb,r.sa,r.gb,r.ga);
+    side(m.b,m.a,!r.aWins && !r.draw, r.sb,r.sa,r.gb,r.ga);
   }
   S.lastC = {st, ms};
   return {st, ms, deltas:{}};
@@ -664,7 +719,7 @@ const pWins = s => s.pj ? s.pg/s.pj : 0;
 const pc = v => Math.round(v*100) + '%';
 function rankList(st){
   const arr = [...S.players.values()].map(p => ({p, s:st.get(p.id)}));
-  const cmp = (a,b) => (b.s.pg-a.s.pg) || (pSets(b.s)-pSets(a.s)) || (pGames(b.s)-pGames(a.s));
+  const cmp = (a,b) => (b.s.pg-a.s.pg) || (b.s.pe-a.s.pe) || (pSets(b.s)-pSets(a.s)) || (pGames(b.s)-pGames(a.s));
   const active = arr.filter(x=>x.s.pj>0).sort((a,b)=> cmp(a,b) || (a.p.nick||'').localeCompare(b.p.nick||''));
   active.forEach((x,i)=>{ x.pos = (i>0 && cmp(active[i-1],x)===0) ? active[i-1].pos : i+1; });
   const idle = arr.filter(x=>x.s.pj===0).sort((a,b)=>(a.p.nick||'').localeCompare(b.p.nick||''));
@@ -682,7 +737,7 @@ function av(id, lg){
 const pl = (id) => `<a href="#jugador-${esc(id)}" class="pname" style="text-decoration:none">${av(id)}<span>${esc(nick(id))}</span>${S.players.get(id)?.uid===S.uid&&S.uid?' <span class="tag">tú</span>':''}</a>`;
 const teamNames = t => esc(t.map(id => nick(id)).join(' · '));
 const teamAvs = t => `<span class="avs">${t.map(id=>av(id)).join('')}</span>`;
-const formHtml = f => `<span class="form" aria-label="Últimos partidos">${f.slice(-5).map(x=>`<i class="${x}" title="${x==='G'?'Ganado':'Perdido'}"></i>`).join('')}</span>`;
+const formHtml = f => `<span class="form" aria-label="Últimos partidos">${f.slice(-5).map(x=>`<i class="${x}" title="${x==='G'?'Ganado':x==='E'?'Empate':'Perdido'}"></i>`).join('')}</span>`;
 const signed = n => (n>0?'+':'') + n;
 
 function paintAvatars(){
@@ -705,6 +760,7 @@ function viewName(){ const h = location.hash.replace('#',''); return h || 'clasi
 function render(){
   const app = $('#app');
   $('#leagueName').textContent = S.config.name || 'Pádel entre amigos';
+  { const mk = $('#brandMark'), lg = S.config.logo || ''; if (mk.dataset.logo !== lg){ mk.dataset.logo = lg; mk.classList.toggle('haslogo', !!lg); mk.innerHTML = lg ? `<img src="${esc(lg)}" alt="">` : '<i></i>'; } }
   const v = viewName();
   const cur = v.startsWith('editar-')?'partidos':v.startsWith('jugador-')?'clasificacion':v.startsWith('torneo')?'torneos':v==='evento-nuevo'?'calendario':v;
   $('#adminBadge').hidden = !isAdmin(); $('#adminBadge').textContent = window.groupApi ? window.groupApi.role : (S.isOwner ? 'Admin' : 'Coadmin');
@@ -720,6 +776,7 @@ function render(){
   let html = '';
   if (S.flash) html += `<div class="note ${S.flash.t}">${esc(S.flash.m)}</div>`;
   if (window.groupApi && isAdmin() && (window.groupApi.requests||[]).length){ const n=window.groupApi.requests.length; html += `<div class="note ok row spread"><span><strong>${n} solicitud${n===1?'':'es'} de acceso</strong> esperando tu respuesta.</span><button class="btn" data-openreq>Ver</button></div>`; }
+  html += promoNotices() + confirmNotice();
   if (!S.uid) html += `<div class="note">Estás viendo la clasificación sin identificarte. Para apuntar partidos, entra con tu cuenta.</div>`;
   else if (!S.canWrite) html += `<div class="note">Tienes acceso de solo lectura. Pide a un administrador que revise tu acceso.</div>`;
   else if (!myPlayer()) html += joinPanel();
@@ -756,8 +813,14 @@ function joinPanel(){
   </section>`;
 }
 
+function sortRows(list){
+  const k = S.rsort || 'pos', dir = S.rdir || -1;
+  if (k==='pos') return list;
+  const val = x => k==='pg' ? x.s.pg : k==='pe' ? x.s.pe : k==='pj' ? x.s.pj : k==='sets' ? pSets(x.s) : pGames(x.s);
+  return [...list].sort((a,b) => dir * (val(a)-val(b)) || (a.pos-b.pos));
+}
 function beerRanking(){
-  const evs = [...S.events.values()].filter(e => e.beers!==false && (e.date||'') <= today() && (S.period==='todo' || (e.date||'').startsWith(S.period==='mes'?today().slice(0,7):today().slice(0,4))));
+  const evs = allEvents().filter(e => e.beers!==false && (e.date||'') <= today() && (S.period==='todo' || (e.date||'').startsWith(S.period==='mes'?today().slice(0,7):today().slice(0,4))));
   if (!evs.length) return '';
   const cnt = {};
   for (const e of evs) for (const r of evRsvps(e.id)) if (r.beer===true){ const p = playerByUid(r.uid); if (p) cnt[p.id] = (cnt[p.id]||0)+1; }
@@ -810,6 +873,7 @@ function viewRanking(Call){
       <span class="rwho">${av(x.p.id)}<span style="min-width:0"><span class="nm" style="display:block">${esc(x.p.nick)}${x.p.id===mine?' <span class="tag">tú</span>':''}</span>
         <span class="meta">${on?`${s.pj} PJ ${formHtml(s.form)}`:'Sin partidos'}</span></span></span>
       <span class="rnum">${on?s.pg:''}</span>
+      <span class="rnum e">${on?s.pe:''}</span>
       <span class="rpct">${on?pc(pSets(s)):''}<span class="sub">${on?pc(pGames(s))+' jue.':''}</span></span>
     </a>`;
   };
@@ -818,10 +882,11 @@ function viewRanking(Call){
     <div class="row spread"><h2>Ranking</h2>${seg}</div>
     ${hero}
     ${active.length||showIdle.length?`<div class="stack" style="gap:8px">
-      <div class="rhead"><span>#</span><span>Jugador</span><span>V</span><span>% sets</span></div>
-      <div class="rlist">${active.map(row).join('')}${showIdle.map(row).join('')}</div>
+      <div class="rhead">${[['pos','#'],['pj','Jugador'],['pg','V'],['pe','E'],['sets','% sets']].map(([k,l])=>`<button type="button" class="rsort ${S.rsort===k?'on':''}" data-rsort="${k}" title="${k==='pj'?'Ordenar por partidos jugados':'Ordenar'}">${l}${S.rsort===k?(S.rdir===1?' ↑':' ↓'):''}</button>`).join('')}</div>
+      <div class="rsorts">${[['pos','Clasificación'],['pg','Victorias'],['pe','Empates'],['pj','Partidos'],['sets','% sets'],['games','% juegos']].map(([k,l])=>`<button type="button" class="${S.rsort===k?'on':''}" data-rsort="${k}">${l}${S.rsort===k&&k!=='pos'?(S.rdir===1?' ↑':' ↓'):''}</button>`).join('')}</div>
+      <div class="rlist">${sortRows(active).map(row).join('')}${showIdle.map(row).join('')}</div>
     </div>`:`<div class="panel empty"><div class="court"></div><p class="muted" style="margin:0">Nadie ha jugado todavía ${S.period==='mes'?'este mes':'este año'}.</p></div>`}
-    <p class="small muted" style="margin:0">Orden: victorias, luego % de sets ganados y luego % de juegos ganados.</p>
+    <p class="small muted" style="margin:0">Clasificación oficial: victorias, luego empates, luego % de sets ganados y luego % de juegos ganados. Toca una columna para ordenar por ella; tócala otra vez para invertir el orden.</p>
     ${beerRanking()}
     ${S.canWrite && S.uid ? `<details class="panel"><summary style="cursor:pointer;font-weight:700">Añadir un amigo que aún no tiene cuenta</summary>
       <form id="guestForm" class="row" style="margin-top:12px">
@@ -831,18 +896,40 @@ function viewRanking(Call){
   </section>`;
 }
 
+function rivalsOf(m){
+  const cp = playerByUid(m.by)?.id;
+  return m.a.includes(cp) ? m.b : m.b.includes(cp) ? m.a : [...m.a, ...m.b];
+}
+function canConfirm(m){
+  if (m.confirmed!==false || autoPublished(m) || !S.uid) return false;
+  if (isAdmin()) return true;
+  const me = myPlayer()?.id; return !!me && m.by!==S.uid && rivalsOf(m).includes(me);
+}
+function confirmNotice(){
+  if (!S.uid || S.status!=='ready') return '';
+  const n = S.matches.filter(m => canConfirm(m) && !m.disputed && (!isAdmin() || rivalsOf(m).includes(myPlayer()?.id))).length;
+  const disp = isAdmin() ? S.matches.filter(m => !isCounted(m) && m.disputed).length : 0;
+  let out = '';
+  if (n) out += `<div class="note row spread" style="background:color-mix(in srgb,var(--gold) 22%,var(--surface))"><span><strong>Tienes ${n} resultado${n===1?'':'s'} por confirmar.</strong> Si no dices nada, se publica${n===1?'':'n'} solo${n===1?'':'s'} a las 4 horas.</span><a class="btn" href="#partidos">Revisar</a></div>`;
+  if (disp) out += `<div class="note err row spread"><span><strong>${disp} resultado${disp===1?'':'s'} discutido${disp===1?'':'s'}.</strong> Revísalo y corrígelo o bórralo.</span><a class="btn" href="#partidos">Ver</a></div>`;
+  return out;
+}
+
 function matchCard(m, C){
   const r = result(m), d = C.deltas[m.id];
   const canDel = !m.tid && isAdmin();
   const setCells = (mine, other) => (m.sets||[]).map(([x,y],i)=>{ const a = mine===0?x:y, b = mine===0?y:x; return `<span class="${a>b?'b':'lo'}">${a}</span>`; }).join('');
   return `<article class="match">
-    <div class="team ${r.aWins?'w':''}">${teamAvs(m.a)}<span class="names">${teamNames(m.a)}</span></div>
+    <div class="team ${r.aWins?'w':''} ${r.draw?'d':''}">${teamAvs(m.a)}<span class="names">${teamNames(m.a)}</span></div>
     <div class="sets" aria-label="Juegos pareja 1">${setCells(0)}</div>
-    <div class="team ${!r.aWins?'w':''}">${teamAvs(m.b)}<span class="names">${teamNames(m.b)}</span></div>
+    <div class="team ${!r.aWins&&!r.draw?'w':''} ${r.draw?'d':''}">${teamAvs(m.b)}<span class="names">${teamNames(m.b)}</span></div>
     <div class="sets" aria-label="Juegos pareja 2">${setCells(1)}</div>
     <div class="mfoot">
       ${d!=null?`<span><span class="delta">±${d}</span> de nivel</span>`:''}
-      ${m.place?`<span>${esc(m.place)}</span>`:''}${m.editedAt?'<span>corregido</span>':''}${m.tid?`<a class="chip" style="text-decoration:none" href="#torneo-${esc(m.tid)}">${esc(m.tname)}</a>`:''}
+      ${m.place?`<span>${esc(m.place)}</span>`:''}${m.editedAt?'<span>corregido</span>':''}${m.unfinished?'<span class="tag" style="background:var(--loss-bg);color:var(--loss)">no acabado</span>':''}${m.tid?`<a class="chip" style="text-decoration:none" href="#torneo-${esc(m.tid)}">${esc(m.tname)}</a>`:''}
+      ${!isCounted(m) ? (m.disputed ? '<span class="tag" style="background:var(--loss-bg);color:var(--loss)">Resultado discutido</span>' : `<span class="tag" style="background:color-mix(in srgb,var(--gold) 30%,transparent);color:var(--fg)">Pendiente de confirmar por ${esc(rivalsOf(m).map(nick).join(' o '))} · se publica sola en ${autoLeft(m)}</span>`) : ''}${autoPublished(m) ? '<span class="tag">publicado automáticamente</span>' : ''}
+      ${r.draw ? '<span class="tag" style="background:var(--surface-2);color:var(--fg)">Empate</span>' : ''}
+      ${canConfirm(m) ? `<span class="row" style="gap:6px;flex-basis:100%"><button class="btn primary" data-mconf="${esc(m.id)}">Confirmar resultado</button>${!m.disputed?`<button class="btn link danger" data-mdisp="${esc(m.id)}">No es correcto</button>`:''}</span>` : ''}
       ${canDel ? (S.confirmDel===m.id
         ? `<span style="margin-left:auto">¿Borrar este partido? <button class="btn danger" data-del="${esc(m.id)}">Sí, borrar</button> <button class="btn link" data-nodel>Cancelar</button></span>`
         : `<span style="margin-left:auto" class="row"><a class="btn link" href="#editar-${esc(m.id)}">Editar</a><button class="btn link" data-askdel="${esc(m.id)}">Borrar</button></span>`) : ''}
@@ -850,10 +937,49 @@ function matchCard(m, C){
   </article>`;
 }
 
+function pendingMatches(){
+  const out = [];
+  for (const e of allEvents()){
+    const sm = evSummary(e);
+    if (sm.starters.length < sm.slots || sm.slots < 4) continue;          // only full sign-ups
+    const courts = makePairs(e, sm);
+    courts.forEach((c, i) => {
+      if (S.matches.some(m => m.eventId===e.id && (m.court||0)===i)) return; // result already saved
+      out.push({e, c, i, n:courts.length});
+    });
+  }
+  return out.sort((a,b)=>(a.e.date+(a.e.time||'')).localeCompare(b.e.date+(b.e.time||'')));
+}
+function pendingCard(p){
+  const {e, c, i, n} = p, past = (e.date||'') <= today();
+  const team = t => `<div class="team">${teamAvs(t)}<span class="names" style="color:var(--fg)">${esc(t.map(id=>nick(id)).join(' · '))}</span></div>`;
+  return `<article class="match pending-m">
+    ${team(c.A)}<div class="sets"><span class="lo">–</span></div>
+    ${team(c.B)}<div class="sets"><span class="lo">–</span></div>
+    <div class="mfoot">
+      <span class="tag" style="background:${past?'var(--gold)':'var(--tonal, var(--surface-2))'};color:${past?'#3a2c00':'inherit'}">${past?'Pendiente de resultado':'Próximo'}</span>
+      <span>${esc(evWhen(e))}${e.place?' · '+esc(e.place):''}${n>1?` · pista ${i+1}`:''}</span>
+      ${past && S.canWrite && S.uid ? `<button class="btn primary" style="margin-left:auto;min-height:34px;padding:6px 14px" data-pendres="${esc(e.id)}" data-court="${i}">Apuntar resultado</button>`:''}
+    </div>
+  </article>`;
+}
 function viewMatches(C){
   const list = [...C.ms].reverse();
-  if (!list.length) return `<section class="panel empty"><div class="court"></div><h2>Sin partidos todavía</h2><p class="muted">Cuando juguéis, apuntad el resultado con «+ Apuntar partido».</p></section>`;
-  let out = `<div class="row spread"><h2>Partidos</h2><span class="muted small">${list.length} en total</span></div>`;
+  const pend = pendingMatches();
+  const unconf = S.matches.filter(m => !isCounted(m)).sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.at||0)-(a.at||0));
+  let out = `<div class="row spread"><h2>Partidos</h2><span class="muted small">${list.length} jugado${list.length===1?'':'s'}</span></div>`;
+  if (unconf.length){
+    out += `<h3 style="margin:4px 0 -4px">Por confirmar</h3>`;
+    out += unconf.map(m => `<div class="day">${fmtDay(m.date)}</div>${matchCard(m, C)}`).join('');
+    out += `<p class="small muted" style="margin:-4px 0 4px">Un resultado cuenta cuando lo confirma alguien de la pareja rival o un administrador. Si nadie lo confirma ni lo discute, se publica solo a las 4 horas.</p>`;
+  }
+  if (pend.length){
+    out += `<h3 style="margin:4px 0 -4px">Convocatorias completas</h3>`;
+    out += pend.map(pendingCard).join('');
+    out += `<p class="small muted" style="margin:-4px 0 4px">Aparecen solas cuando una convocatoria se llena. Las parejas son las equilibradas que propone la app.</p>`;
+  }
+  if (!list.length && !pend.length && !unconf.length) return `<section class="panel empty"><div class="court"></div><h2>Sin partidos todavía</h2><p class="muted">Cuando una convocatoria se complete aparecerá aquí, o apunta un resultado con «+ Apuntar partido».</p></section>`;
+  if (list.length && (pend.length || unconf.length)) out += `<h3 style="margin:8px 0 -4px">Jugados</h3>`;
   let last = '';
   for (const m of list){ if (m.date!==last){ out += `<div class="day">${fmtDay(m.date)}</div>`; last = m.date; } out += matchCard(m,C); }
   return `<section class="stack" style="gap:12px">${out}</section>`;
@@ -877,7 +1003,8 @@ function viewNew(em){
   const D='Drive · derecha', R='Revés · izquierda';
   return `<section class="panel stack">
     <h2>${em?'Editar partido':'Apuntar partido'}</h2>
-    <form id="newForm" class="stack" style="gap:16px" ${em?`data-edit="${esc(em.id)}"`:''}>
+    <form id="newForm" class="stack" style="gap:16px" ${em?`data-edit="${esc(em.id)}"`:''} ${!em && pf && pf.eventId ? `data-event="${esc(pf.eventId)}" data-court="${pf.court||0}"`:''}>
+      ${!em && pf && pf.eventId ? `<div class="note small">Resultado de la convocatoria del ${fmtDay(pf.date)}. Al guardarlo, desaparece de «Pendientes de resultado».</div>`:''}
       <div class="row">
         <label class="f">Fecha<input type="date" id="mDate" value="${pf&&pf.date?pf.date:today()}" max="${today()}" required></label>
         <label class="f" style="flex:1 1 220px">Pista o club (opcional)<input type="text" id="mPlace" maxlength="40" placeholder="Ej. Club de la Castellana, pista 3" value="${esc(pf&&pf.place||'')}"></label>
@@ -897,7 +1024,7 @@ function viewNew(em){
           <span class="t" id="lblB">Pareja 2</span>
           ${[0,1,2].map(i=>`<input type="number" inputmode="numeric" min="0" max="7" id="sb${i}" value="${sv(1,i)}" aria-label="Pareja 2, set ${i+1}"${i<2?' required':''}>`).join('')}
         </div>
-        <p class="small muted" style="margin:8px 0 0">Al mejor de 3 sets. Cada set acaba 6-0 a 6-4, 7-5 o 7-6 (con tie-break). Deja el set 3 vacío si se ganó 2-0.</p>
+        <p class="small muted" style="margin:8px 0 0">Al mejor de 3 sets. Cada set acaba 6-0 a 6-4, 7-5 o 7-6 (con tie-break). Deja el set 3 vacío si se ganó 2-0. Si se acabó el tiempo a mitad de set, apunta cómo iba: te pediremos confirmación.</p>
       </div>
       <div id="formErr" class="note err" hidden></div>
       <div class="row"><button class="btn primary" type="submit" id="saveBtn">${em?'Guardar cambios':'Guardar partido'}</button><a class="btn link" href="#partidos">Cancelar</a></div>
@@ -911,9 +1038,9 @@ function strip(log){
   return `<div class="strip" role="img" aria-label="Resultados de los últimos partidos">${items.map(x => {
     const h = Math.max(12, Math.round(100*Math.abs(x.diff)/mx));
     const t = `${fmtDay(x.date)} · ${x.won?'Ganado':'Perdido'} ${x.sets}`;
-    return `<div class="c" title="${esc(t)}"><div class="up">${x.won?`<i style="height:${h}%"></i>`:''}</div><div class="dn">${!x.won?`<i style="height:${h}%"></i>`:''}</div></div>`;
+    return x.draw ? `<div class="c" title="${esc(fmtDay(x.date)+' · Empate '+x.sets)}"><div class="up"><i style="height:8%;background:var(--muted);opacity:.5;border-radius:3px 3px 0 0"></i></div><div class="dn"><i style="height:8%;background:var(--muted);opacity:.5;border-radius:0 0 3px 3px"></i></div></div>` : `<div class="c" title="${esc(t)}"><div class="up">${x.won?`<i style="height:${h}%"></i>`:''}</div><div class="dn">${!x.won?`<i style="height:${h}%"></i>`:''}</div></div>`;
   }).join('')}</div>
-  <p class="small muted" style="margin:8px 0 0">De más antiguo a más reciente. Verde, ganado; rojo, perdido. La altura es la diferencia de juegos.</p>`;
+  <p class="small muted" style="margin:8px 0 0">De más antiguo a más reciente. Verde, ganado; rojo, perdido; gris, empate. La altura es la diferencia de juegos.</p>`;
 }
 
 function sideCourt(s){
@@ -946,7 +1073,7 @@ function viewPlayer(C, id){
   let streak = 0, sk = s.form[s.form.length-1]; for (let i=s.form.length-1;i>=0 && s.form[i]===sk;i--) streak++;
   const recent = [...C.ms].filter(m=>m.a.includes(id)||m.b.includes(id)).reverse().slice(0,6);
   const best = partners.filter(([,r])=>r.pj>=1)[0];
-  const partnerRow = ([k,r]) => `<div class="kv"><span class="pname">${av(k)}${esc(nick(k))}</span><span><span class="bar g"><i style="width:${pc(r.pg/r.pj)}"></i></span><span class="muted">${r.pg}–${r.pj-r.pg}</span></span></div>`;
+  const partnerRow = ([k,r]) => `<div class="kv"><span class="pname">${av(k)}${esc(nick(k))}</span><span><span class="bar g"><i style="width:${pc(r.pg/r.pj)}"></i></span><span class="muted">${r.pg}–${r.pj-r.pg-(r.pe||0)}</span></span></div>`;
   const hiSets = pSets(s) >= pGames(s);
   return `<section class="stack">
     <a href="#clasificacion" class="small muted">← Ranking</a>
@@ -964,7 +1091,7 @@ function viewPlayer(C, id){
       ${sideCourt(s)}
       <div class="minis">
         <div class="mini"><div class="k">Victorias</div><div class="v y">${s.pg}<span style="font-size:16px;color:var(--ink-muted)"> / ${s.pj} PJ</span></div></div>
-        <div class="mini"><div class="k">Mejor pareja</div><div class="v" style="font-size:20px;padding-top:6px">${best?`${esc(nick(best[0]))} <span style="font-size:14px;color:var(--ink-muted)">${best[1].pg}–${best[1].pj-best[1].pg}</span>`:'–'}</div></div>
+        <div class="mini"><div class="k">Mejor pareja</div><div class="v" style="font-size:20px;padding-top:6px">${best?`${esc(nick(best[0]))} <span style="font-size:14px;color:var(--ink-muted)">${best[1].pg}–${best[1].pj-best[1].pg-(best[1].pe||0)}</span>`:'–'}</div></div>
       </div>
     </div>
     ${isMe?`<form id="nickForm" class="row"><input type="text" id="nickInput" maxlength="24" value="${esc(p.nick)}" aria-label="Tu apodo" style="flex:0 1 220px"><button class="btn" type="submit">Cambiar apodo</button></form>`:''}
@@ -974,8 +1101,8 @@ function viewPlayer(C, id){
         ${partners.length? partners.slice(0,5).map(partnerRow).join('') : '<p class="muted small" style="margin:0">Todavía nada.</p>'}
       </div>
       <div class="panel"><h3>Rivales</h3>
-        ${nemesis?`<div class="kv"><span>Bestia negra</span><span class="pname">${av(nemesis[0])}${esc(nick(nemesis[0]))} <span class="muted">${nemesis[1].pg}–${nemesis[1].pj-nemesis[1].pg}</span></span></div>`:''}
-        ${victim && victim[0]!==nemesis?.[0]?`<div class="kv"><span>Víctima favorita</span><span class="pname">${av(victim[0])}${esc(nick(victim[0]))} <span class="muted">${victim[1].pg}–${victim[1].pj-victim[1].pg}</span></span></div>`:''}
+        ${nemesis?`<div class="kv"><span>Bestia negra</span><span class="pname">${av(nemesis[0])}${esc(nick(nemesis[0]))} <span class="muted">${nemesis[1].pg}–${nemesis[1].pj-nemesis[1].pg-(nemesis[1].pe||0)}</span></span></div>`:''}
+        ${victim && victim[0]!==nemesis?.[0]?`<div class="kv"><span>Víctima favorita</span><span class="pname">${av(victim[0])}${esc(nick(victim[0]))} <span class="muted">${victim[1].pg}–${victim[1].pj-victim[1].pg-(victim[1].pe||0)}</span></span></div>`:''}
         ${!nemesis?'<p class="muted small" style="margin:0">Aparecen tras jugar 2 veces contra el mismo rival.</p>':''}
         ${S.players.size>1&&!p.deleted?`<div style="margin-top:12px"><a class="btn" href="#cara-a-cara" data-h2h="${esc(id)}">Comparar cara a cara</a></div>`:''}
       </div>
@@ -995,8 +1122,8 @@ function viewH2H(C){
   const sel = (id,v) => `<select id="${id}" aria-label="Jugador">${ps.map(p=>`<option value="${esc(p.id)}"${p.id===v?' selected':''}>${esc(p.nick)}</option>`).join('')}</select>`;
   const vs = C.ms.filter(m => (m.a.includes(a)&&m.b.includes(b)) || (m.b.includes(a)&&m.a.includes(b)));
   const tog = C.ms.filter(m => (m.a.includes(a)&&m.a.includes(b)) || (m.b.includes(a)&&m.b.includes(b)));
-  let wa=0; for (const m of vs){ const r=result(m); if ((m.a.includes(a))===r.aWins) wa++; }
-  let wt=0; for (const m of tog){ const r=result(m); if ((m.a.includes(a))===r.aWins) wt++; }
+  let wa=0, dr=0; for (const m of vs){ const r=result(m); if (r.draw) dr++; else if ((m.a.includes(a))===r.aWins) wa++; }
+  let wt=0; for (const m of tog){ const r=result(m); if (!r.draw && (m.a.includes(a))===r.aWins) wt++; }
   const sa=C.st.get(a), sb=C.st.get(b);
   const cmp = (label, x, y, fmt=(v)=>v) => `<div class="kv"><strong class="${x>y?'pos-up':''}">${fmt(x)}</strong><span class="muted small">${label}</span><strong class="${y>x?'pos-up':''}">${fmt(y)}</strong></div>`;
   const pct = s => s.pj? Math.round(100*s.pg/s.pj):0;
@@ -1004,7 +1131,7 @@ function viewH2H(C){
     <h2>Cara a cara</h2>
     <div class="hero"><div class="h2h" style="position:relative">
       <div class="stack" style="gap:8px;align-items:center">${av(a,true)}${sel('h2hA',a)}</div>
-      <div><div class="big"><span>${wa}</span><span class="muted" style="font-size:.5em;padding:0 6px">–</span><span>${vs.length-wa}</span></div><div class="small muted">como rivales</div>${vs.length?`<div class="split" aria-hidden="true"><i style="width:${100*wa/vs.length}%;background:${colorFor(a)}"></i><i style="width:${100*(vs.length-wa)/vs.length}%;background:${colorFor(b)}"></i></div>`:''}</div>
+      <div><div class="big"><span>${wa}</span><span class="muted" style="font-size:.5em;padding:0 6px">–</span><span>${vs.length-wa-dr}</span></div><div class="small muted">como rivales${dr?` · ${dr} empate${dr===1?'':'s'}`:''}</div>${vs.length?`<div class="split" aria-hidden="true"><i style="width:${100*wa/vs.length}%;background:${colorFor(a)}"></i><i style="width:${100*dr/vs.length}%;background:var(--line)"></i><i style="width:${100*(vs.length-wa-dr)/vs.length}%;background:${colorFor(b)}"></i></div>`:''}</div>
       <div class="stack" style="gap:8px;align-items:center">${av(b,true)}${sel('h2hB',b)}</div>
     </div></div>
     <div class="grid2">
@@ -1025,7 +1152,7 @@ function viewH2H(C){
 /* ---------- score validation (padel/tennis rules) ---------- */
 // A set ends 6-0…6-4, 7-5 or 7-6. Best of 3: 2-0 or 2-1.
 function validSet(a,b){ const w=Math.max(a,b), l=Math.min(a,b); return (w===6 && l<=4) || (w===7 && (l===5 || l===6)); }
-function parseSetInputs(pa, pb){
+function parseSetInputs(pa, pb, allowDraw){
   const raw = [];
   for (let i=0;i<3;i++){
     const x=$('#'+pa+i).value.trim(), y=$('#'+pb+i).value.trim();
@@ -1034,14 +1161,32 @@ function parseSetInputs(pa, pb){
     const a=+x, b=+y;
     if (!Number.isInteger(a)||!Number.isInteger(b)||a<0||b<0) return {err:`El set ${i+1} tiene un número no válido.`};
     if (a>7||b>7) return {err:`El set ${i+1} no puede pasar de 7 juegos.`};
-    if (!validSet(a,b)) return {err:`El set ${i+1} (${a}-${b}) no es un resultado posible. Un set acaba 6-0 a 6-4, 7-5 o 7-6.`};
     raw.push([a,b]);
   }
-  if (!raw[0] || !raw[1]) return {err: !raw[0] ? 'Falta el resultado del set 1.' : 'Falta el resultado del set 2. El partido se juega al mejor de 3 sets.'};
-  const w1 = raw[0][0]>raw[0][1], w2 = raw[1][0]>raw[1][1];
-  if (w1===w2 && raw[2]) return {err:'El partido ya estaba decidido 2-0 tras el segundo set. Deja vacío el set 3.'};
-  if (w1!==w2 && !raw[2]) return {err:'Con 1-1 en sets falta el resultado del set 3.'};
-  return {sets: raw.filter(Boolean)};
+  if (!raw[0]) return {err:'Falta el resultado del set 1.'};
+  if (!validSet(...raw[0])) return {err:`El set 1 (${raw[0][0]}-${raw[0][1]}) no es un resultado posible. Un set acaba 6-0 a 6-4, 7-5 o 7-6.`};
+  if (!raw[1]) return {err:'Falta el resultado del set 2. El partido se juega al mejor de 3 sets.'};
+  const unfinished = [];
+  const fin2 = validSet(...raw[1]);
+  if (!fin2){
+    unfinished.push(2);
+    if (raw[2]) return {err:'El set 2 no está terminado, así que el set 3 debe quedar vacío.'};
+  } else {
+    const w1 = raw[0][0]>raw[0][1], w2 = raw[1][0]>raw[1][1];
+    if (w1===w2 && raw[2]) return {err:'El partido ya estaba decidido 2-0 tras el segundo set. Deja vacío el set 3.'};
+    if (w1!==w2 && !raw[2]) unfinished.push(3);
+    if (raw[2] && !validSet(...raw[2])) unfinished.push(3);
+  }
+  const sets = raw.filter(Boolean);
+  const r = result({sets});
+  if (r.sa===r.sb && r.ga===r.gb && !allowDraw) return {err:'Con este resultado el partido queda empatado a sets y a juegos, así que no hay ganador. Revisa los marcadores.'};
+  return {sets, unfinished, draw: r.draw};
+}
+function unfinishedText(ps){
+  const r = result({sets:ps.sets});
+  const parts = ps.unfinished.map(n => { const st = ps.sets[n-1]; return st ? `el set ${n} (${st[0]}-${st[1]}) no está terminado` : `falta jugar el set ${n}`; });
+  const how = r.draw ? `El partido queda en empate (${r.sa}-${r.sb} en sets y ${r.ga}-${r.gb} en juegos).` : r.sa!==r.sb ? `Gana la pareja ${r.aWins?1:2} por sets (${Math.max(r.sa,r.sb)}-${Math.min(r.sa,r.sb)}).` : `Van empatados a sets: gana la pareja ${r.aWins?1:2} por juegos (${Math.max(r.ga,r.gb)}-${Math.min(r.ga,r.gb)}).`;
+  return `Según el marcador, ${parts.join(' y ')}. ${how} ¿Quieres guardar el resultado igualmente?`;
 }
 
 /* ---------- tournaments ---------- */
@@ -1052,6 +1197,8 @@ function roundName(matches){ return matches===1?'Final':matches===2?'Semifinales
 function koLabel(G,Q){ if(!Q) return 'Solo fase de grupos'; let N=2; while(N<G*Q) N*=2; return `${G*Q} parejas a ${roundName(N/2).toLowerCase()}${N>G*Q?' (con pases directos)':''}`; }
 
 function tState(t){
+  if (t.type==='americano') return amState(t);
+  if (t.type==='pozo') return pozoState(t);
   const R = {...(t.results||{})}; for (const [k,v] of S.tres) if (k.startsWith(t.id+'~')) R[k.slice(t.id.length+1)] = v;
   const groups = (t.groups||[]).map((g,gi) => {
     const n = g.teams.length, matches = [];
@@ -1103,7 +1250,7 @@ function tState(t){
 function tournamentMatches(){
   const out = [];
   for (const t of S.tournaments.values()){
-    if (t.count===false) continue;
+    if (t.count===false || t.type==='pozo' || t.type==='americano') continue;
     const ts = tState(t);
     ts.groups.forEach(g => g.matches.forEach(m => { if (m.sets) out.push({id:t.id+'-'+m.key, date:t.date, a:[...g.teams[m.i]], b:[...g.teams[m.j]], sets:m.sets, at:t.createdAt||0, tname:t.name, tid:t.id}); }));
     ts.rounds.forEach(rd => rd.forEach(m => { if (m.sets && m.top.team && m.bot.team) out.push({id:t.id+'-'+m.key, date:t.date, a:[...m.top.team], b:[...m.bot.team], sets:m.sets, at:(t.createdAt||0)+1+m.r, tname:t.name, tid:t.id}); }));
@@ -1136,8 +1283,8 @@ function viewTournaments(){
     ${list.map(t => { const ts=tState(t); const pr = ts.total? ts.done/ts.total : 0;
       return `<a class="tcard" href="#torneo-${esc(t.id)}">
         <span class="ico ${ts.champion?'gold':''}">${ts.champion?'1º':esc(initials(t.name))}</span>
-        <span style="min-width:0"><span class="tn">${esc(t.name)}</span><br><span class="small muted">${fmtDay(t.date)} · ${t.groups.length} grupo${t.groups.length===1?'':'s'} · ${t.groups.reduce((a,g)=>a+g.teams.length,0)} parejas</span>
-          ${ts.champion?`<br><span class="small"><strong>Campeones:</strong> ${esc(pairName(ts.champion))}</span>`:''}</span>
+        <span style="min-width:0"><span class="tn">${esc(t.name)}</span><br><span class="small muted">${fmtDay(t.date)} · ${t.type==='pozo'||t.type==='americano' ? `Pozo americano · ${(t.players||[]).length} jugadores` : `${t.groups.length} grupo${t.groups.length===1?'':'s'} · ${t.groups.reduce((a,g)=>a+g.teams.length,0)} parejas`}</span>
+          ${ts.champion?`<br><span class="small"><strong>${t.type==='pozo'||t.type==='americano'?'Ganador':'Campeones'}:</strong> ${esc(pairName(ts.champion))}</span>`:''}</span>
         <span class="stack" style="gap:6px;align-items:flex-end">${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}
           <span class="progress" title="${ts.done} de ${ts.total} partidos"><i style="width:${Math.round(pr*100)}%"></i></span></span>
       </a>`; }).join('')}
@@ -1147,6 +1294,8 @@ function viewTournaments(){
 function viewTournament(id){
   const t = S.tournaments.get(id);
   if (!t) return `<div class="note">Este torneo no existe o se ha borrado. <a href="#torneos">Volver a torneos</a></div>`;
+  if (t.type==='americano') return viewAmericano(t);
+  if (t.type==='pozo') return viewPozo(t);
   const ts = tState(t), Q = t.qualify||0, edit = canEditT();
   const groupHtml = g => {
     const gi = g.name.charCodeAt(0)-65;
@@ -1193,10 +1342,237 @@ function viewTournament(id){
   </section>`;
 }
 
-function tfDefaults(){ return {name:'', date:today(), G:2, P:4, Q:2, count:true, slots:{}}; }
+function tfDefaults(){ return {name:'', date:today(), G:2, P:4, Q:2, count:true, slots:{}, type:'grupos', pp:[], rounds:0, order:'azar'}; }
+
+/* Americano "todos con todos": every player partners every other player once (round-robin of pairs),
+   and pairs are matched up inside each round so that opponents are spread as evenly as possible. */
+// Perfect "whist" tables (found by search and verified): over all rounds every player partners each other player
+// exactly once and faces each other player exactly twice. Index N-1 is the fixed player; the rest rotate mod N-1.
+const WHIST = {4:[[3,0,1,2]], 8:[[7,2,3,0],[5,4,1,6]], 12:[[11,10,2,1],[6,4,0,7],[3,9,5,8]], 16:[[15,6,8,14],[13,5,2,3],[4,7,12,1],[11,9,0,10]]};
+// N = 4k+1: perfect cyclic tables over Z_N (one player rests each round, a different one every round).
+const WHIST1 = {5:[[3,2,4,1]], 13:[[3,5,8,12],[6,1,7,4],[11,10,9,2]]};
+function amOptions(N){
+  const k = Math.floor(N/4); if (k<1 || N>16) return null;
+  const ideal = N%4===0 ? N-1 : N%4===1 ? N : Math.ceil(N*(N-1)/(4*k));
+  // recommended: the number of rounds closest to the ideal in which everybody plays the same number of matches
+  let def = ideal;
+  if (N%4>1){ let bestD = Infinity; for (let r=1; r<=2*ideal; r++) if ((4*k*r) % N === 0){ const d = Math.abs(r-ideal); if (d < bestD || (d===bestD && r>def)){ bestD = d; def = r; } } }
+  const Rmax = Math.max(ideal, def) + (N%4>1 ? Math.ceil(N/(4*k)) : 0);
+  return {k, rest:N-4*k, ideal, Rmax, def, plays: r => 4*k*r/N, perfect: N%4<=1};
+}
+function buildAmericano(players, nRounds){
+  const N = players.length, m = N-1;
+  if (WHIST1[N]){
+    const rounds = [];
+    for (let r=0; r<Math.min(nRounds||N, N); r++) rounds.push(WHIST1[N].map(q => q.map(v => players[(v+r)%N])));
+    return rounds;
+  }
+  if (N%4 !== 0) return buildAmericanoRest(players, nRounds || amOptions(N).def);
+  if (WHIST[N]){
+    const rounds = [];
+    for (let r=0; r<Math.min(nRounds||m, m); r++)
+      rounds.push(WHIST[N].map(q => q.map(v => players[v===m ? m : (v+r)%m])));
+    return rounds;
+  }
+  return buildAmericanoSearch(players, nRounds);
+}
+/* N not 4k or 4k+1: rounds with rotating rests. Random restarts, keep the most balanced schedule:
+   rests spread evenly, partners repeated as little as possible, opponents spread. */
+function buildAmericanoRest(players, R){
+  const N = players.length, k = Math.floor(N/4), key = (a,b) => a<b ? a+'|'+b : b+'|'+a;
+  const tries = N<=8 ? 300 : N<=12 ? 120 : 60, samples = N<=8 ? 80 : 50;
+  const shuffle = a => { for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+  let best = null, bestScore = Infinity;
+  for (let t=0; t<tries; t++){
+    const part = {}, opp = {}, rests = {}; players.forEach(p => rests[p]=0);
+    const rounds = [];
+    for (let r=0; r<R; r++){
+      const order = shuffle(players.slice()).sort((a,b) => rests[a]-rests[b]);
+      const resting = order.slice(0, N-4*k), playing = order.slice(N-4*k);
+      resting.forEach(p => rests[p]++);
+      let bg = null, bc = Infinity;
+      for (let sI=0; sI<samples; sI++){
+        const q = shuffle(playing.slice()); let c = 0;
+        for (let i=0;i<q.length;i+=4){ const [a,b,cc,d] = q.slice(i,i+4);
+          c += 60*Math.pow(part[key(a,b)]||0,2) + 60*Math.pow(part[key(cc,d)]||0,2);
+          for (const x of [a,b]) for (const y of [cc,d]) c += Math.pow(opp[key(x,y)]||0,2); }
+        if (c < bc){ bc = c; bg = q; }
+      }
+      const ms = [];
+      for (let i=0;i<bg.length;i+=4){ const [a,b,cc,d] = bg.slice(i,i+4); ms.push([a,b,cc,d]);
+        part[key(a,b)] = (part[key(a,b)]||0)+1; part[key(cc,d)] = (part[key(cc,d)]||0)+1;
+        for (const x of [a,b]) for (const y of [cc,d]) opp[key(x,y)] = (opp[key(x,y)]||0)+1; }
+      rounds.push(ms);
+    }
+    let sc = 0; const rv = Object.values(rests); sc += 200*(Math.max(...rv)-Math.min(...rv));
+    for (let i=0;i<N;i++) for (let j=i+1;j<N;j++){ const kk = key(players[i],players[j]); sc += 40*Math.pow(Math.max(0,(part[kk]||0)-1),2) + 25*((part[kk]||0)===0?1:0) + Math.pow((opp[kk]||0)-2,2); }
+    if (sc < bestScore){ bestScore = sc; best = rounds; }
+  }
+  return best;
+}
+function buildAmericanoSearch(players, nRounds){
+  // try several labelings of the round-robin and keep the one where opponents are spread most evenly
+  const N = players.length, tries = N<=8 ? 400 : N<=12 ? 120 : 40;
+  let best = null, bs = Infinity;
+  for (let t=0; t<tries; t++){
+    const p = players.slice(); if (t) for (let i=p.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [p[i],p[j]]=[p[j],p[i]]; }
+    const sch = buildAmericanoOnce(p, nRounds), opp = {};
+    for (const rd of sch) for (const [a,b,c,d] of rd) for (const x of [a,b]) for (const y of [c,d]){ const k = x<y ? x+'|'+y : y+'|'+x; opp[k] = (opp[k]||0)+1; }
+    const target = 2*sch.length/(N-1); let sc = 0;
+    for (let i=0;i<N;i++) for (let j=i+1;j<N;j++){ const a=players[i], b=players[j], k = a<b ? a+'|'+b : b+'|'+a, v = opp[k]||0; sc += Math.pow(v-target,2) + (v===0 ? 3 : 0); }
+    if (sc < bs){ bs = sc; best = sch; }
+  }
+  return best;
+}
+function buildAmericanoOnce(players, nRounds){
+  const N = players.length, x = players.slice(1), R = N-1, opp = {};
+  const k = (a,b) => a<b ? a+'|'+b : b+'|'+a;
+  const groupings = arr => { if (!arr.length) return [[]]; const [f,...rest] = arr, out = [];
+    rest.forEach((p,i) => { const others = rest.filter((_,j)=>j!==i); for (const g of groupings(others)) out.push([[f,p], ...g]); }); return out; };
+  const add = (g, d) => { for (const [A,B] of g) for (const a of A) for (const b of B) opp[k(a,b)] = (opp[k(a,b)]||0)+d; };
+  const cost = g => g.reduce((t,[A,B]) => t + A.reduce((u,a)=>u+B.reduce((w,b)=>w+Math.pow((opp[k(a,b)]||0)+1,2),0),0), 0);
+  const roundPairs = [], options = [], chosen = [];
+  for (let r=0; r<Math.min(nRounds||R, R); r++){
+    const pairs = [[players[0], x[r % R]]];
+    for (let i=1;i<N/2;i++) pairs.push([x[(r+i)%R], x[(r-i+R*2)%R]]);
+    roundPairs.push(pairs); options.push(groupings(pairs));
+  }
+  // greedy first pass, then a few passes of coordinate descent (re-pick each round's grouping given all the others)
+  for (let r=0; r<options.length; r++){ let b=null, bc=Infinity; for (const g of options[r]){ const c=cost(g); if (c<bc){bc=c;b=g;} } chosen[r]=b; add(b,1); }
+  for (let pass=0; pass<6; pass++){ let changed = false;
+    for (let r=0; r<options.length; r++){ add(chosen[r],-1); let b=chosen[r], bc=cost(b);
+      for (const g of options[r]){ const c=cost(g); if (c<bc){bc=c;b=g;} }
+      if (b!==chosen[r]) changed = true; chosen[r]=b; add(b,1); }
+    if (!changed) break; }
+  return chosen.map(g => g.map(([A,B]) => [A[0],A[1],B[0],B[1]]));
+}
+
+function amState(t){
+  const R = {...(t.results||{})}; for (const [k,v] of S.tres) if (k.startsWith(t.id+'~')) R[k.slice(t.id.length+1)] = v;
+  const st = {}; (t.players||[]).forEach((id,i) => st[id] = {id, pj:0, pg:0, pp:0, gf:0, gc:0, seed:i});
+  const rounds = (t.schedule||[]).map((rd, r) => rd.map((q, c) => { const key = `m${r}-${c}`, x = R[key];
+    return {key, r, c, A:[q[0],q[1]], B:[q[2],q[3]], sets: x && x.sets ? x.sets.map(s=>[...s]) : null}; }));
+  let done = 0, total = 0;
+  for (const rd of rounds) for (const m of rd){ total++; if (!m.sets) continue; done++; const [a,b] = m.sets[0];
+    for (const [team, gf, gc, won] of [[m.A,a,b,a>b],[m.B,b,a,b>a]]) for (const id of team){ const s = st[id]; if (!s) continue; s.pj++; won ? s.pg++ : s.pp++; s.gf+=gf; s.gc+=gc; } }
+  const standings = Object.values(st).sort((p,q)=> ((q.gf-q.gc)-(p.gf-p.gc)) || ((q.pg-q.pp)-(p.pg-p.pp)) || (q.gf-p.gf) || (p.seed-q.seed));
+  const finished = total>0 && done===total;
+  return {type:'americano', rounds, standings, total, done, finished, champion: finished && standings[0] ? [standings[0].id] : null, nC: rounds[0]?rounds[0].length:0, NR: rounds.length, groups:[]};
+}
+function viewAmericano(t){
+  const ts = amState(t), edit = canEditT(), N = (t.players||[]).length;
+  const teamTxt = tm => esc(tm.map(id=>nick(id)).join(' + '));
+  const card = m => { const won = m.sets ? (m.sets[0][0]>m.sets[0][1] ? 'A' : 'B') : null;
+    return `<div class="pzcourt ${m.sets?'':'todo'}">
+      <div class="pzhead"><span>Pista ${m.c+1}</span>${edit ? `<button class="btn link" data-pzedit="${esc(m.key)}">${m.sets?'Editar':'Apuntar'}</button>`:''}</div>
+      <div class="pzteam ${won==='A'?'w':''}">${teamAvs(m.A)}<span>${teamTxt(m.A)}</span><strong>${m.sets?m.sets[0][0]:'–'}</strong></div>
+      <div class="pzteam ${won==='B'?'w':''}">${teamAvs(m.B)}<span>${teamTxt(m.B)}</span><strong>${m.sets?m.sets[0][1]:'–'}</strong></div>
+      ${S.tEdit===m.key ? `<form class="pzedit" data-pzsave="${esc(m.key)}">
+        <label class="f">${teamTxt(m.A)}<input type="number" id="pz-a" min="0" max="99" inputmode="numeric" value="${m.sets?m.sets[0][0]:''}" required></label>
+        <label class="f">${teamTxt(m.B)}<input type="number" id="pz-b" min="0" max="99" inputmode="numeric" value="${m.sets?m.sets[0][1]:''}" required></label>
+        <div class="row" style="gap:6px"><button class="btn primary" type="submit">Guardar</button><button class="btn link" type="button" data-tcancel>Cancelar</button>${m.sets && isAdmin()?`<button class="btn link danger" type="button" data-pzclear="${esc(m.key)}">Borrar resultado</button>`:''}</div>
+        <p class="small muted" style="margin:0;flex-basis:100%">Apunta los juegos que hizo cada pareja, aunque no se terminara el set (por ejemplo 4-3).</p>
+        <div class="note err" id="pzErr" hidden style="flex-basis:100%"></div></form>`:''}
+    </div>`; };
+  const nextR = ts.rounds.findIndex(rd => rd.some(m=>!m.sets));
+  return `<section class="stack">
+    <div class="row spread"><div><a href="#torneos" class="small muted">← Torneos</a><h2 style="font-size:28px">${esc(t.name)}</h2>
+      <div class="chips" style="margin-top:6px"><span class="chip">${fmtDay(t.date)}</span><span class="chip">Pozo americano · todos contra todos</span><span class="chip">${N} jugadores · ${ts.nC} pista${ts.nC===1?'':'s'}${N-4*ts.nC>0?` · descansa${N-4*ts.nC>1?'n':''} ${N-4*ts.nC}`:''}</span><span class="chip">${ts.NR} rondas</span>${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}</div></div>
+      <div class="stack" style="gap:6px;align-items:flex-end"><span class="small muted">${ts.done} de ${ts.total} partidos</span><span class="progress"><i style="width:${ts.total?Math.round(100*ts.done/ts.total):0}%"></i></span></div></div>
+    ${ts.champion?`<div class="champ"><span class="cup">1º</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Ganador del pozo</div><div class="cn">${esc(nick(ts.champion[0]))}</div></div></div>`:''}
+    <div class="panel"><h3>Clasificación individual</h3>
+      <div style="overflow-x:auto"><table class="pztable"><thead><tr><th>#</th><th class="l">Jugador</th><th title="Juegos ganados menos juegos perdidos">Dif. juegos</th><th title="Partidos ganados menos perdidos">G − P</th><th>Juegos</th><th>PJ</th></tr></thead><tbody>
+      ${ts.standings.map((s,i)=>`<tr${i===0&&ts.done?' class="lead"':''}><td>${i+1}</td><td class="l"><span class="pname">${av(s.id)}<span>${esc(nick(s.id))}</span></span></td><td><strong>${s.gf-s.gc>0?'+':''}${s.gf-s.gc}</strong></td><td>${s.pg-s.pp>0?'+':''}${s.pg-s.pp}</td><td>${s.gf}-${s.gc}</td><td>${s.pj}</td></tr>`).join('')}
+      </tbody></table></div>
+      <p class="small muted" style="margin:8px 0 0">Orden: 1º juegos ganados menos perdidos; 2º partidos ganados menos perdidos.${(()=>{ const pj = ts.standings.map(s=>s.pj); return ts.finished && Math.max(...pj)!==Math.min(...pj) ? ' Ojo: no todos han jugado el mismo número de partidos.' : ''; })()}</p></div>
+    <div class="stack" style="gap:12px"><h3 style="margin:0">Cuadro de partidos</h3>
+      <p class="small muted" style="margin:-6px 0 0">${N%4<=1 ? 'Cada jugador hace pareja una vez con cada uno de los demás y se enfrenta a todos.' : 'Las parejas y los descansos se reparten de la forma más equilibrada posible.'} Podéis apuntar los resultados en cualquier orden.</p>
+      ${ts.rounds.map((rd,r)=>`<div class="amround ${r===nextR?'now':''}"><div class="row spread"><strong>Ronda ${r+1}${(()=>{ const inR = new Set(rd.flatMap(m=>[...m.A,...m.B])); const rs = (t.players||[]).filter(p=>!inR.has(p)); return rs.length ? ` <span class="small muted" style="font-weight:400">· descansa${rs.length>1?'n':''} ${esc(rs.map(nick).join(', '))}</span>` : ''; })()}</strong>${rd.every(m=>m.sets)?'<span class="tag" style="background:var(--win-bg);color:var(--win)">Jugada</span>':r===nextR?'<span class="tag" style="background:var(--gold);color:#3a2c00">Siguiente</span>':''}</div><div class="pzgrid">${rd.map(card).join('')}</div></div>`).join('')}
+    </div>
+    ${isAdmin()?`<div><button class="btn link danger" data-tdelask>Borrar torneo</button></div>`:''}
+  </section>`;
+}
+
+function pozoState(t){
+  const R = {...(t.results||{})}; for (const [k,v] of S.tres) if (k.startsWith(t.id+'~')) R[k.slice(t.id.length+1)] = v;
+  const P = (t.players||[]).filter(Boolean), nC = Math.floor(P.length/4), NR = t.rounds||5;
+  const st = {}; P.forEach((id,i) => st[id] = {id, pj:0, pg:0, gf:0, gc:0, court:Math.floor(i/4), seed:i});
+  let courts = []; for (let c=0;c<nC;c++) courts.push(P.slice(c*4, c*4+4));
+  const rounds = []; let done = 0;
+  for (let r=0; r<NR; r++){
+    const ms = courts.map((q,c) => { const key=`r${r}-c${c}`, x=R[key]; return {key, r, c, A:[q[0],q[3]], B:[q[1],q[2]], sets: x && x.sets ? x.sets.map(s=>[...s]) : null}; });
+    rounds.push(ms);
+    ms.forEach(m => [...m.A, ...m.B].forEach(id => { if (st[id]) st[id].court = m.c; }));
+    for (const m of ms) if (m.sets){ const [a,b] = m.sets[0]; done++;
+      for (const [team, gf, gc, won] of [[m.A,a,b,a>b],[m.B,b,a,b>a]]) for (const id of team){ const s=st[id]; if (!s) continue; s.pj++; if (won) s.pg++; s.gf+=gf; s.gc+=gc; } }
+    if (!ms.every(m => m.sets) || r===NR-1) break;
+    const next = Array.from({length:nC}, () => []);
+    for (const m of ms){ const [a,b] = m.sets[0], W = a>b ? m.A : m.B, L = a>b ? m.B : m.A;
+      next[Math.max(0, m.c-1)].push(...W); next[Math.min(nC-1, m.c+1)].push(...L); }
+    courts = next;
+  }
+  const standings = Object.values(st).sort((x,y)=> (y.gf-x.gf) || (y.pg-x.pg) || ((y.gf-y.gc)-(x.gf-x.gc)) || (x.court-y.court) || (x.seed-y.seed));
+  const total = nC*NR, finished = total>0 && done===total;
+  return {type:'pozo', rounds, standings, total, done, finished, champion: finished && standings[0] ? [standings[0].id] : null, nC, NR, groups:[]};
+}
+
+function viewPozo(t){
+  const ts = pozoState(t), edit = canEditT(), cur = ts.rounds[ts.rounds.length-1] || [];
+  const curDone = cur.length && cur.every(m=>m.sets);
+  const teamTxt = tm => esc(tm.map(id=>nick(id)).join(' + '));
+  const courtCard = (m, editable) => {
+    const won = m.sets ? (m.sets[0][0]>m.sets[0][1] ? 'A' : 'B') : null;
+    return `<div class="pzcourt ${m.c===0?'top':''}">
+      <div class="pzhead"><span>Pista ${m.c+1}${m.c===0?' · la de arriba':m.c===ts.nC-1&&ts.nC>1?' · la de abajo':''}</span>${editable && edit ? `<button class="btn link" data-pzedit="${esc(m.key)}">${m.sets?'Editar':'Apuntar'}</button>`:''}</div>
+      <div class="pzteam ${won==='A'?'w':''}">${teamAvs(m.A)}<span>${teamTxt(m.A)}</span><strong>${m.sets?m.sets[0][0]:'–'}</strong></div>
+      <div class="pzteam ${won==='B'?'w':''}">${teamAvs(m.B)}<span>${teamTxt(m.B)}</span><strong>${m.sets?m.sets[0][1]:'–'}</strong></div>
+      ${S.tEdit===m.key && editable ? `<form class="pzedit" data-pzsave="${esc(m.key)}">
+        <label class="f">${teamTxt(m.A)}<input type="number" id="pz-a" min="0" max="99" inputmode="numeric" value="${m.sets?m.sets[0][0]:''}" required></label>
+        <label class="f">${teamTxt(m.B)}<input type="number" id="pz-b" min="0" max="99" inputmode="numeric" value="${m.sets?m.sets[0][1]:''}" required></label>
+        <div class="row" style="gap:6px"><button class="btn primary" type="submit">Guardar</button><button class="btn link" type="button" data-tcancel>Cancelar</button></div>
+        <div class="note err" id="pzErr" hidden style="flex-basis:100%"></div></form>`:''}
+    </div>`;
+  };
+  const canDel = isAdmin();
+  return `<section class="stack">
+    <div class="row spread"><div><a href="#torneos" class="small muted">← Torneos</a><h2 style="font-size:28px">${esc(t.name)}</h2>
+      <div class="chips" style="margin-top:6px"><span class="chip">${fmtDay(t.date)}</span><span class="chip">Pozo americano</span><span class="chip">${(t.players||[]).length} jugadores · ${ts.nC} pista${ts.nC===1?'':'s'}</span><span class="chip">${ts.NR} rondas</span>${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}</div></div>
+      <div class="stack" style="gap:6px;align-items:flex-end"><span class="small muted">${ts.done} de ${ts.total} partidos</span><span class="progress"><i style="width:${ts.total?Math.round(100*ts.done/ts.total):0}%"></i></span></div></div>
+    ${ts.champion?`<div class="champ"><span class="cup">1º</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Ganador del pozo</div><div class="cn">${esc(nick(ts.champion[0]))}</div></div></div>`:''}
+    ${!ts.finished ? `<div class="panel stack" style="gap:12px"><div class="row spread"><h3 style="margin:0">Ronda ${cur[0]?cur[0].r+1:1} de ${ts.NR}</h3>${curDone?'<span class="small muted">Ronda completa</span>':`<span class="small muted">${cur.filter(m=>m.sets).length}/${cur.length} pistas apuntadas</span>`}</div>
+      <div class="pzgrid">${cur.map(m=>courtCard(m, true)).join('')}</div>
+      <p class="small muted" style="margin:0">Apunta los juegos de cada pareja. Al completar la ronda, los ganadores suben una pista, los perdedores bajan y se cambian las parejas.</p></div>` : ''}
+    <div class="panel"><h3>Clasificación individual</h3>
+      <div style="overflow-x:auto"><table class="pztable"><thead><tr><th>#</th><th class="l">Jugador</th><th>Juegos</th><th>Ganados</th><th>Dif.</th><th>Pista</th></tr></thead><tbody>
+      ${ts.standings.map((s,i)=>`<tr${i===0&&ts.done?' class="lead"':''}><td>${i+1}</td><td class="l"><span class="pname">${av(s.id)}<span>${esc(nick(s.id))}</span></span></td><td><strong>${s.gf}</strong></td><td>${s.pg}/${s.pj}</td><td>${s.gf-s.gc>0?'+':''}${s.gf-s.gc}</td><td>${s.court+1}</td></tr>`).join('')}
+      </tbody></table></div>
+      <p class="small muted" style="margin:8px 0 0">Gana quien más juegos sume. Si empatan: más partidos ganados, después mejor diferencia de juegos.</p></div>
+    ${ts.rounds.filter(rd=>rd.every(m=>m.sets) && rd!==cur).length || (ts.finished && ts.rounds.length) ? `<details class="panel"><summary style="cursor:pointer;font-weight:700">Rondas jugadas</summary><div class="stack" style="gap:12px;margin-top:12px">
+      ${ts.rounds.filter(rd=>rd.every(m=>m.sets) && (ts.finished || rd!==cur)).map(rd=>`<div><h3>Ronda ${rd[0].r+1}</h3><div class="pzgrid">${rd.map(m=>courtCard(m,false)).join('')}</div></div>`).join('')}
+    </div></details>`:''}
+    ${canDel?`<div><button class="btn link danger" data-tdelask>Borrar torneo</button></div>`:''}
+  </section>`;
+}
+
+function pozoFields(f, ps){
+  const n = f.pp.length, o = amOptions(n), ok = !!o;
+  const rounds = ok ? (f.rounds && f.rounds<=o.Rmax ? f.rounds : o.def) : 0;
+  const lab = r => { const p = o.plays(r); return Number.isInteger(p) ? `${r} · todos juegan ${p}` : `${r} · unos ${Math.floor(p)} y otros ${Math.ceil(p)} partidos`; };
+  return `<div>
+      <div class="row spread" style="margin-bottom:10px"><h3 style="margin:0">Jugadores</h3><span class="row" style="gap:4px"><button class="btn link" type="button" id="pzAll">Todos</button><button class="btn link" type="button" id="pzNone">Ninguno</button></span></div>
+      <div class="pzpick">${ps.map(p=>`<label class="pzp ${f.pp.includes(p.id)?'on':''}"><input type="checkbox" data-pp="${esc(p.id)}"${f.pp.includes(p.id)?' checked':''}>${av(p.id)}<span>${esc(p.nick)}</span></label>`).join('')}</div>
+      <p class="small ${ok?'':'muted'}" style="margin:10px 0 0">${n} elegido${n===1?'':'s'} · ${ok?`<strong>${o.k} pista${o.k===1?'':'s'}</strong>${o.rest?` · descansa${o.rest>1?'n':''} ${o.rest} por ronda`:''}`:'elige entre 4 y 16 jugadores'}</p>
+    </div>
+    ${ok?`<div class="row">
+      <label class="f">Rondas<select id="pzR">${Array.from({length:o.Rmax},(_,i)=>o.Rmax-i).map(r=>`<option value="${r}"${r===rounds?' selected':''}>${lab(r)}${r===o.def?' (recomendado)':''}</option>`).join('')}</select></label>
+    </div>
+    <div class="chips"><span class="chip">${rounds*o.k} partidos</span><span class="chip">${rounds} ronda${rounds===1?'':'s'}</span>${o.perfect && rounds===o.ideal?'<span class="chip live">Cada uno hace pareja con todos una vez</span>':rounds>=o.ideal?'<span class="chip live">Parejas y descansos lo más repartidos posible</span>':'<span class="chip">Con menos rondas no todos coinciden de pareja</span>'}</div>`:''}
+    <p class="small muted" style="margin:0">Clasificación individual: primero juegos ganados menos perdidos, después partidos ganados menos perdidos. No cuenta para el ranking general.</p>`;
+}
+
 function viewTournamentNew(){
   if (!isAdmin()) return `<div class="note">Solo los administradores pueden crear torneos.</div>`;
-  const f = S.tf ||= tfDefaults();
+  const f = S.tf = {...tfDefaults(), ...(S.tf||{})};
   const ps = [...S.players.values()].sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
   const need = f.G*f.P*2;
   const opt = (n, sel) => `<option value="${n}"${n===sel?' selected':''}>${n}</option>`;
@@ -1211,10 +1587,15 @@ function viewTournamentNew(){
   return `<section class="panel stack">
     <div><a href="#torneos" class="small muted">← Torneos</a><h2>Nuevo torneo</h2></div>
     <form id="tForm" class="stack" style="gap:16px">
+      <div class="typepick" role="radiogroup" aria-label="Tipo de torneo">
+        <button type="button" class="tpick ${f.type!=='americano'?'on':''}" data-ttype="grupos" role="radio" aria-checked="${f.type!=='americano'}"><strong>Convencional</strong><span>Parejas fijas, grupos y cuadro final</span></button>
+        <button type="button" class="tpick ${f.type==='americano'?'on':''}" data-ttype="americano" role="radio" aria-checked="${f.type==='americano'}"><strong>Pozo americano</strong><span>Individual: todos juegan con todos y contra todos</span></button>
+      </div>
       <div class="row">
         <label class="f" style="flex:2 1 240px">Nombre del torneo<input type="text" id="tName" maxlength="50" placeholder="Ej. Torneo de Navidad 2026" value="${esc(f.name)}" required></label>
         <label class="f">Fecha<input type="date" id="tDate" value="${esc(f.date)}" required></label>
       </div>
+      ${f.type==='americano' ? pozoFields(f, ps) : `
       <div class="row">
         <label class="f">Número de grupos<select id="tG">${[1,2,3,4,5,6,7,8].map(n=>opt(n,f.G)).join('')}</select></label>
         <label class="f">Parejas por grupo<select id="tP">${[2,3,4,5,6,7,8].map(n=>opt(n,f.P)).join('')}</select></label>
@@ -1224,9 +1605,9 @@ function viewTournamentNew(){
       <label class="check"><input type="checkbox" id="tCount"${f.count?' checked':''}> Contar estos partidos en la clasificación general</label>
       <div>
         <div class="row spread" style="margin-bottom:10px"><h3 style="margin:0">Parejas</h3><span class="row"><button class="btn" type="button" id="tRandom">Repartir al azar</button><button class="btn link" type="button" id="tClear">Vaciar</button></span></div>
-        ${ps.length<need?`<p class="note" style="margin:0 0 10px">Hacen falta ${need} jugadores y hay ${ps.length}. Añade a los que faltan desde la clasificación («Añadir un amigo que aún no tiene cuenta») o reduce grupos o parejas.</p>`:''}
+        ${ps.length<need?`<p class="note" style="margin:0 0 10px">Hacen falta ${need} jugadores (${need/2} parejas) y hay ${ps.length}. Añade a los que faltan desde la clasificación («Añadir un amigo que aún no tiene cuenta») o reduce grupos o parejas.</p>`:''}
         <div class="slotgrid">${grid}</div>
-      </div>
+      </div>`}
       <div id="tFormErr" class="note err" hidden></div>
       <div class="row"><button class="btn primary" type="submit" id="tSave">Crear torneo</button><a class="btn link" href="#torneos">Cancelar</a></div>
     </form>
@@ -1240,18 +1621,48 @@ function bindTournaments(v){
   const tid = v.startsWith('torneo-') ? v.slice(7) : null;
   app.querySelectorAll('[data-tsave]').forEach(f => f.onsubmit = e => { e.preventDefault();
     const r = readSets(); if (r.err){ const el=$('#tErr'); el.textContent=r.err; el.hidden=false; return; }
-    const key=f.dataset.tsave; S.tEdit=null;
-    write(()=>S.db.doc('tresults/'+tid+'~'+key).set({tid, key, sets:r.sets, by:S.uid, at:Date.now()}), 'Resultado guardado.'); });
+    const key=f.dataset.tsave;
+    const save = () => { S.tEdit=null; write(()=>S.db.doc('tresults/'+tid+'~'+key).set({tid, key, sets:r.sets, unfinished:!!r.unfinished.length, by:S.uid, at:Date.now()}), 'Resultado guardado.'); };
+    if (r.unfinished.length) askConfirm({title:'Partido no acabado', text:unfinishedText(r), actions:[{label:'Guardar resultado', run:save}]});
+    else save(); });
   app.querySelectorAll('[data-tclear]').forEach(b => b.onclick = () => { const key=b.dataset.tclear; askConfirm({title:'¿Borrar este resultado?', text:'El partido quedará pendiente y el grupo o el cuadro se recalcularán. No se puede deshacer.', actions:[{label:'Sí, borrar resultado', danger:true, run:()=>{ S.tEdit=null;
     write(()=>S.db.doc('tresults/'+tid+'~'+key).set({tid, key, sets:null, by:S.uid, at:Date.now()}), 'Resultado borrado.'); }}]}); });
   const da=$('[data-tdelask]'); if (da) da.onclick = () => { const t=S.tournaments.get(tid); askConfirm({title:'¿Borrar el torneo?', text:'Se borrarán el torneo, sus grupos y todos sus resultados. Si contaba para la clasificación, esos partidos dejarán de contar. No se puede deshacer.', detail:`<strong>${esc(t?.name||'')}</strong><br><span class="muted">${t?fmtDay(t.date):''}</span>`, actions:[{label:'Sí, borrar torneo', danger:true, run:()=>write(async()=>{ await S.db.doc('tournaments/'+tid).delete(); location.hash='torneos'; }, 'Torneo borrado.')}]}); };
   const dn=$('[data-tdelno]'); if (dn) dn.onclick = () => { S.tDel = null; render(); };
   const dy=$('[data-tdelyes]'); if (dy) dy.onclick = () => { S.tDel=null; write(async()=>{ await S.db.doc('tournaments/'+tid).delete(); location.hash='torneos'; }, 'Torneo borrado.'); };
 
+  app.querySelectorAll('[data-pzedit]').forEach(b => b.onclick = () => { S.tEdit = b.dataset.pzedit; render(); const i=$('#pz-a'); if (i) i.focus(); });
+  app.querySelectorAll('[data-pzclear]').forEach(b => b.onclick = () => { const key=b.dataset.pzclear; askConfirm({title:'¿Borrar este resultado?', text:'El partido quedará pendiente y la clasificación se recalculará.', actions:[{label:'Sí, borrar resultado', danger:true, run:()=>{ S.tEdit=null; write(()=>S.db.doc('tresults/'+tid+'~'+key).set({tid, key, sets:null, by:S.uid, at:Date.now()}), 'Resultado borrado.'); }}]}); });
+  app.querySelectorAll('[data-pzsave]').forEach(fm => fm.onsubmit = e => { e.preventDefault();
+    const a = +$('#pz-a').value, b2 = +$('#pz-b').value, er = $('#pzErr');
+    if (!Number.isInteger(a) || !Number.isInteger(b2) || a<0 || b2<0 || $('#pz-a').value==='' || $('#pz-b').value==='') { er.textContent='Escribe los juegos de las dos parejas.'; er.hidden=false; return; }
+    if (a===b2) { er.textContent='No puede haber empate: tiene que ganar una pareja.'; er.hidden=false; return; }
+    const key = fm.dataset.pzsave; S.tEdit = null;
+    write(()=>S.db.doc('tresults/'+tid+'~'+key).set({tid, key, sets:[[a,b2]], by:S.uid, at:Date.now()}), 'Resultado guardado.'); });
   const form = $('#tForm'); if (!form) return;
   const f = S.tf;
+  app.querySelectorAll('[data-ttype]').forEach(b => b.onclick = () => { f.type = b.dataset.ttype; render(); });
   $('#tName').oninput = e => f.name = e.target.value;
   $('#tDate').onchange = e => f.date = e.target.value;
+  if (f.type==='americano'){
+    const pr = $('#pzR'); if (pr) pr.onchange = e => { f.rounds = +e.target.value; render(); };
+    app.querySelectorAll('[data-pp]').forEach(c => c.onchange = () => { const id=c.dataset.pp; f.pp = c.checked ? [...new Set([...f.pp, id])] : f.pp.filter(x=>x!==id); render(); });
+    $('#pzAll').onclick = () => { f.pp = [...S.players.keys()]; render(); };
+    $('#pzNone').onclick = () => { f.pp = []; render(); };
+    form.onsubmit = e => { e.preventDefault();
+      const err = m => { const el=$('#tFormErr'); el.textContent=m; el.hidden=false; };
+      const name = f.name.trim(); if (!name) return err('Ponle nombre al torneo.');
+      const order = f.pp.filter(id => S.players.has(id)), n = order.length, o = amOptions(n);
+      if (!o) return err('Elige entre 4 y 16 jugadores.');
+      for (let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+      const rounds = f.rounds && f.rounds<=o.Rmax ? f.rounds : o.def;
+      const schedule = buildAmericano(order, rounds);
+      const id = 't' + rid().slice(1);
+      $('#tSave').disabled = true;
+      write(async()=>{ await S.db.doc('tournaments/'+id).set({type:'americano', name, date:f.date||today(), players:order, rounds, schedule, count:false, groups:[], results:{}, createdBy:S.uid, createdAt:Date.now()}); S.tf=null; location.hash='torneo-'+id; }, `Pozo «${name}» creado con ${schedule.reduce((t,rd)=>t+rd.length,0)} partidos.`);
+    };
+    return;
+  }
   $('#tCount').onchange = e => f.count = e.target.checked;
   $('#tG').onchange = e => { f.G = +e.target.value; render(); };
   $('#tP').onchange = e => { f.P = +e.target.value; if (f.Q>f.P) f.Q=f.P; render(); };
@@ -1291,12 +1702,65 @@ function evRsvps(eid){ const out=[]; for (const [uid,doc] of S.rsvp){ const r = 
 function evSummary(e){
   const rs = evRsvps(e.id), slots = e.slots||4;
   const yes = rs.filter(r=>r.play==='si').sort((a,b)=>(a.atSi||0)-(b.atSi||0));
-  return {rs, yes, starters:yes.slice(0,slots), bench:yes.slice(slots), maybe:rs.filter(r=>r.play==='duda'), no:rs.filter(r=>r.play==='no'), beer:rs.filter(r=>r.beer===true), slots};
+  return {rs, yes, starters:yes.slice(0,slots), bench:yes.slice(slots), maybe:rs.filter(r=>r.play==='duda'), subs:rs.filter(r=>r.play==='sup').sort((a,b)=>(a.at||0)-(b.at||0)), no:rs.filter(r=>r.play==='no'), beer:rs.filter(r=>r.beer===true), slots};
 }
 const isPast = e => (e.date||'') < today();
+const isoD = dt => dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+function seriesOccurrences(sr){
+  const out = []; if (!sr.start) return out;
+  const [y,m,d] = sr.start.split('-').map(Number); let dt = new Date(y, m-1, d);
+  const [ty,tm,td] = today().split('-').map(Number); const t0 = new Date(ty, tm-1, td);
+  const horizon = new Date(ty, tm-1, td+84), minPast = new Date(ty, tm-1, td-182);
+  const skip = new Set(sr.skip||[]);
+  while (dt <= horizon){
+    const iso = isoD(dt);
+    if (sr.until && iso > sr.until) break;
+    if (dt >= minPast && !skip.has(iso)) out.push({id:`${sr.id}_${iso}`, date:iso, time:sr.time||'', title:sr.title||'Partido', place:sr.place||'', slots:sr.slots||4, beers:sr.beers!==false, note:sr.note||'', seriesId:sr.id});
+    dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate()+7);
+  }
+  return out;
+}
+function allEvents(){
+  const out = [];
+  for (const e of S.events.values()){
+    if (e.kind==='series'){
+      for (const o of seriesOccurrences(e)){
+        if (o.date < today() && !evRsvps(o.id).length && !S.matches.some(m=>m.eventId===o.id)) continue; // past and empty: hide
+        out.push(o);
+      }
+    } else out.push(e);
+  }
+  return out;
+}
+const getEv = id => allEvents().find(e => e.id===id);
+const seriesList = () => [...S.events.values()].filter(e => e.kind==='series');
+const DIAS_PL = ['domingos','lunes','martes','miércoles','jueves','viernes','sábados'];
+
+const lsGet = k => { try { return localStorage.getItem(k); } catch(_){ return null; } };
+const lsSet = (k,v) => { try { localStorage.setItem(k,v); } catch(_){} };
+function promoNotices(){
+  if (!S.uid || S.status!=='ready') return '';
+  let out = '';
+  for (const e of allEvents()){
+    if ((e.date||'') < today()) continue;
+    const sm = evSummary(e), mine = sm.rs.find(r=>r.uid===S.uid); if (!mine) continue;
+    const status = sm.starters.some(r=>r.uid===S.uid) ? 'in' : sm.bench.some(r=>r.uid===S.uid) ? 'bench' : mine.play;
+    const k = 'ptg_ev_'+S.uid+'_'+e.id, prev = lsGet(k);
+    if (status==='in' && prev==='bench'){
+      out += `<div class="note ok row spread promo"><span><strong>¡Has entrado en el partido!</strong> ${esc(evWhen(e))}${e.place?' · '+esc(e.place):''}. Alguien se ha borrado y ya tienes plaza.</span><span class="row" style="gap:4px"><a class="btn" href="#calendario">Ver</a><button class="btn link" data-promook="${esc(e.id)}">Entendido</button></span></div>`;
+      continue;
+    }
+    if (prev !== status) lsSet(k, status);
+    const free = Math.max(0, sm.slots - sm.starters.length);
+    if (status==='sup' && free>0 && lsGet('ptg_sup_'+S.uid+'_'+e.id) !== String(sm.starters.length)){
+      out += `<div class="note row spread promo" style="background:var(--court-soft)"><span><strong>Queda ${free===1?'una plaza libre':free+' plazas libres'}</strong> en el partido del ${esc(evWhen(e))}. Eres suplente: ¿entras?</span><span class="row" style="gap:4px"><button class="btn primary" data-supjoin="${esc(e.id)}">Entrar a jugar</button><button class="btn link" data-supok="${esc(e.id)}" data-n="${sm.starters.length}">Ahora no</button></span></div>`;
+    }
+  }
+  return out;
+}
 
 function viewCalendar(){
-  const evs = [...S.events.values()].sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+  const evs = allEvents().sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
   const ym = S.calMonth || today().slice(0,7);
   const [Y,M] = ym.split('-').map(Number);
   const first = new Date(Y, M-1, 1), offset = (first.getDay()+6)%7, days = new Date(Y, M, 0).getDate();
@@ -1317,6 +1781,7 @@ function viewCalendar(){
     </div>
     ${S.calSel?`<div class="row spread"><h3 style="margin:0">${fmtDay(S.calSel)}</h3><button class="btn link" data-calall>Ver todas las próximas</button></div>`:`<h3 style="margin:0">Próximas convocatorias</h3>`}
     ${myPlayer()||!S.uid?'':`<p class="note" style="margin:0">Únete a la clasificación (arriba) para poder apuntarte.</p>`}
+    ${isAdmin() && seriesList().length ? `<details class="panel"><summary style="cursor:pointer;font-weight:700">Convocatorias semanales (${seriesList().length})</summary><div style="margin-top:10px">${seriesList().map(sr=>`<div class="kv"><span class="small"><strong>${esc(sr.title||'Partido')}</strong> · todos los ${DIAS_PL[new Date(sr.start+'T12:00').getDay()]}${sr.time?' a las '+esc(sr.time):''}${sr.place?' · '+esc(sr.place):''}<br><span class="muted">Desde ${fmtDay(sr.start)}${sr.until?' hasta '+fmtDay(sr.until):', sin fecha de fin'}</span></span><button class="btn link danger" data-srdel="${esc(sr.id)}">Terminar</button></div>`).join('')}</div></details>`:''}
     ${list.length ? list.map(eventCard).join('') : `<div class="panel empty"><div class="court"></div><p class="muted" style="margin:0">${S.calSel?'No hay nada convocado ese día.':(isAdmin()?'No hay convocatorias. Crea una con «+ Convocar».':'No hay convocatorias todavía. El organizador las irá publicando aquí.')}</p></div>`}
     ${!S.calSel && past.length ? `<details><summary style="cursor:pointer;font-weight:700">Anteriores (${past.length})</summary><div class="stack" style="gap:12px;margin-top:12px">${past.slice(0,20).map(eventCard).join('')}</div></details>`:''}
   </section>`;
@@ -1331,6 +1796,7 @@ function waLink(e, sm){
   if (e.place) lines.push(`📍 ${e.place}`);
   lines.push(`👥 ${sm.starters.length}/${sm.slots} apuntados${free ? ` · ${free===1?'queda 1 plaza':'quedan '+free+' plazas'}` : ' · completo (se puede entrar en reserva)'}`);
   if (sm.starters.length) lines.push(`Juegan: ${sm.starters.map(r=>uidName(r.uid)).join(', ')}`);
+  if (sm.subs.length) lines.push(`Suplentes: ${sm.subs.map(r=>uidName(r.uid)).join(', ')}`);
   if (e.beers!==false) lines.push(`🍻 Cervezas después: ${sm.beer.length} apuntado${sm.beer.length===1?'':'s'} (sin límite)`);
   if (e.note) lines.push(`📝 ${e.note}`);
   lines.push('', `Apúntate aquí 👉 ${appLink('#calendario')}`);
@@ -1405,14 +1871,14 @@ function eventCard(e){
   return `<article class="ev ${isPast(e)?'past':''}">
     <div class="evdate"><span class="d">${d}</span><span class="m">${MESES[m-1]}</span><span class="w">${DIAS[dt.getDay()].slice(0,3)}</span></div>
     <div class="evbody">
-      <div class="row spread" style="align-items:flex-start"><div style="min-width:0"><div class="evt">${esc(e.title||'Partido')}${e.time?` · ${esc(e.time)}`:''}</div>
+      <div class="row spread" style="align-items:flex-start"><div style="min-width:0"><div class="evt">${esc(e.title||'Partido')}${e.time?` · ${esc(e.time)}`:''}${e.seriesId?' <span class="tag" style="vertical-align:3px">Cada semana</span>':''}</div>
         <div class="small muted">${e.place?esc(e.place)+' · ':''}${sm.slots} plazas${e.note?` · ${esc(e.note)}`:''}</div></div>
         ${free===0?'<span class="full">Completo</span>':`<span class="tag">${free} libre${free===1?'':'s'}</span>`}</div>
       <div class="evblocks">
         <div class="evblock">
           <div class="evbh"><span class="evbt">Partido</span><span><strong>${sm.starters.length}/${sm.slots}</strong> plazas</span></div>
           <div class="places" aria-label="Plazas del partido">${sm.starters.map(r=>`<span title="${esc(uidName(r.uid))}">${uidAv(r.uid)}</span>`).join('')}${'<span class="free"></span>'.repeat(free)}</div>
-          <div class="evline">${free?`<span>${free} plaza${free===1?'':'s'} libre${free===1?'':'s'}</span>`:'<span class="full">Completo</span>'}${sm.bench.length?`<span>${sm.bench.length} en reserva</span>`:''}${sm.maybe.length?`<span>${sm.maybe.length} en duda</span>`:''}</div>
+          <div class="evline">${free?`<span>${free} plaza${free===1?'':'s'} libre${free===1?'':'s'}</span>`:'<span class="full">Completo</span>'}${sm.bench.length?`<span>${sm.bench.length} en reserva</span>`:''}${sm.subs.length?`<span>${sm.subs.length} suplente${sm.subs.length===1?'':'s'}${free&&sm.subs.length?' · pueden cubrir las plazas libres':''}</span>`:''}${sm.maybe.length?`<span>${sm.maybe.length} en duda</span>`:''}</div>
         </div>
         ${e.beers!==false?`<div class="evblock beerb">
           <div class="evbh"><span class="evbt">${MUG} Cervezas</span><span><strong>${sm.beer.length}</strong> apuntado${sm.beer.length===1?'':'s'} · sin límite</span></div>
@@ -1425,9 +1891,10 @@ function eventCard(e){
         <div class="opts">
           <button class="opt yes" data-rsvp="${esc(e.id)}" data-play="si" aria-pressed="${mine?.play==='si'}">Juego</button>
           <button class="opt maybe" data-rsvp="${esc(e.id)}" data-play="duda" aria-pressed="${mine?.play==='duda'}">En duda</button>
+          <button class="opt sub" data-rsvp="${esc(e.id)}" data-play="sup" aria-pressed="${mine?.play==='sup'}">Suplente</button>
           <button class="opt no" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${mine?.play==='no'}">No juego</button>
         </div>
-        ${mine?.play==='si' && sm.bench.some(r=>r.uid===S.uid)?'<span class="small muted">Estás en reserva: entras si alguien se borra.</span>':''}
+        ${mine?.play==='si' && sm.bench.some(r=>r.uid===S.uid)?'<span class="small muted">Estás en reserva: entras si alguien se borra.</span>':''}${mine?.play==='sup'?'<span class="small muted">Eres suplente: no ocupas plaza, pero te avisarán si falta alguien. Si queda una plaza libre, pulsa «Juego».</span>':''}
         ${e.beers!==false?`<span class="q" style="margin-top:6px">¿Vienes a las cervezas? · sin límite</span>
         <div class="opts">
           <button class="opt beer" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${MUG} Sí, voy</button>
@@ -1439,6 +1906,7 @@ function eventCard(e){
         <div class="who-list" style="margin-top:10px">
           <div><h5>Juegan (${sm.starters.length}/${sm.slots})</h5>${li(sm.starters)}</div>
           ${sm.bench.length?`<div><h5>Reserva</h5>${li(sm.bench)}</div>`:''}
+          ${sm.subs.length?`<div><h5>Suplentes</h5>${li(sm.subs)}</div>`:''}
           <div><h5>En duda</h5>${li(sm.maybe)}</div>
           <div><h5>No juegan</h5>${li(sm.no)}</div>
           ${e.beers!==false?`<div><h5>Cervezas (${sm.beer.length})</h5>${sm.beer.length?`<ul>${sm.beer.map(r=>`<li>${uidAv(r.uid)}<span>${esc(uidName(r.uid))}</span>${r.play!=='si'?'<span class="tag">solo cervezas</span>':''}</li>`).join('')}</ul>`:'<span class="muted">Nadie</span>'}</div>`:''}
@@ -1450,8 +1918,9 @@ function eventCard(e){
         <a class="btn" href="${esc(gcalLink(e))}" target="_blank" rel="noopener">Google Calendar</a>
         ${canSaveFile() ? `<button class="btn" data-ics="${esc(e.id)}">iPhone / Outlook (.ics)</button>` : ''}
       </div>
+      ${isAdmin() && sm.yes.length>=4 ? `<button class="btn" data-mkpozo="${esc(e.id)}" style="align-self:flex-start">Hacer pozo con los ${sm.yes.length} apuntados</button>` : ''}
       ${(isAdmin() || canResult) ? `<div class="row" style="gap:6px">
-        ${canResult && sm.starters.length>=4 ? `<button class="btn" data-evresult="${esc(e.id)}">Apuntar resultado</button>`:''}
+        ${canResult && sm.starters.length>=4 && !S.matches.some(m=>m.eventId===e.id) ? `<button class="btn" data-evresult="${esc(e.id)}">Apuntar resultado</button>`:''}${S.matches.some(m=>m.eventId===e.id) ? '<span class="tag" style="background:var(--win-bg);color:var(--win)">Resultado apuntado</span>':''}
         ${isAdmin() ? (S.evDel===e.id ? `<span class="small">¿Borrar esta convocatoria? <button class="btn danger" data-evdelyes="${esc(e.id)}">Sí, borrar</button> <button class="btn link" data-evdelno>Cancelar</button></span>` : `<button class="btn link" data-evdel="${esc(e.id)}">Borrar convocatoria</button>`) : ''}
       </div>`:''}
     </div>
@@ -1460,7 +1929,7 @@ function eventCard(e){
 
 function viewEventNew(){
   if (!isAdmin()) return `<div class="note">Solo los administradores pueden crear convocatorias.</div>`;
-  const f = S.ef ||= {date: S.calSel && S.calSel>=today() ? S.calSel : today(), time:'19:30', title:'Partido', place:'', slots:4, beers:true, note:''};
+  const f = S.ef ||= {date: S.calSel && S.calSel>=today() ? S.calSel : today(), time:'19:30', title:'Partido', place:'', slots:4, beers:true, note:'', repeat:false, until:''};
   return `<section class="panel stack">
     <div><a href="#calendario" class="small muted">← Calendario</a><h2>Nueva convocatoria</h2></div>
     <form id="evForm" class="stack" style="gap:16px">
@@ -1475,6 +1944,11 @@ function viewEventNew(){
       </div>
       <label class="f">Nota (opcional)<input type="text" id="evNote" maxlength="80" value="${esc(f.note)}" placeholder="Ej. Pista reservada, 8 € por cabeza"></label>
       <label class="check"><input type="checkbox" id="evBeers"${f.beers?' checked':''}> Preguntar también por cervezas después</label>
+      <div class="repeatbox">
+        <label class="check"><input type="checkbox" id="evRepeat"${f.repeat?' checked':''}> Repetir cada semana${f.date?` (todos los ${DIAS_PL[new Date(f.date+'T12:00').getDay()]})`:''}</label>
+        <label class="f" id="evUntilBox" ${f.repeat?'':'hidden'}>Hasta (opcional)<input type="date" id="evUntil" value="${esc(f.until||'')}" min="${esc(f.date||today())}"></label>
+        <p class="small muted" style="margin:0" id="evRepHint" ${f.repeat?'':'hidden'}>Se creará una convocatoria cada semana con los mismos datos. Podrás quitar un día suelto o terminar la serie cuando quieras.</p>
+      </div>
       <div id="evErr" class="note err" hidden></div>
       <div class="row"><button class="btn primary" type="submit" id="evSave">Publicar convocatoria</button><a class="btn link" href="#calendario">Cancelar</a></div>
     </form>
@@ -1502,28 +1976,51 @@ function bindCalendar(v){
   const all = $('[data-calall]'); if (all) all.onclick = () => { S.calSel = null; render(); };
   app.querySelectorAll('[data-rsvp]').forEach(b => b.onclick = () => write(()=>saveRsvp(b.dataset.rsvp, {play:b.dataset.play}), null));
   app.querySelectorAll('[data-beer]').forEach(b => b.onclick = () => write(()=>saveRsvp(b.dataset.beer, {beer:b.dataset.v==='1'}), null));
-  app.querySelectorAll('[data-evdel]').forEach(b => b.onclick = () => { const e=S.events.get(b.dataset.evdel); if(!e) return; const n=evSummary(e).rs.length; askConfirm({title:'¿Borrar esta convocatoria?', text: n? `Hay ${n} respuesta${n===1?'':'s'} y se perderán. No se puede deshacer.` : 'No se puede deshacer.', detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Sí, borrar convocatoria', danger:true, run:()=>write(()=>S.db.doc('events/'+e.id).delete(), 'Convocatoria borrada.')}]}); });
+  app.querySelectorAll('[data-evdel]').forEach(b => b.onclick = () => { const e=getEv(b.dataset.evdel); if(!e) return;
+    if (e.seriesId){ const sr = S.events.get(e.seriesId); if (!sr) return; askConfirm({title:'¿Qué quieres borrar?', text:`Esta convocatoria se repite todos los ${DIAS_PL[new Date(sr.start+'T12:00').getDay()]}. Puedes quitar solo este día o terminar la serie entera.`, detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Solo este día', danger:true, run:()=>write(()=>S.db.doc('events/'+sr.id).update({skip:[...new Set([...(sr.skip||[]), e.date])]}), 'Ese día ya no tiene convocatoria.')},{label:'Toda la serie', danger:true, run:()=>write(()=>S.db.doc('events/'+sr.id).delete(), 'Serie borrada.')}]}); return; } const n=evSummary(e).rs.length; askConfirm({title:'¿Borrar esta convocatoria?', text: n? `Hay ${n} respuesta${n===1?'':'s'} y se perderán. No se puede deshacer.` : 'No se puede deshacer.', detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Sí, borrar convocatoria', danger:true, run:()=>write(()=>S.db.doc('events/'+e.id).delete(), 'Convocatoria borrada.')}]}); });
   const dn = $('[data-evdelno]'); if (dn) dn.onclick = () => { S.evDel = null; render(); };
   app.querySelectorAll('[data-evdelyes]').forEach(b => b.onclick = () => { const id=b.dataset.evdelyes; S.evDel=null; write(()=>S.db.doc('events/'+id).delete(), 'Convocatoria borrada.'); });
+  app.querySelectorAll('[data-promook]').forEach(b => b.onclick = () => { lsSet('ptg_ev_'+S.uid+'_'+b.dataset.promook, 'in'); render(); });
+  app.querySelectorAll('[data-supok]').forEach(b => b.onclick = () => { lsSet('ptg_sup_'+S.uid+'_'+b.dataset.supok, b.dataset.n); render(); });
+  app.querySelectorAll('[data-supjoin]').forEach(b => b.onclick = () => write(()=>saveRsvp(b.dataset.supjoin, {play:'si'}), '¡Apuntado! Ya juegas el partido.'));
+  app.querySelectorAll('[data-mkpozo]').forEach(b => b.onclick = () => { const e = getEv(b.dataset.mkpozo); if (!e) return;
+    const ids = evSummary(e).yes.map(r=>playerByUid(r.uid)?.id).filter(Boolean);
+    S.tf = {...tfDefaults(), type:'americano', name:`Pozo ${evWhen(e).replace(/ · .*/,'')}`, date:e.date, pp:ids};
+    location.hash = 'torneo-nuevo'; });
+  app.querySelectorAll('[data-srdel]').forEach(b => b.onclick = () => { const sr=S.events.get(b.dataset.srdel); if(!sr) return; askConfirm({title:'¿Terminar la serie?', text:'Dejarán de crearse convocatorias semanales y desaparecerán las próximas. Los resultados ya apuntados se mantienen.', actions:[{label:'Sí, terminar serie', danger:true, run:()=>write(()=>S.db.doc('events/'+sr.id).delete(), 'Serie terminada.')}]}); });
+  app.querySelectorAll('[data-mconf]').forEach(b => b.onclick = () => write(()=>S.db.doc('matches/'+b.dataset.mconf).update({confirmed:true, confirmedBy:S.uid, confirmedAt:Date.now(), disputed:null}), 'Resultado confirmado. Ya cuenta en la clasificación.'));
+  app.querySelectorAll('[data-mdisp]').forEach(b => b.onclick = () => askConfirm({title:'¿El resultado no es correcto?', text:'Quedará marcado como discutido y un administrador lo revisará para corregirlo o borrarlo. Mientras tanto no cuenta.', actions:[{label:'Sí, marcar como discutido', danger:true, run:()=>write(()=>S.db.doc('matches/'+b.dataset.mdisp).update({disputed:true, disputedBy:S.uid, disputedAt:Date.now()}), 'Marcado como discutido. Avisa al administrador si hace falta.')}]}));
+  app.querySelectorAll('[data-pendres]').forEach(b => b.onclick = () => {
+    const e = getEv(b.dataset.pendres); if (!e) return; const i = +b.dataset.court;
+    const c = makePairs(e, evSummary(e))[i]; if (!c) return;
+    S.prefill = {date: e.date <= today() ? e.date : today(), place: e.place||'', players:[...c.A, ...c.B], eventId:e.id, court:i};
+    location.hash = 'nuevo';
+  });
   app.querySelectorAll('[data-pairs]').forEach(b => b.onclick = () => { (S.pairOpen ||= {})[b.dataset.pairs] = true; render(); });
   app.querySelectorAll('[data-pairclose]').forEach(b => b.onclick = () => { (S.pairOpen ||= {})[b.dataset.pairclose] = false; render(); });
   app.querySelectorAll('[data-pairnext]').forEach(b => b.onclick = () => { const id=b.dataset.pairnext; (S.pairIdx ||= {})[id] = ((S.pairIdx[id]||0)+1)%3; render(); });
-  app.querySelectorAll('[data-ics]').forEach(b => b.onclick = () => { const e=S.events.get(b.dataset.ics); if (e) saveFile(`padel-${e.date}.ics`, 'text/calendar;charset=utf-8', icsText(e)); });
+  app.querySelectorAll('[data-ics]').forEach(b => b.onclick = () => { const e=getEv(b.dataset.ics); if (e) saveFile(`padel-${e.date}.ics`, 'text/calendar;charset=utf-8', icsText(e)); });
   app.querySelectorAll('[data-evresult]').forEach(b => b.onclick = () => {
-    const e = S.events.get(b.dataset.evresult); if (!e) return;
+    const e = getEv(b.dataset.evresult); if (!e) return;
     const smx = evSummary(e); let ids = smx.starters.map(r=>playerByUid(r.uid)?.id).filter(Boolean).slice(0,4);
     if (S.pairOpen && S.pairOpen[e.id]) { const c = makePairs(e, smx)[0]; if (c) ids = [...c.A, ...c.B]; }
-    S.prefill = {date: e.date <= today() ? e.date : today(), place: e.place||'', players: ids};
+    S.prefill = {date: e.date <= today() ? e.date : today(), place: e.place||'', players: ids, eventId: e.id, court: 0};
     location.hash = 'nuevo';
   });
   const form = $('#evForm'); if (!form) return;
   const f = S.ef;
-  const sync = () => { f.date=$('#evDate').value; f.time=$('#evTime').value; f.slots=+$('#evSlots').value; f.title=$('#evTitle').value; f.place=$('#evPlace').value; f.note=$('#evNote').value; f.beers=$('#evBeers').checked; };
+  const sync = () => { f.repeat=$('#evRepeat').checked; f.until=$('#evUntil').value; $('#evUntilBox').hidden=!f.repeat; $('#evRepHint').hidden=!f.repeat; f.date=$('#evDate').value; f.time=$('#evTime').value; f.slots=+$('#evSlots').value; f.title=$('#evTitle').value; f.place=$('#evPlace').value; f.note=$('#evNote').value; f.beers=$('#evBeers').checked; };
   form.oninput = sync; form.onchange = sync;
   form.onsubmit = e => { e.preventDefault(); sync();
     if (!f.date) { const el=$('#evErr'); el.textContent='Elige una fecha.'; el.hidden=false; return; }
     const doc = {date:f.date, time:f.time||'', title:(f.title||'Partido').trim()||'Partido', place:f.place.trim(), slots:f.slots, beers:f.beers, note:f.note.trim(), createdAt:Date.now(), createdBy:S.uid};
     $('#evSave').disabled = true;
+    if (f.repeat){
+      if (f.until && f.until < f.date) { const el=$('#evErr'); el.textContent='La fecha «Hasta» no puede ser anterior a la primera convocatoria.'; el.hidden=false; $('#evSave').disabled=false; return; }
+      const sr = {kind:'series', start:doc.date, until:f.until||'', skip:[], time:doc.time, title:doc.title, place:doc.place, slots:doc.slots, beers:doc.beers, note:doc.note, createdAt:doc.createdAt, createdBy:doc.createdBy};
+      write(async()=>{ await S.db.doc('events/s'+rid().slice(1)).set(sr); S.ef=null; S.calMonth=sr.start.slice(0,7); location.hash='calendario'; }, `Convocatoria semanal creada: todos los ${DIAS_PL[new Date(sr.start+'T12:00').getDay()]}.`);
+      return;
+    }
     write(async()=>{ await S.db.doc('events/e'+rid().slice(1)).set(doc); S.ef=null; S.calMonth=doc.date.slice(0,7); location.hash='calendario'; }, 'Convocatoria publicada. Ya se pueden apuntar.');
   };
 }
@@ -1597,6 +2094,7 @@ function foot(){
   } else if (isAdmin() && S.status==='ready'){
     f.innerHTML = `<p class="small">Eres administrador de este grupo. El creador del grupo y el superadministrador nombran administradores y cambian el nombre.</p>`;
   } else f.innerHTML = '';
+  appendLogoPanel(f);
   if (window.groupApi && isAdmin() && S.status==='ready'){
     const ga = window.groupApi, reqs = ga.requests||[], mem = ga.members||[];
     const sec = document.createElement('details'); sec.className='panel'; sec.id='reqDet'; if (S.reqOpen || reqs.length) sec.open = true;
@@ -1636,11 +2134,11 @@ function foot(){
     $('#bkMatches').onclick = () => { const C = compute(); const side = (m,id) => m.sides && m.sides[id] ? (m.sides[id]==='drive'?'drive':'revés') : '';
       saveFile(`${gname}-partidos-${today()}.csv`, 'text/csv;charset=utf-8', csv([['Fecha','Pareja 1','Pareja 2','Resultado','Ganadores','Lugar','Torneo'],
         ...C.ms.map(m => { const r = result(m), tn = t => t.map(id=>nick(id)+(side(m,id)?` (${side(m,id)})`:'')).join(' / ');
-          return [m.date, tn(m.a), tn(m.b), (m.sets||[]).map(([x,y])=>`${x}-${y}`).join(' '), r.aWins?'Pareja 1':'Pareja 2', m.place||'', m.tname||'']; })])); };
+          return [m.date, tn(m.a), tn(m.b), (m.sets||[]).map(([x,y])=>`${x}-${y}`).join(' '), r.draw?'Empate':r.aWins?'Pareja 1':'Pareja 2', m.place||'', m.tname||'']; })])); };
     $('#bkRank').onclick = () => { const C = compute(); const {active, idle} = rankList(C.st);
-      saveFile(`${gname}-clasificacion-${today()}.csv`, 'text/csv;charset=utf-8', csv([['Posición','Jugador','PJ','Victorias','Derrotas','% sets','% juegos','Sets','Juegos','PJ drive','% vict. drive','PJ revés','% vict. revés'],
+      saveFile(`${gname}-clasificacion-${today()}.csv`, 'text/csv;charset=utf-8', csv([['Posición','Jugador','PJ','Victorias','Empates','Derrotas','% sets','% juegos','Sets','Juegos','PJ drive','% vict. drive','PJ revés','% vict. revés'],
         ...[...active, ...idle].map(x => { const s = x.s; const pc2 = v => Math.round(v*100)+'%';
-          return [x.pos||'', x.p.nick, s.pj, s.pg, s.pj-s.pg, pc2(pSets(s)), pc2(pGames(s)), `${s.sf}-${s.sc}`, `${s.gf}-${s.gc}`, s.sd.drive.pj, s.sd.drive.pj?pc2(s.sd.drive.pg/s.sd.drive.pj):'', s.sd.reves.pj, s.sd.reves.pj?pc2(s.sd.reves.pg/s.sd.reves.pj):'']; })])); };
+          return [x.pos||'', x.p.nick, s.pj, s.pg, s.pe, s.pj-s.pg-s.pe, pc2(pSets(s)), pc2(pGames(s)), `${s.sf}-${s.sc}`, `${s.gf}-${s.gc}`, s.sd.drive.pj, s.sd.drive.pj?pc2(s.sd.drive.pg/s.sd.drive.pj):'', s.sd.reves.pj, s.sd.reves.pj?pc2(s.sd.reves.pg/s.sd.reves.pj):'']; })])); };
     $('#bkJson').onclick = () => saveFile(`${gname}-copia-${today()}.json`, 'application/json', JSON.stringify({grupo:S.config.name||'', fecha:new Date().toISOString(), jugadores:[...S.allPlayers.values()], partidos:S.matches, convocatorias:[...S.events.values()], respuestas:Object.fromEntries(S.rsvp), torneos:[...S.tournaments.values()], resultadosTorneo:Object.fromEntries(S.tres)}, null, 2));
   }
   if (window.groupApi && S.status==='ready'){
@@ -1664,6 +2162,33 @@ function foot(){
   }
 }
 
+function shrinkImage(file, max){
+  return new Promise((ok, ko) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => { const k = Math.min(1, max/Math.max(img.width, img.height)), w = Math.round(img.width*k), h = Math.round(img.height*k);
+      const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); g.drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url); const png = /png|svg|gif/.test(file.type);
+      let out = png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.85);
+      if (out.length > 180000) out = c.toDataURL('image/jpeg', 0.7);
+      ok(out); };
+    img.onerror = () => { URL.revokeObjectURL(url); ko(new Error('img')); };
+    img.src = url;
+  });
+}
+function appendLogoPanel(f){
+  if (!isAdmin() || S.status!=='ready') return;
+  const lg = S.config.logo || '';
+  const box = document.createElement('div'); box.className = 'panel row spread'; box.style.marginTop = '14px';
+  box.innerHTML = `<span class="row" style="gap:14px;flex-wrap:nowrap;min-width:0"><span class="logoprev">${lg?`<img src="${esc(lg)}" alt="Logo actual">`:'<span class="mark" style="width:48px;height:48px"><i></i></span>'}</span>
+      <span class="small" style="min-width:0"><strong>Logo del grupo</strong><br><span class="muted">Sale arriba, junto al nombre. Mejor una imagen cuadrada.</span></span></span>
+    <span class="row" style="gap:6px"><label class="btn" for="logoFile" style="cursor:pointer">${lg?'Cambiar':'Subir logo'}</label><input type="file" id="logoFile" accept="image/*" hidden>${lg?'<button class="btn link danger" id="logoDel">Quitar</button>':''}</span>`;
+  f.appendChild(box);
+  $('#logoFile').onchange = async e => { const file = e.target.files && e.target.files[0]; if (!file) return;
+    let data; try { data = await shrinkImage(file, 256); } catch(_){ S.flash = {t:'err', m:'No se ha podido leer esa imagen. Prueba con un JPG o PNG.'}; render(); return; }
+    write(()=>S.db.doc('config/liga').set({name:S.config.name||'Pádel entre amigos', logo:data}), 'Logo actualizado.'); };
+  const del = $('#logoDel'); if (del) del.onclick = () => askConfirm({title:'¿Quitar el logo?', text:'Volverá a salir el icono de la pista.', actions:[{label:'Sí, quitar', danger:true, run:()=>write(()=>S.db.doc('config/liga').set({name:S.config.name||'Pádel entre amigos', logo:null}), 'Logo quitado.')}]});
+}
+
 /* ---------- actions ---------- */
 async function write(fn, okMsg){
   if (S.busy) return; S.busy = true;
@@ -1680,6 +2205,7 @@ async function write(fn, okMsg){
 function bindView(v){
   const app = $('#app');
   app.querySelectorAll('[data-go]').forEach(tr => tr.onclick = e => { if (e.target.closest('a')) return; location.hash = tr.dataset.go; });
+  app.querySelectorAll('[data-rsort]').forEach(b => b.onclick = () => { const k = b.dataset.rsort; if (S.rsort===k && k!=='pos') S.rdir = -(S.rdir||-1); else { S.rsort = k; S.rdir = -1; } render(); });
   app.querySelectorAll('[data-period]').forEach(b => b.onclick = () => { S.period = b.dataset.period; render(); });
   app.querySelectorAll('[data-sort]').forEach(b => b.onclick = () => { S.sortBy = b.dataset.sort; try{localStorage.setItem('sortBy',S.sortBy)}catch(_){} render(); });
   app.querySelectorAll('[data-askdel]').forEach(b => b.onclick = () => confirmMatchDelete(b.dataset.askdel));
@@ -1720,18 +2246,29 @@ function bindNew(form){
     const v = ids.map(i=>$('#'+i).value);
     if (v.some(x=>!x)) return err('Elige los cuatro jugadores.');
     if (new Set(v).size<4) return err('Un mismo jugador no puede aparecer dos veces.');
-    const ps = parseSetInputs('sa','sb'); if (ps.err) return err(ps.err);
+    const ps = parseSetInputs('sa','sb', true); if (ps.err) return err(ps.err);
+    if (ps.unfinished.length && !form.dataset.okUnfinished){
+      askConfirm({title: ps.draw ? 'Partido empatado' : 'Partido no acabado', text:unfinishedText(ps), actions:[{label: ps.draw ? 'Guardar como empate' : 'Guardar resultado', run:()=>{ form.dataset.okUnfinished='1'; form.requestSubmit ? form.requestSubmit() : form.onsubmit(new Event('submit')); }}]});
+      return;
+    }
+    delete form.dataset.okUnfinished;
     const sets = ps.sets;
     const date = $('#mDate').value || today();
     const place = $('#mPlace').value.trim();
     const editId = form.dataset.edit, old = editId ? S.matches.find(m=>m.id===editId) : null;
     const doc = {date, a:[v[0],v[1]], b:[v[2],v[3]], sets, by: old ? (old.by||S.uid) : S.uid, at: old ? (old.at||Date.now()) : Date.now()};
     if (place) doc.place = place;
+    if (ps.unfinished.length && !ps.draw) doc.unfinished = true;
+    if (ps.draw) doc.draw = true;
+    if (form.dataset.event) { doc.eventId = form.dataset.event; doc.court = +form.dataset.court || 0; }
+    else if (old && old.eventId) { doc.eventId = old.eventId; doc.court = old.court||0; }
     if ($('#mSides').checked) doc.sides = {[v[0]]:'drive', [v[1]]:'reves', [v[2]]:'drive', [v[3]]:'reves'};
     if (old){ doc.editedBy = S.uid; doc.editedAt = Date.now(); }
+    doc.confirmed = isAdmin();
+    if (doc.confirmed){ doc.confirmedBy = S.uid; doc.confirmedAt = Date.now(); }
     $('#saveBtn').disabled = true;
     if (old) write(async ()=>{ await S.db.doc('matches/'+editId).set(doc); location.hash='partidos'; }, 'Partido corregido. La clasificación ya está actualizada.');
-    else write(async ()=>{ await S.db.collection('matches').add(doc); location.hash='partidos'; }, 'Partido guardado. La clasificación ya está actualizada.');
+    else write(async ()=>{ await S.db.collection('matches').add(doc); location.hash='partidos'; }, doc.confirmed ? 'Partido guardado. La clasificación ya está actualizada.' : 'Partido guardado. Contará cuando lo confirme la pareja rival, o solo dentro de 4 horas si nadie dice nada.');
   };
 }
 
@@ -1776,6 +2313,7 @@ async function boot(){
   db.doc('config/admins').onSnapshot(d => { S.admins = d.exists && Array.isArray(d.data().uids) ? [...d.data().uids] : []; renderData(); }, ()=>{});
   db.doc('config/liga').onSnapshot(d => { S.config = d.exists ? {...d.data()} : {}; renderData(); }, ()=>{});
 }
+setInterval(() => { if (S.status==='ready' && S.matches.some(m => m.confirmed===false)) renderData(); }, 60000);
 window.addEventListener('hashchange', () => { S.pending=false; if (S.modal) closeModal(); S.confirmDel=null; S.tEdit=null; S.tDel=null; S.evDel=null; window.scrollTo(0,0); render(); });
 window.startApp = boot;
 })();
@@ -1815,7 +2353,7 @@ function makeDb(gid){
   const base = `groups/${gid}/`, gref = fs.doc('groups/'+gid);
   const ws = s => ({id:s.id, exists:s.exists, data:()=> s.exists ? dec(s.data()) : undefined, metadata:{fromCache:false, hasPendingWrites:!!(s.metadata&&s.metadata.hasPendingWrites)}});
   const special = {
-    'config/liga':   {snap:d=>({name:d.name}), set:v=>gref.update({name:String(v.name||'').slice(0,40)})},
+    'config/liga':   {snap:d=>({name:d.name, logo:d.logo||null}), set:v=>{ const u={}; if (v.name!==undefined) u.name=String(v.name||'').slice(0,40); if (v.logo!==undefined) u.logo=v.logo||null; return gref.update(u); }},
     'config/admins': {snap:d=>({uids:(d.admins||[]).filter(u=>u!==d.createdBy)}), set:v=>gref.update({admins:[...new Set([groupData.createdBy, ...(v.uids||[])].filter(Boolean))]})}
   };
   const docRef = path => {
@@ -1923,7 +2461,7 @@ async function showHome(note, preselect){
     ${note?`<div class="note">${escH(note)}</div>`:''}
     <div class="gcard">
       <h2>Tus grupos</h2>
-      ${mine.length?`<div class="glist">${mine.map(g=>`<button class="gitem" data-g="${escH(g.id)}"><span>${escH(g.name||'Grupo')}<small>${isSuper?'Superadministrador':g.createdBy===user.uid?'Lo creaste tú':(g.admins||[]).includes(user.uid)?'Eres administrador':'Miembro'} · ${(g.members||[]).length} miembro${(g.members||[]).length===1?'':'s'}</small></span><span aria-hidden="true">›</span></button>`).join('')}</div>`
+      ${mine.length?`<div class="glist">${mine.map(g=>`<button class="gitem" data-g="${escH(g.id)}"><span style="display:flex;align-items:center;gap:12px">${g.logo?`<img src="${escH(g.logo)}" alt="" style="width:36px;height:36px;border-radius:10px;object-fit:cover;flex:none">`:''}<span>${escH(g.name||'Grupo')}<small>${isSuper?'Superadministrador':g.createdBy===user.uid?'Lo creaste tú':(g.admins||[]).includes(user.uid)?'Eres administrador':'Miembro'} · ${(g.members||[]).length} miembro${(g.members||[]).length===1?'':'s'}</small></span></span><span aria-hidden="true">›</span></button>`).join('')}</div>`
         :`<p>Todavía no estás en ningún grupo. Elige uno abajo y pide acceso.</p>`}
     </div>
     ${others.length?`<div class="gcard">
@@ -2046,6 +2584,7 @@ auth.onAuthStateChanged(async u => {
 })();
 </script>
 
+<script>(function(){ const cur=(document.querySelector('meta[name=app-version]')||{}).content; let shown=false; const check=()=>{ if(shown||!cur) return; fetch('index.html?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{ const m=t.match(/name="app-version" content="([^"]+)"/); if(m&&m[1]!==cur){ shown=true; const d=document.createElement('div'); d.className='updbar'; d.innerHTML='<span>Hay una versión nueva de la app</span><button class="btn primary" type="button">Actualizar</button>'; d.querySelector('button').onclick=()=>location.reload(); document.body.appendChild(d); } }).catch(()=>{}); }; setTimeout(check, 4000); setInterval(check, 10*60*1000); document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') check(); }); })();</script>
 <script>window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); window.__installPrompt = e; }); if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 </body>
 </html>

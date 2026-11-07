@@ -43,7 +43,7 @@ service cloud.firestore {
         || (signedIn() && resource.data.createdBy == request.auth.uid
             && request.resource.data.createdBy == resource.data.createdBy)
         || (signedIn() && request.auth.uid in resource.data.admins
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'name']));
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'name', 'logo']));
       allow delete: if isSuper() || (signedIn() && resource.data.createdBy == request.auth.uid);
 
       // Join requests: anyone signed in asks for themselves; group admins see and resolve them.
@@ -71,7 +71,10 @@ service cloud.firestore {
       match /matches/{id} {
         allow read: if isMember();
         allow create: if isMember() && request.resource.data.by == request.auth.uid;
-        allow update, delete: if isAdmin();
+        // admins edit anything; any member may only confirm or dispute a result (the app shows it to the rival pair)
+        allow update: if isAdmin() || (isMember() && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['confirmed', 'confirmedBy', 'confirmedAt', 'disputed', 'disputedBy', 'disputedAt']));
+        allow delete: if isAdmin();
       }
       match /tresults/{id} {
         allow read: if isMember();

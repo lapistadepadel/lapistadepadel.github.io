@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
-<meta name="app-version" content="20261107161437">
+<meta name="app-version" content="20261110160245">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -651,6 +651,228 @@ label.f{font-size:11px;letter-spacing:.06em}
 .updbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:14px;background:var(--fg);color:var(--bg);padding:10px 10px 10px 18px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-weight:700;font-size:14px;max-width:calc(100% - 32px);white-space:nowrap;width:max-content}
 .updbar span{overflow:hidden;text-overflow:ellipsis}
 @media (max-width:640px){.updbar{bottom:calc(92px + env(safe-area-inset-bottom,0px))}}
+/* ===== v5: Hoy, single accent colour, steppers, toasts, welcome ===== */
+:root{--warn:#e8bb2a;--ball-y:#dfe63a}
+
+/* top bar settings button */
+.gearbtn{pointer-events:auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--fg);background:var(--surface);box-shadow:var(--elev1);flex:none;text-decoration:none;position:relative;z-index:2}
+.gearbtn:hover{background:var(--surface-2)}
+@media (max-width:640px){.topbar .wrap{justify-content:space-between}}
+.iconbtn{width:40px;height:40px;border-radius:50%;display:inline-grid;place-items:center;border:0;background:var(--surface);box-shadow:var(--elev1);color:var(--fg);cursor:pointer;text-decoration:none;flex:none}
+.iconbtn:hover{background:var(--surface-2)}
+.iconbtn.info{font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:17px;color:var(--muted)}
+.pagehead{display:flex;align-items:center;gap:10px}
+
+/* bottom nav: five equal items with a raised + in the middle */
+@media (max-width:640px){
+  .bottomnav a{font-family:var(--f-menu,'Arial Black',Arial,sans-serif);font-weight:900;font-size:10px;letter-spacing:.03em}
+}
+
+/* eyebrow labels */
+.eyb{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);display:inline-flex;align-items:center;gap:7px}
+.eyb.warn{color:#7a5a00}
+.eyb .dot{width:8px;height:8px;border-radius:50%;background:var(--warn);display:inline-block}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .eyb.warn{color:#f0cf6a}}
+
+/* Hoy */
+.hoyhead{display:flex;flex-direction:column;gap:0;margin-bottom:-4px}
+.hoyhead h2{font-size:28px}
+.nextc{background:var(--ink);color:var(--ink-fg);border-radius:28px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.nextc .eyb{color:var(--ink-accent)}
+.pill2{font-size:12px;font-weight:700;background:var(--surface);color:var(--primary);padding:5px 11px;border-radius:999px;white-space:nowrap}
+.pill2.full{background:var(--primary);color:#fff}
+.nwhen{font-size:26px;font-weight:800;line-height:1.1;letter-spacing:-.01em}
+.nwhere{font-size:14px;color:var(--ink-muted);margin-top:4px}
+.nbtns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.btn.bigb{min-height:50px;font-family:var(--f-menu,'Arial Black',Arial,sans-serif);font-weight:900;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn.lightb{background:var(--surface);color:var(--fg)}
+.btn.nobtn{background:var(--surface-2);color:var(--loss)}
+.btn.nobtn.on{background:var(--loss);color:#fff}
+.btn.primary.on{box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.btn.link.on{background:var(--surface);color:var(--fg)}
+.nextc .btn.link{color:var(--ink-fg)}
+.beerrow{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;border:0;border-radius:16px;background:color-mix(in srgb,var(--surface) 70%,transparent);padding:0 14px;cursor:pointer;color:inherit;font:inherit;font-size:14px;font-weight:700;text-align:left}
+.beerrow span{flex:1}
+.beerrow strong{color:var(--primary);font-size:13px}
+.beerrow.on{background:color-mix(in srgb,var(--ball-y) 40%,var(--surface))}
+.beerrow.on strong{color:var(--fg)}
+.beerrow .mug{width:18px;height:18px}
+
+/* chips with face + name (sign-ups everywhere) */
+.pchips{display:flex;flex-wrap:wrap;gap:6px}
+.pchip{display:inline-flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;border-radius:999px;background:var(--surface);font-size:13px;font-weight:700;color:var(--fg);box-shadow:var(--elev1);max-width:100%}
+.pchip>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pchip .av{width:28px;height:28px;font-size:11px;flex:none}
+.pchip.free{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--muted);font-weight:600}
+.nextc .pchip.free{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--primary) 45%,transparent);color:var(--ink-muted)}
+.pchip.free .av{background:transparent!important;border:2px dashed currentColor;opacity:.6;box-sizing:border-box}
+.evblock .pchip{background:var(--surface)}
+.pchips.beers .pchip{background:color-mix(in srgb,var(--surface) 80%,transparent)}
+
+/* cards on Hoy */
+.hcard{background:var(--surface);border-radius:22px;padding:16px;box-shadow:var(--elev1);display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit}
+.board{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:center;font-variant-numeric:tabular-nums}
+.board .tn{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted);min-width:0}
+.board .tn>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.board .tn.w{color:var(--fg);font-weight:700}
+.board .tn .avs .av{width:26px;height:26px;font-size:10px}
+.scs{display:flex;gap:5px}
+.sc{width:30px;height:30px;border-radius:9px;background:var(--surface-2);color:var(--muted);display:grid;place-items:center;font-weight:800}
+.sc.w{background:var(--primary);color:#fff}
+.posc{flex-direction:row;align-items:center;gap:14px}
+.posc:hover{box-shadow:var(--elev2)}
+.pbig{display:flex;flex-direction:column;align-items:center;gap:4px;width:70px;flex:none}
+.pn{font-size:40px;font-weight:800;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pinfo{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.pst{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pst>span{display:flex;flex-direction:column}
+.pst small{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted)}
+.pst b{font-size:20px;font-variant-numeric:tabular-nums}
+.pinfo .lead{color:var(--primary);font-weight:700}
+.chv{color:var(--muted)}
+.actc h3{margin:6px 0 8px 4px}
+.actl{padding:4px 16px!important}
+.acti{display:flex;align-items:center;gap:10px;padding:11px 0;font-size:14px}
+.acti+.acti{border-top:1px solid var(--surface-2)}
+.acti .av{width:30px;height:30px;font-size:11px;flex:none}
+.aico{width:30px;height:30px;border-radius:50%;background:var(--tonal);color:var(--tonal-fg);display:grid;place-items:center;flex:none}
+.atx{flex:1;min-width:0}
+.ago{white-space:nowrap}
+
+/* movement arrows in the ranking */
+.rposw{display:flex;flex-direction:column;align-items:center;gap:2px}
+.mv{font-size:10px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mv.up{color:var(--primary)} .mv.dn{color:var(--loss)} .mv.eq{color:var(--muted);opacity:.7} .mv.nw{color:var(--court);text-transform:uppercase;font-size:8px;letter-spacing:.04em}
+.pbig .mv{font-size:13px}
+.rpos.p1,.rpos.p2,.rpos.p3{background:var(--surface-2);color:var(--fg)}
+.rpos.p1{background:var(--ball-y);color:#3a3d00}
+.rrow.mine .rpos{background:var(--primary);color:#fff}
+.leadc{display:flex;align-items:center;gap:14px;background:var(--primary);color:#fff;border-radius:26px;padding:18px;position:relative;overflow:hidden;text-decoration:none}
+.leadc::after{content:"";position:absolute;right:-34px;top:-34px;width:130px;height:130px;border-radius:50%;background:var(--ball-y);opacity:.22}
+.leadc .av.lg{box-shadow:0 0 0 3px var(--ball-y)}
+.leadc .eyb{color:var(--ball-y)}
+.leadc .ln{font-size:22px;font-weight:800;line-height:1.15}
+.leadc .ln small{font-size:13px;font-weight:700;opacity:.8}
+.leadc .ls{font-size:13px;opacity:.9}
+.lcup{color:var(--ball-y);position:relative;z-index:1}
+.lcup .ic{width:34px;height:34px}
+
+/* Agenda tabs */
+.agseg{display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border-radius:999px;padding:4px;margin-top:-4px}
+.agseg a{text-align:center;padding:9px 10px;border-radius:999px;text-decoration:none;color:var(--muted);font-family:var(--f-menu,'Arial Black',Arial,sans-serif);font-weight:900;font-size:13px}
+.agseg a[aria-selected="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--elev1)}
+
+/* new result: sheet + steppers */
+.sheet{border-radius:28px}
+@media (max-width:640px){.sheet{border-radius:28px 28px 22px 22px;position:relative;padding-top:26px}.sheet::before{content:"";position:absolute;top:10px;left:50%;width:40px;height:5px;border-radius:3px;background:var(--line);transform:translateX(-50%)}}
+.usual{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chipbtn{flex:none;border:1px solid color-mix(in srgb,var(--primary) 40%,transparent);background:var(--tonal);color:var(--tonal-fg);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.chipbtn.on{background:var(--primary);color:#fff}
+.steps{display:flex;flex-direction:column;gap:10px}
+.stphead,.setrow2{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:center}
+.stphead .t{font-size:12px;font-weight:700;color:var(--muted);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sl{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:4px}
+.rmset{width:20px;height:20px;border-radius:50%;border:0;background:var(--surface-2);color:var(--muted);display:grid;place-items:center;cursor:pointer;padding:0}
+.stp{display:flex;align-items:center;justify-content:space-between;background:var(--surface-2);border-radius:999px;padding:4px;gap:2px}
+.stp .sb{width:42px;height:42px;border-radius:50%;border:0;background:var(--surface);box-shadow:var(--elev1);font-size:22px;font-weight:700;line-height:1;cursor:pointer;color:var(--fg);flex:none;touch-action:manipulation}
+.stp .sb:active{transform:scale(.94)}
+.stp .sb:disabled{opacity:.35;cursor:default;box-shadow:none}
+.stp input{width:100%;min-width:0;text-align:center;font-size:24px;font-weight:800;background:transparent!important;box-shadow:none!important;border:0;padding:0;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
+.stp input::-webkit-outer-spin-button,.stp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.addset{align-self:stretch;background:transparent!important;box-shadow:inset 0 0 0 1.5px var(--line)!important;border:0;color:var(--muted)}
+.livesum{display:flex;align-items:center;gap:10px;border-radius:16px;padding:12px 14px;background:var(--surface-2);font-size:14px;min-height:46px}
+.livesum.ok{background:var(--tonal);color:var(--tonal-fg)}
+.livesum.ok .ic{color:var(--primary);flex:none}
+.livesum.warn{background:color-mix(in srgb,var(--warn) 22%,var(--surface));color:var(--fg)}
+@media (max-width:380px){.stphead,.setrow2{grid-template-columns:44px minmax(0,1fr) minmax(0,1fr);gap:6px}.stp .sb{width:36px;height:36px}}
+
+/* settings */
+.setgroup{display:flex;align-items:center;gap:14px}
+.logoprev.lg{width:60px;height:60px;border-radius:17px}
+.logoprev.lg .mark{width:60px;height:60px;border-radius:17px}
+.sgname{font-size:18px;font-weight:800;overflow-wrap:anywhere}
+.rolebadge{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--ball-y);color:#3a3d00;padding:3px 9px;border-radius:999px}
+.setrow{display:flex;align-items:center;gap:12px;min-height:48px;text-decoration:none;color:var(--fg);font-weight:700;border-top:1px solid var(--surface-2);padding-top:6px}
+.setrow span{flex:1}
+.setrow .ic{color:var(--primary)}
+.setrow .ic:last-child{color:var(--muted)}
+
+/* player card: position chart */
+.poschart{width:100%;height:auto;display:block;margin-top:8px;overflow:visible}
+.poschart .ln{fill:none;stroke:var(--primary);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.poschart .pt{fill:var(--surface);stroke:var(--primary);stroke-width:2}
+.poschart .pt.last{fill:var(--primary)}
+.poschart .g1{stroke:var(--ball-y);stroke-width:2;stroke-dasharray:4 4}
+.poschart .gt,.poschart .lt{font-size:11px;font-weight:700;fill:var(--muted)}
+.poschart .lt{fill:var(--primary);font-size:13px}
+
+/* tournaments: drawn bracket + champion */
+.bcol.champcol{flex:0 0 150px;min-width:150px}
+.champslot{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:16px 10px;border-radius:16px;background:var(--surface-2);color:var(--muted);font-weight:700;font-size:13px;position:relative;margin:7px 0}
+.champslot::before{content:"";position:absolute;left:-15px;top:50%;width:14px;border-top:2px solid var(--line)}
+.champslot .ic{width:34px;height:34px}
+.champslot.on{background:color-mix(in srgb,var(--gold) 26%,var(--surface));color:var(--fg);box-shadow:inset 0 0 0 2px var(--gold)}
+.champslot.on .ic{color:#9a7400}
+.bt.w{background:var(--tonal);color:var(--tonal-fg);font-weight:700}
+.bpair.two::after,.bcol.r1 .bm::before{border-color:color-mix(in srgb,var(--primary) 35%,var(--line))!important}
+.champ .cup{color:#3a2c00}
+.champ .cup .ic{width:30px;height:30px}
+
+/* illustrated empty states */
+.eart{width:190px;max-width:70%;height:auto;margin:0 auto 10px;display:block}
+.eart .c{fill:var(--tonal)} .eart .sh{fill:var(--surface-2)}
+.eart .l{fill:none;stroke:var(--primary);stroke-width:2;opacity:.45}
+.eart .n{stroke:var(--primary);stroke-width:3.5;stroke-linecap:round;opacity:.75}
+.eart .r{fill:var(--surface);stroke:var(--court);stroke-width:3}
+.eart .rh{fill:var(--court);opacity:.5}
+.eart .rg{fill:var(--court)}
+.eart .b{fill:var(--ball-y);stroke:#b8be1c;stroke-width:1}
+.eart .bs{fill:none;stroke:#fff;stroke-width:1.4;opacity:.9}
+.eart .tr{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:2 5;stroke-linecap:round;opacity:.6}
+@media (prefers-reduced-motion:no-preference){.eart .b{animation:bounce 1.8s ease-in-out infinite;transform-origin:40px 50px}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}}
+.empty .btn{margin-top:6px}
+
+/* loading skeleton */
+.skel .sk{height:84px;border-radius:22px;background:linear-gradient(90deg,var(--surface-2) 0%,var(--surface) 50%,var(--surface-2) 100%);background-size:200% 100%}
+.skel .sk.t{height:34px;width:40%;border-radius:12px}
+.skel .sk.big{height:200px;border-radius:28px}
+@media (prefers-reduced-motion:no-preference){.skel .sk{animation:shim 1.2s linear infinite}@keyframes shim{from{background-position:200% 0}to{background-position:-200% 0}}}
+
+/* toast with undo */
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:70;display:flex;align-items:center;gap:14px;background:var(--fg);color:var(--bg);padding:12px 12px 12px 18px;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.25);font-weight:700;font-size:14px;max-width:calc(100% - 32px);width:max-content;transition:opacity .18s, transform .18s}
+#toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#toast button{border:0;background:transparent;color:var(--ball-y);font:inherit;font-weight:800;cursor:pointer;padding:6px 8px;border-radius:8px;white-space:nowrap}
+#toast:not(:has(button)){padding-right:18px}
+@media (max-width:640px){#toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))}}
+
+/* confetti */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:80;overflow:hidden}
+.confetti i{position:absolute;top:-14px;width:9px;height:14px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--dx),105vh) rotate(var(--r))}}
+
+/* welcome */
+#welcome{position:fixed;inset:0;z-index:75;display:grid;place-items:center;background:rgba(8,20,14,.55);backdrop-filter:blur(3px);padding:16px}
+#welcome[hidden]{display:none}
+.wbox{background:var(--surface);border-radius:28px;padding:26px 22px 18px;width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.wart{display:flex;flex-direction:column;align-items:center;gap:10px}
+.wcircle{width:116px;height:116px;border-radius:50%;background:var(--tonal);color:var(--primary);display:grid;place-items:center;box-shadow:0 0 0 10px color-mix(in srgb,var(--tonal) 45%,transparent)}
+.wstep{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.wbox h2{font-size:22px}
+.wbox p{margin:0;color:var(--muted);font-size:15px}
+.wdots{display:flex;gap:6px;margin-top:4px}
+.wdots i{width:8px;height:8px;border-radius:99px;background:var(--line);transition:width .2s}
+.wdots i.on{width:22px;background:var(--primary)}
+.wact{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:6px}
+.wact .btn.primary{min-width:130px;min-height:46px}
+@media (prefers-reduced-motion:no-preference){.wbox{animation:pop .2s ease both}}
+
+/* only animate a view when it first appears, not on every data refresh */
+html[data-view] .match,html[data-view] .tile,html[data-view] .panel,html[data-view] .hero,html[data-view] .rlist{animation:none}
+@media (prefers-reduced-motion:no-preference){.vin>*{animation:vin .28s ease both}.vin>*:nth-child(2){animation-delay:.03s}.vin>*:nth-child(3){animation-delay:.06s}.vin>*:nth-child(4){animation-delay:.09s}@keyframes vin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}}
+.pst b{white-space:nowrap}
+.bhtext{padding-right:56px}
+.btn.wa{display:inline-flex;align-items:center;gap:6px}
+.bcol.champcol{flex-basis:140px;min-width:140px}
 
 </style>
 </head>
@@ -664,23 +886,23 @@ label.f{font-size:11px;letter-spacing:.06em}
 
 <header class="topbar">
   <div class="wrap">
-    <a class="brand" href="#clasificacion"><span class="mark" id="brandMark" aria-hidden="true"><i></i></span><h1 id="leagueName">Pádel entre amigos</h1><span class="adminbadge" id="adminBadge" hidden>Admin</span></a>
-    <a href="#nuevo" class="btn-new" id="newTop">+ Apuntar partido</a>
+    <a class="brand" href="#hoy"><span class="mark" id="brandMark" aria-hidden="true"><i></i></span><h1 id="leagueName">Pádel entre amigos</h1><span class="adminbadge" id="adminBadge" hidden>Admin</span></a>
+    <a href="#nuevo" class="btn-new" id="newTop">+ Apuntar partido</a><a href="#ajustes" class="gearbtn" id="gearTop" aria-label="Ajustes" hidden><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
   </div>
 </header>
 <div class="wrap brandhero" id="brandHero" aria-hidden="true"><span class="mark big" id="heroMark"><i></i></span><span class="bhtext"><span class="bhname" id="heroName">Pádel entre amigos</span><span class="adminbadge" id="heroBadge" hidden>Admin</span></span></div>
 <div class="wrap"><nav class="pillnav" id="tabs" aria-label="Secciones">
+  <a href="#hoy" data-v="hoy">Hoy</a>
   <a href="#clasificacion" data-v="clasificacion">Ranking</a>
-  <a href="#partidos" data-v="partidos">Partidos</a>
-  <a href="#calendario" data-v="calendario">Calendario</a>
+  <a href="#calendario" data-v="calendario">Agenda</a>
   <a href="#cara-a-cara" data-v="cara-a-cara">Cara a cara</a>
   <a href="#torneos" data-v="torneos">Torneos</a>
 </nav></div>
 <nav class="bottomnav" id="bnav" aria-label="Secciones">
+  <a href="#hoy" data-v="hoy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Hoy</a>
   <a href="#clasificacion" data-v="clasificacion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 20h8M9 17h6"/></svg>Ranking</a>
-  <a href="#partidos" data-v="partidos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M5.3 6.6c2.9 1.7 4.5 4.4 4.5 7.3 0 1.4-.3 2.7-1 3.9M18.7 17.4c-2.9-1.7-4.5-4.4-4.5-7.3 0-1.4.3-2.7 1-3.9"/></svg>Partidos</a>
   <a href="#nuevo" data-v="nuevo" class="plus" aria-label="Apuntar partido"><span class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></a>
-  <a href="#calendario" data-v="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 14h2M13 14h2M9 17h2"/></svg>Calendario</a>
+  <a href="#calendario" data-v="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 14h2M13 14h2M9 17h2"/></svg>Agenda</a>
   <a href="#torneos" data-v="torneos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 4h5v5H3zM3 15h5v5H3zM8 6.5h3v11H8M11 12h3M14 9.5h7v5h-7z"/></svg>Torneos</a>
 </nav>
 
@@ -721,12 +943,13 @@ const AUTO_MS = 4*3600*1000;   // a result nobody confirms or disputes is publis
 const autoPublished = m => m.confirmed===false && !m.disputed && (Date.now() - (m.at||0)) >= AUTO_MS;
 const isCounted = m => m.confirmed!==false || autoPublished(m);
 function autoLeft(m){ const tot = Math.max(1, Math.ceil(Math.max(0, AUTO_MS - (Date.now() - (m.at||0)))/60000)), h = Math.floor(tot/60), mi = tot%60; return h ? (mi ? `${h} h ${mi} min` : `${h} h`) : `${mi} min`; }
-function compute(period){
+function compute(period, before){
   const st = new Map();
   for (const p of S.allPlayers.values()) st.set(p.id,{pj:0,pg:0,pe:0,sf:0,sc:0,gf:0,gc:0,form:[],log:[],partners:{},rivals:{},sd:{drive:{pj:0,pg:0},reves:{pj:0,pg:0}}});
   const ms = [...S.matches.filter(isCounted), ...tournamentMatches()].filter(m => [...m.a,...m.b].every(id => st.has(id)))
     .sort((x,y)=> (x.date||'').localeCompare(y.date||'') || (x.at||0)-(y.at||0))
-    .filter(m => !period || period==='todo' || (m.date||'').startsWith(period==='mes'? today().slice(0,7) : today().slice(0,4)));
+    .filter(m => !period || period==='todo' || (m.date||'').startsWith(period==='mes'? today().slice(0,7) : today().slice(0,4)))
+    .filter(m => !before || (m.date||'') < before);
   for (const m of ms){
     const r = result(m);
     const side = (team, opp, won, sf, sc, gf, gc) => {
@@ -742,7 +965,7 @@ function compute(period){
     side(m.a,m.b, r.aWins, r.sa,r.sb,r.ga,r.gb);
     side(m.b,m.a,!r.aWins && !r.draw, r.sb,r.sa,r.gb,r.ga);
   }
-  S.lastC = {st, ms};
+  if (!before) S.lastC = {st, ms};
   return {st, ms, deltas:{}};
 }
 const pSets = s => s.sf+s.sc ? s.sf/(s.sf+s.sc) : 0;
@@ -787,7 +1010,7 @@ function paintAvatars(){
 }
 
 /* ---------- views ---------- */
-function viewName(){ const h = location.hash.replace('#',''); return h || 'clasificacion'; }
+function viewName(){ const h = location.hash.replace('#',''); return h || 'hoy'; }
 
 function render(){
   const app = $('#app');
@@ -796,21 +1019,21 @@ function render(){
   $('#heroName').textContent = S.config.name || 'Pádel entre amigos';
   { const hb = $('#heroBadge'), ab = $('#adminBadge'); if (hb && ab){ hb.hidden = ab.hidden; hb.textContent = ab.textContent; } }
   const v = viewName();
-  const cur = v.startsWith('editar-')?'partidos':v.startsWith('jugador-')?'clasificacion':v.startsWith('torneo')?'torneos':v==='evento-nuevo'?'calendario':v;
+  const cur = (v.startsWith('editar-')||v==='partidos'||v==='evento-nuevo')?'calendario':v.startsWith('jugador-')?'clasificacion':v.startsWith('torneo')?'torneos':v;
   $('#adminBadge').hidden = !isAdmin(); $('#adminBadge').textContent = window.groupApi ? window.groupApi.role : (S.isOwner ? 'Admin' : 'Coadmin');
   document.querySelectorAll('#tabs a, #bnav a').forEach(a => { if (a.dataset.v===cur) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   const canNew = S.canWrite && S.status==='ready';
-  $('#newTop').hidden = !canNew; $('#bnav .plus').hidden = !canNew;
+  $('#newTop').hidden = !canNew; $('#bnav .plus').hidden = !canNew; $('#gearTop').hidden = !(S.status==='ready' && S.uid); document.documentElement.dataset.view = v;
 
-  if (S.status==='loading'){ app.innerHTML = `<div class="panel empty"><div class="court"></div><p class="muted">${S.slow?'No consigo cargar los datos todavía. Revisa tu conexión; esta página se actualizará sola.':'Cargando la clasificación…'}</p></div>`; foot(); return; }
-  if (S.status==='nodb'){ app.innerHTML = `<div class="panel empty"><div class="court"></div><h2>Entra con tu cuenta</h2><p class="muted">La clasificación es privada del grupo. Entra con tu Gmail desde el enlace del grupo.</p></div>`; foot(); return; }
+  if (S.status==='loading'){ app.innerHTML = S.slow ? `<div class="panel empty">${COURT_ART}<p class="muted">No consigo cargar los datos todavía. Revisa tu conexión; esta página se actualizará sola.</p></div>` : `<div class="stack skel" aria-busy="true" aria-label="Cargando"><div class="sk t"></div><div class="sk big"></div><div class="sk"></div><div class="sk"></div></div>`; foot(); return; }
+  if (S.status==='nodb'){ app.innerHTML = `<div class="panel empty">${COURT_ART}<h2>Entra con tu cuenta</h2><p class="muted">La clasificación es privada del grupo. Entra con tu Gmail desde el enlace del grupo.</p></div>`; foot(); return; }
   if (S.status==='error'){ app.innerHTML = `<div class="note err">Se ha perdido la conexión con los datos. Vuelve a abrir la página.</div>`; foot(); return; }
 
   const C = compute();
   let html = '';
   if (S.flash) html += `<div class="note ${S.flash.t}">${esc(S.flash.m)}</div>`;
   if (window.groupApi && isAdmin() && (window.groupApi.requests||[]).length){ const n=window.groupApi.requests.length; html += `<div class="note ok row spread"><span><strong>${n} solicitud${n===1?'':'es'} de acceso</strong> esperando tu respuesta.</span><button class="btn" data-openreq>Ver</button></div>`; }
-  html += promoNotices() + confirmNotice();
+  html += promoNotices() + confirmNotice(v==='hoy');
   if (!S.uid) html += `<div class="note">Estás viendo la clasificación sin identificarte. Para apuntar partidos, entra con tu cuenta.</div>`;
   else if (!S.canWrite) html += `<div class="note">Tienes acceso de solo lectura. Pide a un administrador que revise tu acceso.</div>`;
   else if (!myPlayer()) html += joinPanel();
@@ -825,10 +1048,13 @@ function render(){
   else if (v.startsWith('editar-')) html += viewNew(S.matches.find(m=>m.id===v.slice(7)) || null);
   else if (v==='cara-a-cara') html += viewH2H(C);
   else if (v.startsWith('jugador-')) html += viewPlayer(C, v.slice(8));
-  else html += viewRanking(C);
+  else if (v==='clasificacion') html += viewRanking(C);
+  else if (v==='ajustes') html += viewAjustes();
+  else html += viewHoy(C);
 
   app.innerHTML = `<div class="stack">${html}</div>`;
   bindView(v);
+  if (S.lastView !== v){ const first = S.lastView === undefined; S.lastView = v; countUp(app); if (app.firstElementChild) app.firstElementChild.classList.add('vin'); if (!first && !v.startsWith('torneo-')) window.scrollTo(0, 0); }
   paintAvatars();
   foot();
 }
@@ -870,40 +1096,18 @@ function viewRanking(Call){
   const C = S.period==='todo' ? Call : compute(S.period);
   const {active, idle} = rankList(C.st);
   const mineP = myPlayer(), mine = mineP?.id;
-  if (!S.players.size) return `<section class="panel empty"><div class="court"></div><h2>Aún no hay nadie</h2><p class="muted">Únete arriba y comparte el enlace con tus amigos. En cuanto apuntéis el primer partido aparecerá la clasificación.</p></section>`;
+  if (!S.players.size) return `<section class="panel empty">${COURT_ART}<h2>Aún no hay nadie</h2><p class="muted">Únete arriba y comparte el enlace con tus amigos. En cuanto apuntéis el primer partido aparecerá la clasificación.</p></section>`;
   const seg = `<div class="seg" role="group" aria-label="Periodo">${['mes','anio','todo'].map(k=>`<button data-period="${k}" aria-pressed="${S.period===k}">${periodLabel(k)}</button>`).join('')}</div>`;
-  // Hero: my position, or the leader if I'm not in
-  let hero;
-  const meRow = active.find(x=>x.p.id===mine);
-  const nextUp = meRow ? active.filter(x=>x.pos<meRow.pos).pop() : null;
-  if (meRow){
-    const s = meRow.s;
-    hero = `<div class="hero"><span class="deco" aria-hidden="true"></span>
-      <div class="row spread" style="position:relative"><span class="eyebrow">Tu posición · ${periodLabel(S.period)}</span><span class="pill">de ${active.length}</span></div>
-      <div class="row spread" style="align-items:flex-end;position:relative"><div class="big">${meRow.pos}º</div>
-        ${nextUp?(nextUp.s.pg>s.pg?`<span class="pill y">A ${nextUp.s.pg-s.pg} victoria${nextUp.s.pg-s.pg===1?'':'s'} del ${nextUp.pos}º</span>`:`<span class="pill y">Empatas a victorias con el ${nextUp.pos}º</span>`):`<span class="pill y">Líder</span>`}</div>
-      <div class="hstats"><div><div class="k">Victorias</div><div class="v">${s.pg}<span style="font-size:15px;color:var(--ink-muted)"> / ${s.pj}</span></div></div><div><div class="k">% sets</div><div class="v">${pc(pSets(s))}</div></div><div><div class="k">% juegos</div><div class="v">${pc(pGames(s))}</div></div></div>
-      <div class="hbar" title="Victorias sobre partidos jugados"><i style="width:${pc(pWins(s))}"></i></div>
-    </div>`;
-  } else if (mineP){
-    hero = `<div class="hero"><span class="deco" aria-hidden="true"></span>
-      <div class="row spread" style="position:relative"><span class="eyebrow">Tu posición · ${periodLabel(S.period)}</span><span class="pill">Sin clasificar</span></div>
-      <div class="big sm" style="color:var(--ink-muted)">Sin partidos</div>
-      <div class="hstats" style="grid-template-columns:1fr"><div><div class="k">Para entrar</div><div class="v" style="font-size:20px">Juega 1 partido${S.period!=='todo'?' en este periodo':''}</div></div></div>
-      ${S.canWrite?`<a class="cta" href="#nuevo">+ Apuntar partido</a>`:''}
-    </div>`;
-  } else if (active[0]){
-    const L = active[0];
-    hero = `<div class="hero"><span class="deco" aria-hidden="true"></span>
-      <span class="eyebrow" style="position:relative">Líder · ${periodLabel(S.period)}</span>
-      <div class="who" style="margin-top:14px">${av(L.p.id,true)}<div><div class="nm">${esc(L.p.nick)}</div><div class="small" style="color:var(--ink-muted)">${L.s.pg} victorias en ${L.s.pj} partidos</div></div></div>
-      <div class="hstats"><div><div class="k">Victorias</div><div class="v">${L.s.pg}</div></div><div><div class="k">% sets</div><div class="v">${pc(pSets(L.s))}</div></div><div><div class="k">% juegos</div><div class="v">${pc(pGames(L.s))}</div></div></div>
-    </div>`;
-  } else hero = '';
+  const mv = rankMoves(S.period, active);
+  let hero = '';
+  if (active[0]){
+    const L = active[0], isMe = L.p.id===mine, co = active.filter(x=>x.pos===1).length;
+    hero = `<a class="leadc" href="#jugador-${esc(L.p.id)}">${av(L.p.id,true)}<div style="min-width:0;flex:1"><span class="eyb">${co>1?'Empatados en cabeza':'Líder'} · ${periodLabel(S.period).toLowerCase()}</span><div class="ln">${esc(L.p.nick)}${isMe?' (tú)':''}${co>1?` <small>y ${co-1} más</small>`:''}</div><div class="ls"><span data-count="${L.s.pg}">${L.s.pg}</span> victorias · ${pc(pSets(L.s))} sets · ${L.s.pj} PJ</div></div><span class="lcup">${TROPHY}</span></a>`;
+  }
   const row = (x) => {
     const s = x.s, on = s.pj>0;
     return `<a class="rrow ${on?'':'idle'} ${x.p.id===mine?'mine':''}" href="#jugador-${esc(x.p.id)}">
-      <span class="rpos ${on&&x.pos<=3?'p'+x.pos:''}">${on? (x.pos<=3? x.pos : String(x.pos).padStart(2,'0')) : '–'}</span>
+      <span class="rposw"><span class="rpos ${on&&x.pos===1?'p1':''}">${on? x.pos : '–'}</span>${on?mvHtml(mv.get(x.p.id)):''}</span>
       <span class="rwho">${av(x.p.id)}<span style="min-width:0"><span class="nm" style="display:block">${esc(x.p.nick)}${x.p.id===mine?' <span class="tag">tú</span>':''}</span>
         <span class="meta">${on?`${s.pj} PJ ${formHtml(s.form)}`:'Sin partidos'}</span></span></span>
       <span class="rnum">${on?s.pg:''}</span>
@@ -913,20 +1117,15 @@ function viewRanking(Call){
   };
   const showIdle = S.period==='todo' ? idle : [];
   return `<section class="stack" style="gap:16px">
-    <div class="row spread"><h2>Ranking</h2>${seg}</div>
+    <div class="row spread"><h2>Ranking</h2><span class="row" style="gap:6px"><a class="btn" href="#cara-a-cara">Cara a cara</a><button type="button" class="iconbtn info" data-rinfo aria-label="Cómo se calcula el ranking">i</button></span></div>${seg}
     ${hero}
     ${active.length||showIdle.length?`<div class="stack" style="gap:8px">
       <div class="rhead">${[['pos','#'],['pj','Jugador'],['pg','V'],['pe','E'],['sets','% sets']].map(([k,l])=>`<button type="button" class="rsort ${S.rsort===k?'on':''}" data-rsort="${k}" title="${k==='pj'?'Ordenar por partidos jugados':'Ordenar'}">${l}${S.rsort===k?(S.rdir===1?' ↑':' ↓'):''}</button>`).join('')}</div>
       <div class="rsorts">${[['pos','Clasificación'],['pg','Victorias'],['pe','Empates'],['pj','Partidos'],['sets','% sets'],['games','% juegos']].map(([k,l])=>`<button type="button" class="${S.rsort===k?'on':''}" data-rsort="${k}">${l}${S.rsort===k&&k!=='pos'?(S.rdir===1?' ↑':' ↓'):''}</button>`).join('')}</div>
       <div class="rlist">${sortRows(active).map(row).join('')}${showIdle.map(row).join('')}</div>
-    </div>`:`<div class="panel empty"><div class="court"></div><p class="muted" style="margin:0">Nadie ha jugado todavía ${S.period==='mes'?'este mes':'este año'}.</p></div>`}
-    <p class="small muted" style="margin:0">Clasificación oficial: victorias, luego empates, luego % de sets ganados y luego % de juegos ganados. Toca una columna para ordenar por ella; tócala otra vez para invertir el orden.</p>
+    </div>`:`<div class="panel empty">${COURT_ART}<p class="muted" style="margin:0">Nadie ha jugado todavía ${S.period==='mes'?'este mes':'este año'}.</p></div>`}
+    <p class="small muted" style="margin:0">▲▼ puestos ganados o perdidos en los últimos 7 días. Toca una columna para ordenar.</p>
     ${beerRanking()}
-    ${S.canWrite && S.uid ? `<details class="panel"><summary style="cursor:pointer;font-weight:700">Añadir un amigo que aún no tiene cuenta</summary>
-      <form id="guestForm" class="row" style="margin-top:12px">
-        <input type="text" id="guestNick" maxlength="24" placeholder="Apodo" required style="flex:1 1 200px">
-        <button class="btn" type="submit">Añadir jugador</button>
-      </form><p class="small muted" style="margin:8px 0 0">Podréis apuntar sus partidos ya. Cuando entre con su cuenta, pulsa «Soy …» y se queda con todo su historial.</p></details>`:''}
   </section>`;
 }
 
@@ -939,12 +1138,12 @@ function canConfirm(m){
   if (isAdmin()) return true;
   const me = myPlayer()?.id; return !!me && m.by!==S.uid && rivalsOf(m).includes(me);
 }
-function confirmNotice(){
+function confirmNotice(skipMine){
   if (!S.uid || S.status!=='ready') return '';
   const n = S.matches.filter(m => canConfirm(m) && !m.disputed && (!isAdmin() || rivalsOf(m).includes(myPlayer()?.id))).length;
   const disp = isAdmin() ? S.matches.filter(m => !isCounted(m) && m.disputed).length : 0;
   let out = '';
-  if (n) out += `<div class="note row spread" style="background:color-mix(in srgb,var(--gold) 22%,var(--surface))"><span><strong>Tienes ${n} resultado${n===1?'':'s'} por confirmar.</strong> Si no dices nada, se publica${n===1?'':'n'} solo${n===1?'':'s'} a las 4 horas.</span><a class="btn" href="#partidos">Revisar</a></div>`;
+  if (n && !skipMine) out += `<div class="note row spread" style="background:color-mix(in srgb,var(--gold) 22%,var(--surface))"><span><strong>Tienes ${n} resultado${n===1?'':'s'} por confirmar.</strong> Si no dices nada, se publica${n===1?'':'n'} solo${n===1?'':'s'} a las 4 horas.</span><a class="btn" href="#partidos">Revisar</a></div>`;
   if (disp) out += `<div class="note err row spread"><span><strong>${disp} resultado${disp===1?'':'s'} discutido${disp===1?'':'s'}.</strong> Revísalo y corrígelo o bórralo.</span><a class="btn" href="#partidos">Ver</a></div>`;
   return out;
 }
@@ -1001,7 +1200,7 @@ function viewMatches(C){
   const list = [...C.ms].reverse();
   const pend = pendingMatches();
   const unconf = S.matches.filter(m => !isCounted(m)).sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.at||0)-(a.at||0));
-  let out = `<div class="row spread"><h2>Partidos</h2><span class="muted small">${list.length} jugado${list.length===1?'':'s'}</span></div>`;
+  let out = agendaHead('partidos', `<span class="muted small">${list.length} jugado${list.length===1?'':'s'}</span>`);
   if (unconf.length){
     out += `<h3 style="margin:4px 0 -4px">Por confirmar</h3>`;
     out += unconf.map(m => `<div class="day">${fmtDay(m.date)}</div>${matchCard(m, C)}`).join('');
@@ -1012,7 +1211,7 @@ function viewMatches(C){
     out += pend.map(pendingCard).join('');
     out += `<p class="small muted" style="margin:-4px 0 4px">Aparecen solas cuando una convocatoria se llena. Las parejas son las equilibradas que propone la app.</p>`;
   }
-  if (!list.length && !pend.length && !unconf.length) return `<section class="panel empty"><div class="court"></div><h2>Sin partidos todavía</h2><p class="muted">Cuando una convocatoria se complete aparecerá aquí, o apunta un resultado con «+ Apuntar partido».</p></section>`;
+  if (!list.length && !pend.length && !unconf.length) return `<section class="stack" style="gap:12px">${out}<section class="panel empty">${COURT_ART}<h2>Sin partidos todavía</h2><p class="muted">Cuando una convocatoria se complete aparecerá aquí. También puedes apuntar un resultado ya.</p>${S.canWrite&&S.uid?'<a class="btn primary" href="#nuevo">+ Apuntar el primero</a>':''}</section></section>`;
   if (list.length && (pend.length || unconf.length)) out += `<h3 style="margin:8px 0 -4px">Jugados</h3>`;
   let last = '';
   for (const m of list){ if (m.date!==last){ out += `<div class="day">${fmtDay(m.date)}</div>`; last = m.date; } out += matchCard(m,C); }
@@ -1024,7 +1223,7 @@ function viewNew(em){
   if (em===null) return `<div class="note">Ese partido ya no existe. <a href="#partidos">Volver a partidos</a></div>`;
   if (em && !isAdmin()) return `<div class="note">Solo los administradores pueden editar partidos.</div>`;
   const ps = [...S.players.values()].sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
-  if (ps.length < 4) return `<section class="panel empty"><div class="court"></div><h2>Faltan jugadores</h2><p class="muted">Hacen falta al menos 4 jugadores. Ahora hay ${ps.length}. Invita a tus amigos o añádelos desde la clasificación.</p><a class="btn" href="#clasificacion">Ir a la clasificación</a></section>`;
+  if (ps.length < 4) return `<section class="panel empty">${COURT_ART}<h2>Faltan jugadores</h2><p class="muted">Hacen falta al menos 4 jugadores. Ahora hay ${ps.length}. Invita a tus amigos o añádelos desde la clasificación.</p><a class="btn" href="#clasificacion">Ir a la clasificación</a></section>`;
   const mine = myPlayer()?.id || '';
   let pf = S.prefill || null; S.prefill = null;
   if (em){ // order each pair as [drive, revés] when sides are known
@@ -1035,8 +1234,10 @@ function viewNew(em){
   const sv = (k,i) => pf && pf.sets && pf.sets[i] ? pf.sets[i][k] : '';
   const sel = (id, def, side) => `<label class="f sidelab"><span>${side}</span><select id="${id}" required><option value="">Elige jugador</option>${ps.map(p=>`<option value="${esc(p.id)}"${p.id===def?' selected':''}>${esc(p.nick)}</option>`).join('')}${def && !ps.some(p=>p.id===def) ? `<option value="${esc(def)}" selected>${esc(nick(def))}</option>`:''}</select></label>`;
   const D='Drive · derecha', R='Revés · izquierda';
-  return `<section class="panel stack">
-    <h2>${em?'Editar partido':'Apuntar partido'}</h2>
+  const usual = !em && !(pf && pf.players) && mine ? usualLineups(mine) : [];
+  return `<section class="panel stack sheet">
+    <div class="row spread"><h2>${em?'Editar partido':'Apuntar resultado'}</h2><a class="iconbtn" href="#${em?'partidos':'hoy'}" aria-label="Cerrar">${ic('x',18)}</a></div>
+    ${usual.length ? `<div class="usual"><span class="small muted">Habitual:</span>${usual.map(ids=>`<button type="button" class="chipbtn" data-lineup="${esc(ids.join(','))}">${esc(nick(ids[0]))} + ${esc(nick(ids[1]))} vs ${esc(nick(ids[2]))} + ${esc(nick(ids[3]))}</button>`).join('')}</div>` : ''}
     <form id="newForm" class="stack" style="gap:16px" ${em?`data-edit="${esc(em.id)}"`:''} ${!em && pf && pf.eventId ? `data-event="${esc(pf.eventId)}" data-court="${pf.court||0}"`:''}>
       ${!em && pf && pf.eventId ? `<div class="note small">Resultado de la convocatoria del ${fmtDay(pf.date)}. Al guardarlo, desaparece de «Pendientes de resultado».</div>`:''}
       <div class="row">
@@ -1050,18 +1251,12 @@ function viewNew(em){
       </div>
       <label class="check"><input type="checkbox" id="mSides"${!em || em.sides ? ' checked':''}> Guardar en qué lado jugó cada uno (drive o revés)</label>
       <div>
-        <h3>Resultado (juegos por set)</h3>
-        <div class="score">
-          <span></span><span class="h">Set 1</span><span class="h">Set 2</span><span class="h">Set 3</span>
-          <span class="t" id="lblA">Pareja 1</span>
-          ${[0,1,2].map(i=>`<input type="number" inputmode="numeric" min="0" max="7" id="sa${i}" value="${sv(0,i)}" aria-label="Pareja 1, set ${i+1}"${i<2?' required':''}>`).join('')}
-          <span class="t" id="lblB">Pareja 2</span>
-          ${[0,1,2].map(i=>`<input type="number" inputmode="numeric" min="0" max="7" id="sb${i}" value="${sv(1,i)}" aria-label="Pareja 2, set ${i+1}"${i<2?' required':''}>`).join('')}
-        </div>
-        <p class="small muted" style="margin:8px 0 0">Al mejor de 3 sets. Cada set acaba 6-0 a 6-4, 7-5 o 7-6 (con tie-break). Deja el set 3 vacío si se ganó 2-0. Si se acabó el tiempo a mitad de set, apunta cómo iba: te pediremos confirmación.</p>
+        <h3>Resultado</h3>
+        ${scoreSteppers('sa','sb',['Pareja 1','Pareja 2'], pf && pf.sets && pf.sets.length ? pf.sets : null, true)}
+        <p class="small muted" style="margin:8px 0 0">Al mejor de 3 sets: 6-0 a 6-4, 7-5 o 7-6. Si se acabó el tiempo a mitad de set, apunta cómo iba y te pediremos confirmación.</p>
       </div>
       <div id="formErr" class="note err" hidden></div>
-      <div class="row"><button class="btn primary" type="submit" id="saveBtn">${em?'Guardar cambios':'Guardar partido'}</button><a class="btn link" href="#partidos">Cancelar</a></div>
+      <div class="row"><button class="btn primary bigb" type="submit" id="saveBtn">${em?'Guardar cambios':'Guardar resultado'}</button><a class="btn link" href="#partidos">Cancelar</a></div>
     </form>
   </section>`;
 }
@@ -1128,6 +1323,7 @@ function viewPlayer(C, id){
         <div class="mini"><div class="k">Mejor pareja</div><div class="v" style="font-size:20px;padding-top:6px">${best?`${esc(nick(best[0]))} <span style="font-size:14px;color:var(--ink-muted)">${best[1].pg}–${best[1].pj-best[1].pg-(best[1].pe||0)}</span>`:'–'}</div></div>
       </div>
     </div>
+    ${posChart(id, C)}
     ${isMe?`<form id="nickForm" class="row"><input type="text" id="nickInput" maxlength="24" value="${esc(p.nick)}" aria-label="Tu apodo" style="flex:0 1 220px"><button class="btn" type="submit">Cambiar apodo</button></form>`:''}
     <div class="panel"><h3>Partido a partido</h3>${strip(s.log)}</div>
     <div class="grid2">
@@ -1148,7 +1344,7 @@ function viewPlayer(C, id){
 
 function viewH2H(C){
   const ps = [...S.players.values()].sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
-  if (ps.length < 2) return `<section class="panel empty"><div class="court"></div><h2>Cara a cara</h2><p class="muted">Necesitáis ser al menos dos para compararos.</p></section>`;
+  if (ps.length < 2) return `<section class="panel empty">${COURT_ART}<h2>Cara a cara</h2><p class="muted">Necesitáis ser al menos dos para compararos.</p></section>`;
   let {a,b} = S.h2h;
   if (!S.players.has(a)) a = myPlayer()?.id || ps[0].id;
   if (!S.players.has(b) || b===a) b = (ps.find(p=>p.id!==a)||{}).id;
@@ -1312,7 +1508,7 @@ const setsTxt = (sets, flip) => sets.map(([x,y]) => flip?`${y}-${x}`:`${x}-${y}`
 function viewTournaments(){
   const list = [...S.tournaments.values()].sort((a,b)=>(b.date||'').localeCompare(a.date||'') || (b.createdAt||0)-(a.createdAt||0));
   const head = `<div class="row spread"><h2>Torneos</h2>${isAdmin()?`<a class="btn primary" href="#torneo-nuevo">+ Nuevo torneo</a>`:''}</div>`;
-  if (!list.length) return `<section class="stack" style="gap:12px">${head}<div class="panel empty"><div class="court"></div><h2>Aún no habéis jugado ningún torneo</h2><p class="muted">${isAdmin()?'Crea uno con su nombre, elige grupos y parejas':'El administrador los crea con su nombre, grupos y parejas'}, y apuntad resultados según se jueguen. Aquí quedará el histórico con cada campeón.</p></div></section>`;
+  if (!list.length) return `<section class="stack" style="gap:12px">${head}<div class="panel empty">${COURT_ART}<h2>Aún no habéis jugado ningún torneo</h2><p class="muted">${isAdmin()?'Crea uno con su nombre, elige grupos y parejas':'El administrador los crea con su nombre, grupos y parejas'}, y apuntad resultados según se jueguen. Aquí quedará el histórico con cada campeón.</p></div></section>`;
   return `<section class="stack" style="gap:12px">${head}
     ${list.map(t => { const ts=tState(t); const pr = ts.total? ts.done/ts.total : 0;
       return `<a class="tcard" href="#torneo-${esc(t.id)}">
@@ -1328,6 +1524,7 @@ function viewTournaments(){
 function viewTournament(id){
   const t = S.tournaments.get(id);
   if (!t) return `<div class="note">Este torneo no existe o se ha borrado. <a href="#torneos">Volver a torneos</a></div>`;
+  { const tx = tState(t), me = myPlayer()?.id; if (tx.champion && me && tx.champion.includes(me)){ const k = 'ptg_champ_'+S.uid+'_'+t.id; if (!lsGet(k)){ lsSet(k,'1'); setTimeout(confetti, 400); } } }
   if (t.type==='americano') return viewAmericano(t);
   if (t.type==='pozo') return viewPozo(t);
   const ts = tState(t), Q = t.qualify||0, edit = canEditT();
@@ -1362,14 +1559,14 @@ function viewTournament(id){
       if (final) body = `<div class="bpair">${bm(rd[0],true)}</div>`;
       else for (let k=0;k<rd.length;k+=2) body += `<div class="bpair two">${bm(rd[k])}${bm(rd[k+1])}</div>`;
       return `<div class="bcol ${ri>0?'r1':''}"><h4>${roundName(rd.length)}</h4><div class="bbody">${body}</div></div>`;
-    }).join('')}</div>
+    }).join('')}<div class="bcol champcol"><h4>Campeones</h4><div class="bbody"><div class="bpair"><div class="champslot ${ts.champion?'on':''}">${TROPHY}<span>${ts.champion?esc(pairName(ts.champion)):'Por decidir'}</span></div></div></div></div></div>
     ${ts.groups.some(g=>!g.complete)?'<p class="small muted" style="margin:6px 0 0">Las parejas del cuadro aparecen cuando su grupo termina todos sus partidos.</p>':''}</div>` : '';
   const canDel = isAdmin();
   return `<section class="stack">
     <div class="row spread"><div><a href="#torneos" class="small muted">← Torneos</a><h2 style="font-size:32px">${esc(t.name)}</h2>
       <div class="chips" style="margin-top:6px"><span class="chip">${fmtDay(t.date)}</span><span class="chip">${t.groups.length} grupo${t.groups.length===1?'':'s'} de ${t.groups[0]?.teams.length||0} parejas</span><span class="chip">${esc(koLabel(t.groups.length,Q))}</span>${t.count===false?'<span class="chip">No cuenta en la clasificación</span>':'<span class="chip">Cuenta en la clasificación</span>'}${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}</div></div>
       <div class="stack" style="gap:6px;align-items:flex-end"><span class="small muted">${ts.done} de ${ts.total} partidos</span><span class="progress"><i style="width:${ts.total?Math.round(100*ts.done/ts.total):0}%"></i></span></div></div>
-    ${ts.champion?`<div class="champ"><span class="cup">1º</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Campeones</div><div class="cn">${esc(pairName(ts.champion))}</div></div></div>`:''}
+    ${ts.champion?`<div class="champ"><span class="cup">${TROPHY}</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Campeones</div><div class="cn">${esc(pairName(ts.champion))}</div></div></div>`:''}
     ${bracket}
     <div class="stack" style="gap:10px"><h3 style="margin:0">Fase de grupos${Q?` · pasan ${Q} por grupo`:''}</h3><div class="groups">${ts.groups.map(groupHtml).join('')}</div></div>
     ${canDel?`<div>${S.tDel===t.id?`<span>¿Borrar el torneo «${esc(t.name)}» y todos sus resultados? <button class="btn danger" data-tdelyes="${esc(t.id)}">Sí, borrar</button> <button class="btn link" data-tdelno>Cancelar</button></span>`:`<button class="btn link danger" data-tdelask>Borrar torneo</button>`}</div>`:''}
@@ -1513,7 +1710,7 @@ function viewAmericano(t){
     <div class="row spread"><div><a href="#torneos" class="small muted">← Torneos</a><h2 style="font-size:28px">${esc(t.name)}</h2>
       <div class="chips" style="margin-top:6px"><span class="chip">${fmtDay(t.date)}</span><span class="chip">Pozo americano · todos contra todos</span><span class="chip">${N} jugadores · ${ts.nC} pista${ts.nC===1?'':'s'}${N-4*ts.nC>0?` · descansa${N-4*ts.nC>1?'n':''} ${N-4*ts.nC}`:''}</span><span class="chip">${ts.NR} rondas</span>${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}</div></div>
       <div class="stack" style="gap:6px;align-items:flex-end"><span class="small muted">${ts.done} de ${ts.total} partidos</span><span class="progress"><i style="width:${ts.total?Math.round(100*ts.done/ts.total):0}%"></i></span></div></div>
-    ${ts.champion?`<div class="champ"><span class="cup">1º</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Ganador del pozo</div><div class="cn">${esc(nick(ts.champion[0]))}</div></div></div>`:''}
+    ${ts.champion?`<div class="champ"><span class="cup">${TROPHY}</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Ganador del pozo</div><div class="cn">${esc(nick(ts.champion[0]))}</div></div></div>`:''}
     <div class="panel"><h3>Clasificación individual</h3>
       <div style="overflow-x:auto"><table class="pztable"><thead><tr><th>#</th><th class="l">Jugador</th><th title="Juegos ganados menos juegos perdidos">Dif. juegos</th><th title="Partidos ganados menos perdidos">G − P</th><th>Juegos</th><th>PJ</th></tr></thead><tbody>
       ${ts.standings.map((s,i)=>`<tr${i===0&&ts.done?' class="lead"':''}><td>${i+1}</td><td class="l"><span class="pname">${av(s.id)}<span>${esc(nick(s.id))}</span></span></td><td><strong>${s.gf-s.gc>0?'+':''}${s.gf-s.gc}</strong></td><td>${s.pg-s.pp>0?'+':''}${s.pg-s.pp}</td><td>${s.gf}-${s.gc}</td><td>${s.pj}</td></tr>`).join('')}
@@ -1572,7 +1769,7 @@ function viewPozo(t){
     <div class="row spread"><div><a href="#torneos" class="small muted">← Torneos</a><h2 style="font-size:28px">${esc(t.name)}</h2>
       <div class="chips" style="margin-top:6px"><span class="chip">${fmtDay(t.date)}</span><span class="chip">Pozo americano</span><span class="chip">${(t.players||[]).length} jugadores · ${ts.nC} pista${ts.nC===1?'':'s'}</span><span class="chip">${ts.NR} rondas</span>${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}</div></div>
       <div class="stack" style="gap:6px;align-items:flex-end"><span class="small muted">${ts.done} de ${ts.total} partidos</span><span class="progress"><i style="width:${ts.total?Math.round(100*ts.done/ts.total):0}%"></i></span></div></div>
-    ${ts.champion?`<div class="champ"><span class="cup">1º</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Ganador del pozo</div><div class="cn">${esc(nick(ts.champion[0]))}</div></div></div>`:''}
+    ${ts.champion?`<div class="champ"><span class="cup">${TROPHY}</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Ganador del pozo</div><div class="cn">${esc(nick(ts.champion[0]))}</div></div></div>`:''}
     ${!ts.finished ? `<div class="panel stack" style="gap:12px"><div class="row spread"><h3 style="margin:0">Ronda ${cur[0]?cur[0].r+1:1} de ${ts.NR}</h3>${curDone?'<span class="small muted">Ronda completa</span>':`<span class="small muted">${cur.filter(m=>m.sets).length}/${cur.length} pistas apuntadas</span>`}</div>
       <div class="pzgrid">${cur.map(m=>courtCard(m, true)).join('')}</div>
       <p class="small muted" style="margin:0">Apunta los juegos de cada pareja. Al completar la ronda, los ganadores suben una pista, los perdedores bajan y se cambian las parejas.</p></div>` : ''}
@@ -1808,7 +2005,7 @@ function viewCalendar(){
   const upcoming = evs.filter(e=>!isPast(e)), past = evs.filter(isPast).reverse();
   const list = S.calSel ? evs.filter(e=>e.date===S.calSel) : upcoming;
   return `<section class="stack" style="gap:16px">
-    <div class="row spread"><h2>Calendario</h2>${isAdmin()?`<a class="btn primary" href="#evento-nuevo">+ Convocar</a>`:''}</div>
+    ${agendaHead('calendario', isAdmin()?`<a class="btn primary" href="#evento-nuevo">+ Convocar</a>`:'')}
     <div class="cal">
       <div class="calhead"><button class="calnav" data-cm="-1" aria-label="Mes anterior">‹</button><span class="mn">${MESES_L[M-1]} ${Y}</span><button class="calnav" data-cm="1" aria-label="Mes siguiente">›</button></div>
       <div class="calgrid">${cells}</div>
@@ -1816,7 +2013,7 @@ function viewCalendar(){
     ${S.calSel?`<div class="row spread"><h3 style="margin:0">${fmtDay(S.calSel)}</h3><button class="btn link" data-calall>Ver todas las próximas</button></div>`:`<h3 style="margin:0">Próximas convocatorias</h3>`}
     ${myPlayer()||!S.uid?'':`<p class="note" style="margin:0">Únete a la clasificación (arriba) para poder apuntarte.</p>`}
     ${isAdmin() && seriesList().length ? `<details class="panel"><summary style="cursor:pointer;font-weight:700">Convocatorias semanales (${seriesList().length})</summary><div style="margin-top:10px">${seriesList().map(sr=>`<div class="kv"><span class="small"><strong>${esc(sr.title||'Partido')}</strong> · todos los ${DIAS_PL[new Date(sr.start+'T12:00').getDay()]}${sr.time?' a las '+esc(sr.time):''}${sr.place?' · '+esc(sr.place):''}<br><span class="muted">Desde ${fmtDay(sr.start)}${sr.until?' hasta '+fmtDay(sr.until):', sin fecha de fin'}</span></span><button class="btn link danger" data-srdel="${esc(sr.id)}">Terminar</button></div>`).join('')}</div></details>`:''}
-    ${list.length ? list.map(eventCard).join('') : `<div class="panel empty"><div class="court"></div><p class="muted" style="margin:0">${S.calSel?'No hay nada convocado ese día.':(isAdmin()?'No hay convocatorias. Crea una con «+ Convocar».':'No hay convocatorias todavía. El organizador las irá publicando aquí.')}</p></div>`}
+    ${list.length ? list.map(eventCard).join('') : `<div class="panel empty">${COURT_ART}<p class="muted" style="margin:0">${S.calSel?'No hay nada convocado ese día.':(isAdmin()?'No hay convocatorias. Crea una con «+ Convocar».':'No hay convocatorias todavía. El organizador las irá publicando aquí.')}</p></div>`}
     ${!S.calSel && past.length ? `<details><summary style="cursor:pointer;font-weight:700">Anteriores (${past.length})</summary><div class="stack" style="gap:12px;margin-top:12px">${past.slice(0,20).map(eventCard).join('')}</div></details>`:''}
   </section>`;
 }
@@ -1911,12 +2108,12 @@ function eventCard(e){
       <div class="evblocks">
         <div class="evblock">
           <div class="evbh"><span class="evbt">Partido</span><span><strong>${sm.starters.length}/${sm.slots}</strong> plazas</span></div>
-          <div class="places" aria-label="Plazas del partido">${sm.starters.map(r=>`<span title="${esc(uidName(r.uid))}">${uidAv(r.uid)}</span>`).join('')}${'<span class="free"></span>'.repeat(free)}</div>
+          ${chipsFor(sm.starters, free)}
           <div class="evline">${free?`<span>${free} plaza${free===1?'':'s'} libre${free===1?'':'s'}</span>`:'<span class="full">Completo</span>'}${sm.bench.length?`<span>${sm.bench.length} en reserva</span>`:''}${sm.subs.length?`<span>${sm.subs.length} suplente${sm.subs.length===1?'':'s'}${free&&sm.subs.length?' · pueden cubrir las plazas libres':''}</span>`:''}${sm.maybe.length?`<span>${sm.maybe.length} en duda</span>`:''}</div>
         </div>
         ${e.beers!==false?`<div class="evblock beerb">
           <div class="evbh"><span class="evbt">${MUG} Cervezas</span><span><strong>${sm.beer.length}</strong> apuntado${sm.beer.length===1?'':'s'} · sin límite</span></div>
-          ${sm.beer.length?`<div class="places beers" aria-label="Van a cervezas">${sm.beer.map(r=>`<span title="${esc(uidName(r.uid))}${r.play!=='si'?' (solo cervezas)':''}">${uidAv(r.uid)}</span>`).join('')}</div>`:'<span class="small muted">Nadie todavía. Puedes venir aunque no juegues.</span>'}
+          ${sm.beer.length?`<div class="pchips beers">${sm.beer.map(r=>pchip(r.uid)).join('')}</div>`:'<span class="small muted">Nadie todavía. Puedes venir aunque no juegues.</span>'}
           ${sm.beer.some(r=>r.play!=='si')?`<div class="evline"><span>${sm.beer.filter(r=>r.play!=='si').length} solo a cervezas</span></div>`:''}
         </div>`:''}
       </div>
@@ -1948,7 +2145,7 @@ function eventCard(e){
       </details>
       ${sm.starters.length>=4 ? pairsBox(e, sm) : ''}
       <div class="row evacts">
-        <a class="btn wa" href="${esc(waLink(e, sm))}" target="_blank" rel="noopener">${WA} Compartir por WhatsApp</a>
+        ${faltaBtn(e, sm)}<a class="btn ${Math.max(0, sm.slots - sm.starters.length) && !isPast(e) ? '' : 'wa'}" href="${esc(waLink(e, sm))}" target="_blank" rel="noopener">${WA} Compartir por WhatsApp</a>
         <a class="btn" href="${esc(gcalLink(e))}" target="_blank" rel="noopener">Google Calendar</a>
         ${canSaveFile() ? `<button class="btn" data-ics="${esc(e.id)}">iPhone / Outlook (.ics)</button>` : ''}
       </div>
@@ -1965,7 +2162,7 @@ function viewEventNew(){
   if (!isAdmin()) return `<div class="note">Solo los administradores pueden crear convocatorias.</div>`;
   const f = S.ef ||= {date: S.calSel && S.calSel>=today() ? S.calSel : today(), time:'19:30', title:'Partido', place:'', slots:4, beers:true, note:'', repeat:false, until:''};
   return `<section class="panel stack">
-    <div><a href="#calendario" class="small muted">← Calendario</a><h2>Nueva convocatoria</h2></div>
+    <div><a href="#calendario" class="small muted">← Agenda</a><h2>Nueva convocatoria</h2></div>
     <form id="evForm" class="stack" style="gap:16px">
       <div class="row">
         <label class="f">Fecha<input type="date" id="evDate" value="${esc(f.date)}" min="${today()}" required></label>
@@ -1989,6 +2186,11 @@ function viewEventNew(){
   </section>`;
 }
 
+async function saveRsvpRaw(eid, val){
+  const ref = S.db.doc('rsvp/'+S.uid);
+  if (S.rsvp.has(S.uid)) await ref.update({events:{[eid]:val}});
+  else await ref.set({events:{[eid]:val}});
+}
 async function saveRsvp(eid, patch){
   const cur = (S.rsvp.get(S.uid)?.events || {})[eid] || {};
   const next = {...cur, ...patch, at:Date.now()};
@@ -2008,15 +2210,18 @@ function bindCalendar(v){
     S.calMonth = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); render(); });
   app.querySelectorAll('[data-day]').forEach(b => b.onclick = () => { S.calSel = S.calSel===b.dataset.day ? null : b.dataset.day; render(); });
   const all = $('[data-calall]'); if (all) all.onclick = () => { S.calSel = null; render(); };
-  app.querySelectorAll('[data-rsvp]').forEach(b => b.onclick = () => write(()=>saveRsvp(b.dataset.rsvp, {play:b.dataset.play}), null));
-  app.querySelectorAll('[data-beer]').forEach(b => b.onclick = () => write(()=>saveRsvp(b.dataset.beer, {beer:b.dataset.v==='1'}), null));
+  const prevR = eid => { const p = (S.rsvp.get(S.uid)?.events || {})[eid]; return p ? {...p} : null; };
+  const undoR = (eid, prev) => () => saveRsvpRaw(eid, prev);
+  const PLAYMSG = {si:'Te has apuntado a jugar', no:'Has dicho que no juegas', duda:'Te has puesto en duda', sup:'Te has apuntado como suplente'};
+  app.querySelectorAll('[data-rsvp]').forEach(b => b.onclick = () => { const eid = b.dataset.rsvp, prev = prevR(eid); if (prev && prev.play===b.dataset.play) return; write(()=>saveRsvp(eid, {play:b.dataset.play}), PLAYMSG[b.dataset.play], undoR(eid, prev)); });
+  app.querySelectorAll('[data-beer]').forEach(b => b.onclick = () => { const eid = b.dataset.beer, prev = prevR(eid), v = b.dataset.v==='1'; if (prev && prev.beer===v) return; write(()=>saveRsvp(eid, {beer:v}), v ? 'Te has apuntado a las cervezas' : 'Has dicho que no vas a las cervezas', undoR(eid, prev)); });
   app.querySelectorAll('[data-evdel]').forEach(b => b.onclick = () => { const e=getEv(b.dataset.evdel); if(!e) return;
     if (e.seriesId){ const sr = S.events.get(e.seriesId); if (!sr) return; askConfirm({title:'¿Qué quieres borrar?', text:`Esta convocatoria se repite todos los ${DIAS_PL[new Date(sr.start+'T12:00').getDay()]}. Puedes quitar solo este día o terminar la serie entera.`, detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Solo este día', danger:true, run:()=>write(()=>S.db.doc('events/'+sr.id).update({skip:[...new Set([...(sr.skip||[]), e.date])]}), 'Ese día ya no tiene convocatoria.')},{label:'Toda la serie', danger:true, run:()=>write(()=>S.db.doc('events/'+sr.id).delete(), 'Serie borrada.')}]}); return; } const n=evSummary(e).rs.length; askConfirm({title:'¿Borrar esta convocatoria?', text: n? `Hay ${n} respuesta${n===1?'':'s'} y se perderán. No se puede deshacer.` : 'No se puede deshacer.', detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Sí, borrar convocatoria', danger:true, run:()=>write(()=>S.db.doc('events/'+e.id).delete(), 'Convocatoria borrada.')}]}); });
   const dn = $('[data-evdelno]'); if (dn) dn.onclick = () => { S.evDel = null; render(); };
   app.querySelectorAll('[data-evdelyes]').forEach(b => b.onclick = () => { const id=b.dataset.evdelyes; S.evDel=null; write(()=>S.db.doc('events/'+id).delete(), 'Convocatoria borrada.'); });
   app.querySelectorAll('[data-promook]').forEach(b => b.onclick = () => { lsSet('ptg_ev_'+S.uid+'_'+b.dataset.promook, 'in'); render(); });
   app.querySelectorAll('[data-supok]').forEach(b => b.onclick = () => { lsSet('ptg_sup_'+S.uid+'_'+b.dataset.supok, b.dataset.n); render(); });
-  app.querySelectorAll('[data-supjoin]').forEach(b => b.onclick = () => write(()=>saveRsvp(b.dataset.supjoin, {play:'si'}), '¡Apuntado! Ya juegas el partido.'));
+  app.querySelectorAll('[data-supjoin]').forEach(b => b.onclick = () => { const eid = b.dataset.supjoin, prev = prevR(eid); write(()=>saveRsvp(eid, {play:'si'}), '¡Apuntado! Ya juegas el partido.', undoR(eid, prev)); });
   app.querySelectorAll('[data-mkpozo]').forEach(b => b.onclick = () => { const e = getEv(b.dataset.mkpozo); if (!e) return;
     const ids = evSummary(e).yes.map(r=>playerByUid(r.uid)?.id).filter(Boolean);
     S.tf = {...tfDefaults(), type:'americano', name:`Pozo ${evWhen(e).replace(/ · .*/,'')}`, date:e.date, pp:ids};
@@ -2069,11 +2274,11 @@ function renderModal(){
   box.hidden = false; document.body.style.overflow='hidden';
   box.innerHTML = `<div class="mback" data-mclose></div>
     <div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mText">
-      <div class="mico" aria-hidden="true">!</div>
+      <div class="mico" aria-hidden="true">${m.actions.length?'!':'i'}</div>
       <h2 id="mTitle">${esc(m.title)}</h2>
       <p id="mText" class="muted" style="margin:0">${esc(m.text)}</p>
       ${m.detail?`<div class="mdetail">${m.detail}</div>`:''}
-      <div class="mact">${m.actions.map((a,i)=>`<button class="btn ${a.danger?'dangerfill':''}" data-mact="${i}">${esc(a.label)}</button>`).join('')}<button class="btn" data-mclose>Cancelar</button></div>
+      <div class="mact">${m.actions.map((a,i)=>`<button class="btn ${a.danger?'dangerfill':''}" data-mact="${i}">${esc(a.label)}</button>`).join('')}<button class="btn ${m.actions.length?'':'primary'}" data-mclose>${m.actions.length?'Cancelar':'Entendido'}</button></div>
     </div>`;
   box.querySelectorAll('[data-mclose]').forEach(b => b.onclick = closeModal);
   box.querySelectorAll('[data-mact]').forEach(b => b.onclick = () => { const a = m.actions[+b.dataset.mact]; closeModal(); a.run(); });
@@ -2103,7 +2308,9 @@ function confirmPlayerDelete(id){
 }
 
 function foot(){
-  const f = $('#foot');
+  $('#foot').innerHTML = '';
+  if (viewName()!=='ajustes') return;
+  const f = $('#ajustesBox'); if (!f) return;
   if (S.isOwner && S.status==='ready'){
     const cands = [...S.players.values()].filter(p => p.uid && p.uid!==S.uid).sort((a,b)=>(a.nick||'').localeCompare(b.nick||''));
     const admins = S.admins||[];
@@ -2148,7 +2355,7 @@ function foot(){
     sec.ontoggle = () => { S.reqOpen = sec.open; };
     $('#invCopy').onclick = () => { const i=$('#invLink'); navigator.clipboard?.writeText(i.value).then(()=>{ $('#invCopy').textContent='Copiado'; }).catch(()=>{ i.select(); }); };
     const findR = uid => reqs.find(r=>r.uid===uid), findM = uid => mem.find(m=>m.uid===uid);
-    f.querySelectorAll('[data-racc]').forEach(b => b.onclick = () => { const r=findR(b.dataset.racc); askConfirm({title:'¿Aceptar la solicitud?', text:`${r.email} podrá entrar al grupo, ver la clasificación y apuntarse.`, actions:[{label:'Sí, aceptar', run:()=>write(()=>ga.approve(r), `${r.email} ya es miembro del grupo.`)}]}); });
+    f.querySelectorAll('[data-racc]').forEach(b => b.onclick = () => { const r=findR(b.dataset.racc); write(()=>ga.approve(r), `${r.name||r.email} ya es miembro del grupo.`); });
     f.querySelectorAll('[data-rrej]').forEach(b => b.onclick = () => { const r=findR(b.dataset.rrej); askConfirm({title:'¿Rechazar la solicitud?', text:`${r.email} no podrá entrar. Si vuelve a pedirlo, te llegará otra solicitud.`, actions:[{label:'Sí, rechazar', danger:true, run:()=>write(()=>ga.reject(r), 'Solicitud rechazada.')}]}); });
     f.querySelectorAll('[data-rmem]').forEach(b => b.onclick = () => { const m=findM(b.dataset.rmem); askConfirm({title:'¿Quitar del grupo?', text:`${m.email} dejará de poder entrar. Sus partidos se mantienen en la clasificación.`, actions:[{label:'Sí, quitar', danger:true, run:()=>write(()=>ga.removeMember(m.uid), 'Miembro quitado.')}]}); });
   }
@@ -2225,23 +2432,26 @@ function appendLogoPanel(f){
 }
 
 /* ---------- actions ---------- */
-async function write(fn, okMsg){
-  if (S.busy) return; S.busy = true;
-  try { await fn(); S.flash = okMsg ? {t:'ok',m:okMsg} : null; }
+async function write(fn, okMsg, undo){
+  if (S.busy) return; S.busy = true; let ok = false;
+  try { await fn(); S.flash = null; ok = true; }
   catch(e){
     if (e && e.code==='invalid_argument') { S.canWrite=false; S.flash={t:'err',m:'No tienes permiso para guardar cambios. Pide a un administrador que revise tu acceso.'}; }
     else if (e && e.code==='quota_exceeded') S.flash={t:'err',m:'Se ha llenado el espacio de datos. Borra partidos antiguos para seguir.'};
     else S.flash={t:'err',m:'No se ha podido guardar. Inténtalo de nuevo en un momento.'};
   }
   S.busy = false; render();
-  if (S.flash && S.flash.t==='ok') setTimeout(()=>{ S.flash=null; renderData(); }, 3500);
+  if (ok && (okMsg || undo)) showToast(okMsg || 'Hecho', undo);
 }
 
 function bindView(v){
   const app = $('#app');
   app.querySelectorAll('[data-go]').forEach(tr => tr.onclick = e => { if (e.target.closest('a')) return; location.hash = tr.dataset.go; });
   app.querySelectorAll('[data-rsort]').forEach(b => b.onclick = () => { const k = b.dataset.rsort; if (S.rsort===k && k!=='pos') S.rdir = -(S.rdir||-1); else { S.rsort = k; S.rdir = -1; } render(); });
-  app.querySelectorAll('[data-period]').forEach(b => b.onclick = () => { S.period = b.dataset.period; render(); });
+  app.querySelectorAll('[data-period]').forEach(b => b.onclick = () => { S.period = b.dataset.period; S.lastView = null; render(); });
+  app.querySelectorAll('[data-rinfo]').forEach(b => b.onclick = () => askConfirm({title:'Cómo se ordena el ranking', text:'Primero cuenta quién ha ganado más partidos. Si hay empate, quién tiene más empates; después, el mayor % de sets ganados y, por último, el mayor % de juegos ganados.', detail:'<strong>▲ ▼</strong> puestos ganados o perdidos en los últimos 7 días. <strong>nuevo</strong>: ha entrado esta semana.<br><strong>V</strong> victorias · <strong>E</strong> empates · <strong>PJ</strong> partidos jugados.', actions:[]}));
+  app.querySelectorAll('[data-welcome]').forEach(b => b.onclick = () => maybeWelcome(true));
+  app.querySelectorAll('[data-lineup]').forEach(b => b.onclick = () => { const ids = b.dataset.lineup.split(','); ['a1','a2','b1','b2'].forEach((k,i) => { const el = $('#'+k); if (el){ el.value = ids[i]; el.dispatchEvent(new Event('change')); } }); app.querySelectorAll('[data-lineup]').forEach(x => x.classList.toggle('on', x===b)); });
   app.querySelectorAll('[data-sort]').forEach(b => b.onclick = () => { S.sortBy = b.dataset.sort; try{localStorage.setItem('sortBy',S.sortBy)}catch(_){} render(); });
   app.querySelectorAll('[data-askdel]').forEach(b => b.onclick = () => confirmMatchDelete(b.dataset.askdel));
   app.querySelectorAll('[data-pdel]').forEach(b => b.onclick = () => confirmPlayerDelete(b.dataset.pdel));
@@ -2265,14 +2475,14 @@ function bindView(v){
   const nfm = $('#newForm'); if (nfm) bindNew(nfm);
   bindTournaments(v);
   bindCalendar(v);
-  app.querySelectorAll('[data-openreq]').forEach(b => b.onclick = () => { S.reqOpen = true; foot(); const d=$('#reqDet'); if (d){ d.open=true; d.scrollIntoView({behavior:'smooth'}); } });
+  app.querySelectorAll('[data-openreq]').forEach(b => b.onclick = () => { S.reqOpen = true; location.hash = 'ajustes'; });
 }
 
 function bindNew(form){
   const ids = ['a1','a2','b1','b2'];
   const labels = () => {
     const n = id => { const v=$('#'+id).value; return v? nick(v):'?'; };
-    $('#lblA').textContent = `${n('a1')} / ${n('a2')}`; $('#lblB').textContent = `${n('b1')} / ${n('b2')}`;
+    $('#salbl').textContent = `${n('a1')} / ${n('a2')}`; $('#sblbl').textContent = `${n('b1')} / ${n('b2')}`; updateSteps(form.querySelector('.steps'));
   };
   ids.forEach(i => $('#'+i).addEventListener('change', labels)); labels();
   form.onsubmit = e => {
@@ -2301,10 +2511,347 @@ function bindNew(form){
     if (old){ doc.editedBy = S.uid; doc.editedAt = Date.now(); }
     doc.confirmed = isAdmin();
     if (doc.confirmed){ doc.confirmedBy = S.uid; doc.confirmedAt = Date.now(); }
+    const meId = myPlayer()?.id, rr = result({sets}), iWon = !!meId && !rr.draw && ((rr.aWins && doc.a.includes(meId)) || (!rr.aWins && doc.b.includes(meId)));
     $('#saveBtn').disabled = true;
     if (old) write(async ()=>{ await S.db.doc('matches/'+editId).set(doc); location.hash='partidos'; }, 'Partido corregido. La clasificación ya está actualizada.');
-    else write(async ()=>{ await S.db.collection('matches').add(doc); location.hash='partidos'; }, doc.confirmed ? 'Partido guardado. La clasificación ya está actualizada.' : 'Partido guardado. Contará cuando lo confirme la pareja rival, o solo dentro de 4 horas si nadie dice nada.');
+    else write(async ()=>{ await S.db.collection('matches').add(doc); location.hash='partidos'; if (iWon) setTimeout(confetti, 250); }, doc.confirmed ? 'Partido guardado. La clasificación ya está actualizada.' : 'Partido guardado. Contará cuando lo confirme la pareja rival, o solo dentro de 4 horas si nadie dice nada.');
   };
+}
+
+/* ---------- v5: Hoy, Ajustes, steppers, toasts, welcome, confetti ---------- */
+const ICO = {
+  home:'<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/>',
+  trophy:'<path d="M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 20h8M9 17h6"/>',
+  cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  back:'<path d="M15 6l-6 6 6 6"/>',
+  chev:'<path d="M9 6l6 6-6 6"/>',
+  check:'<path d="M5 12l5 5 9-10"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  users:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 5a3 3 0 0 1 0 6M21 20a5 5 0 0 0-3-4.6"/>',
+  ball:'<circle cx="12" cy="12" r="8.5"/><path d="M5.3 6.6c2.9 1.7 4.5 4.4 4.5 7.3 0 1.4-.3 2.7-1 3.9M18.7 17.4c-2.9-1.7-4.5-4.4-4.5-7.3 0-1.4.3-2.7 1-3.9"/>'
+};
+const ic = (k, sz) => `<svg class="ic" viewBox="0 0 24 24" width="${sz||20}" height="${sz||20}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
+const TROPHY = ic('trophy', 26);
+const COURT_ART = `<svg class="eart" viewBox="0 0 220 130" aria-hidden="true">
+  <ellipse class="sh" cx="110" cy="118" rx="88" ry="7"/>
+  <rect class="c" x="28" y="16" width="164" height="94" rx="8"/>
+  <rect class="l" x="40" y="26" width="140" height="74" rx="2"/>
+  <path class="l" d="M72 26v74M148 26v74M72 63h76"/>
+  <path class="n" d="M110 20v86"/>
+  <g transform="rotate(-28 168 96)"><ellipse class="r" cx="168" cy="84" rx="15" ry="18"/><circle class="rh" cx="163" cy="79" r="1.6"/><circle class="rh" cx="171" cy="79" r="1.6"/><circle class="rh" cx="167" cy="86" r="1.6"/><circle class="rh" cx="163" cy="92" r="1.6"/><circle class="rh" cx="172" cy="92" r="1.6"/><rect class="rg" x="164.5" y="101" width="7" height="20" rx="3"/></g>
+  <path class="tr" d="M44 44c10-16 22-22 34-22"/>
+  <circle class="b" cx="40" cy="50" r="8"/><path class="bs" d="M34.5 45.5c3 2 4.5 4.6 4.5 7.5M45.5 54.5c-3-2-4.5-4.6-4.5-7.5"/>
+</svg>`;
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+function ago(ts){
+  if (!ts) return '';
+  const m = Math.round((Date.now()-ts)/60000);
+  if (m < 2) return 'ahora';
+  if (m < 60) return `hace ${m} min`;
+  const h = Math.round(m/60); if (h < 24) return `hace ${h} h`;
+  const d = Math.round(h/24); if (d === 1) return 'ayer';
+  if (d < 7) return `hace ${d} días`;
+  const dt = new Date(ts); return `${dt.getDate()} ${MESES[dt.getMonth()]}`;
+}
+
+/* names next to every face */
+const pchip = uid => `<span class="pchip">${uidAv(uid)}<span>${esc(uidName(uid))}</span></span>`;
+const freeChip = '<span class="pchip free"><span class="av"></span><span>Libre</span></span>';
+function chipsFor(list, free){ return `<div class="pchips">${list.map(r=>pchip(r.uid)).join('')}${freeChip.repeat(Math.max(0,free||0))}</div>`; }
+
+/* "Nos falta uno" for WhatsApp */
+function faltaLink(e, sm){
+  const free = Math.max(0, sm.slots - sm.starters.length);
+  const t = [`🎾 ¡Nos ${free===1?'falta 1':'faltan '+free}! ${e.title||'Partido'} · ${evWhen(e)}${e.place?' · '+e.place:''}`];
+  if (sm.starters.length) t.push(`Juegan: ${sm.starters.map(r=>uidName(r.uid)).join(', ')}`);
+  t.push('', `¿Quién se apunta? 👉 ${appLink('#calendario')}`);
+  return 'https://wa.me/?text=' + encodeURIComponent(t.join('\n'));
+}
+const faltaBtn = (e, sm) => { const free = Math.max(0, sm.slots - sm.starters.length); return free && !isPast(e) ? `<a class="btn wa" href="${esc(faltaLink(e, sm))}" target="_blank" rel="noopener">${WA} Nos falta${free===1?' uno':'n '+free}</a>` : ''; };
+
+/* week-on-week movement in the ranking */
+function rankMoves(period, curActive){
+  const key = (period||'todo')+'|'+S.matches.length+'|'+S.matches.filter(isCounted).length+'|'+S.tres.size+'|'+S.players.size+'|'+today();
+  if (S.mvKey === key) return S.mv;
+  const cut = isoD(new Date(Date.now()-7*864e5));
+  const prev = rankList(compute(period, cut).st).active;
+  const pp = new Map(prev.map(x=>[x.p.id, x.pos]));
+  const mv = new Map();
+  for (const x of curActive){ const o = pp.get(x.p.id); mv.set(x.p.id, o==null ? 'new' : o - x.pos); }
+  S.mvKey = key; S.mv = mv; return mv;
+}
+function mvHtml(d){
+  if (d==='new') return '<span class="mv nw" title="Nuevo en el ranking esta semana">nuevo</span>';
+  if (!d) return '<span class="mv eq" title="Mismo puesto que hace una semana">=</span>';
+  return d>0 ? `<span class="mv up" title="Ha subido ${d} puesto${d===1?'':'s'} esta semana">▲${d}</span>` : `<span class="mv dn" title="Ha bajado ${-d} puesto${d===-1?'':'s'} esta semana">▼${-d}</span>`;
+}
+
+/* position over time, for the player card */
+function posHistory(id, C){
+  const dates = [...new Set(C.ms.filter(m=>m.a.includes(id)||m.b.includes(id)).map(m=>m.date))].sort().slice(-12);
+  return dates.map(d => { const {active} = rankList(compute(null, d+'~').st); const me = active.find(x=>x.p.id===id); return me ? {d, pos:me.pos, n:active.length} : null; }).filter(Boolean);
+}
+function posChart(id, C){
+  const h = posHistory(id, C);
+  if (h.length < 2) return '';
+  const W=320, H=110, px=18, py=16, maxN = Math.max(...h.map(x=>x.n), 2);
+  const X = i => px + i*(W-2*px)/(h.length-1), Y = p => py + (p-1)*(H-2*py)/(maxN-1);
+  const pts = h.map((x,i)=>`${X(i).toFixed(1)},${Y(x.pos).toFixed(1)}`).join(' ');
+  const best = Math.min(...h.map(x=>x.pos)), last = h[h.length-1];
+  return `<div class="panel"><div class="row spread"><h3 style="margin:0">Su posición en el ranking</h3><span class="small muted">Mejor puesto: <strong style="color:var(--fg)">${best}º</strong></span></div>
+    <svg class="poschart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolución del puesto: ahora ${last.pos}º, mejor ${best}º">
+      <line x1="${px}" x2="${W-px}" y1="${Y(1)}" y2="${Y(1)}" class="g1"/><text x="${px}" y="${Y(1)-6}" class="gt">1º puesto</text>
+      <polyline points="${pts}" class="ln"/>
+      ${h.map((x,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Y(x.pos).toFixed(1)}" r="${i===h.length-1?5:3}" class="${i===h.length-1?'pt last':'pt'}"><title>${fmtDay(x.d)}: ${x.pos}º</title></circle>`).join('')}
+      <text x="${X(h.length-1)}" y="${Math.min(H-2, Y(last.pos)+18)}" text-anchor="end" class="lt">${last.pos}º</text>
+    </svg>
+    <p class="small muted" style="margin:4px 0 0">Puesto después de cada día que ha jugado (últimos ${h.length}).</p></div>`;
+}
+
+/* ---------- Hoy ---------- */
+function nextEvent(){
+  const evs = allEvents().filter(e=>!isPast(e)).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+  return evs[0] || null;
+}
+function emptyCard(title, text, cta){
+  return `<section class="panel empty">${COURT_ART}<h2>${esc(title)}</h2><p class="muted">${esc(text)}</p>${cta?`<a class="btn primary" href="${cta[0]}">${esc(cta[1])}</a>`:''}</section>`;
+}
+function confCard(m){
+  const r = result(m);
+  const cells = side => (m.sets||[]).map(([x,y]) => { const a = side? y:x, b = side? x:y; return `<span class="sc ${a>b?'w':''}">${a}</span>`; }).join('');
+  return `<section class="hcard conf">
+    <div class="row spread"><span class="eyb warn"><i class="dot"></i>Confirma este resultado</span><span class="small muted">se publica solo en ${autoLeft(m)}</span></div>
+    <div class="board">
+      <span class="tn ${r.aWins?'w':''}">${teamAvs(m.a)}<span>${teamNames(m.a)}</span></span><span class="scs">${cells(0)}</span>
+      <span class="tn ${!r.aWins&&!r.draw?'w':''}">${teamAvs(m.b)}<span>${teamNames(m.b)}</span></span><span class="scs">${cells(1)}</span>
+    </div>
+    <div class="small muted">${fmtDay(m.date)}${m.place?' · '+esc(m.place):''} · lo apuntó ${esc(uidName(m.by))}</div>
+    <div class="nbtns"><button class="btn primary" data-mconf="${esc(m.id)}">Confirmar</button><button class="btn nobtn" data-mdisp="${esc(m.id)}">No es correcto</button></div>
+  </section>`;
+}
+function activity(){
+  const items = [];
+  for (const m of S.matches.filter(isCounted)){
+    const r = result(m), w = r.aWins ? m.a : m.b, l = r.aWins ? m.b : m.a;
+    items.push({at:m.confirmedAt||m.at||0, ic:'ball', html: r.draw ? `<strong>${teamNames(m.a)}</strong> y <strong>${teamNames(m.b)}</strong> empatan ${esc(setsTxt(m.sets||[]))}` : `<strong>${teamNames(w)}</strong> ganan a ${teamNames(l)} · ${esc(setsTxt(m.sets||[], !r.aWins))}`});
+  }
+  for (const p of S.players.values()) if (p.createdAt) items.push({at:p.createdAt, av:p.id, html:`<strong>${esc(p.nick)}</strong> se ha unido al grupo`});
+  for (const e of S.events.values()) if (e.createdAt) items.push({at:e.createdAt, ic:'cal', html: e.kind==='series' ? `Nueva convocatoria semanal: <strong>${esc(e.title||'Partido')}</strong>, los ${DIAS_PL[new Date(e.start+'T12:00').getDay()]}` : `Nueva convocatoria: <strong>${esc(e.title||'Partido')}</strong> · ${esc(evWhen(e))}`});
+  for (const t of S.tournaments.values()) if (t.createdAt) items.push({at:t.createdAt, ic:'trophy', html:`Nuevo torneo: <strong>${esc(t.name)}</strong>`});
+  return items.sort((a,b)=>b.at-a.at).slice(0,6);
+}
+function viewHoy(C){
+  const mp = myPlayer(), me = mp?.id;
+  const hr = new Date().getHours(), hi = hr<6?'Buenas noches':hr<14?'Buenos días':hr<21?'Buenas tardes':'Buenas noches';
+  let out = `<div class="hoyhead"><span class="muted">${hi}${mp?', '+esc(mp.nick):''}</span><h2>Hoy</h2></div>`;
+
+  // 1. next match
+  const e = nextEvent();
+  if (e){
+    const sm = evSummary(e), mine = S.uid ? sm.rs.find(r=>r.uid===S.uid) : null, free = Math.max(0, sm.slots - sm.starters.length);
+    const inIt = sm.starters.some(r=>r.uid===S.uid), bench = sm.bench.some(r=>r.uid===S.uid);
+    const canAnswer = S.uid && mp && S.canWrite;
+    const pl = mine?.play;
+    out += `<section class="nextc">
+      <div class="row spread"><span class="eyb">${inIt?'Tu próximo partido':'Próximo partido'}</span><span class="pill2 ${free?'':'full'}">${free ? (free===1?'Queda 1 plaza':`Quedan ${free} plazas`) : 'Completo'}</span></div>
+      <div><div class="nwhen">${esc(cap(evWhen(e)))}</div><div class="nwhere">${esc(e.title||'Partido')}${e.place?' · '+esc(e.place):''}${e.seriesId?' · cada semana':''}</div></div>
+      ${chipsFor(sm.starters, free)}
+      ${bench?'<span class="small">Estás en reserva: entras si alguien se borra.</span>':''}${pl==='sup'?'<span class="small">Eres suplente. Si queda una plaza, pulsa «Juego».</span>':''}${pl==='duda'?'<span class="small">Estás en duda. Decide cuando puedas.</span>':''}
+      ${canAnswer?`<div class="nbtns">
+          <button class="btn bigb ${pl==='si'?'primary on':pl?'':'primary'}" data-rsvp="${esc(e.id)}" data-play="si" aria-pressed="${pl==='si'}">${pl==='si'?ic('check',18)+' Juego':'Juego'}</button>
+          <button class="btn bigb ${pl==='no'?'nobtn on':'lightb'}" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${pl==='no'}">No juego</button></div>
+        <div class="row" style="gap:4px;margin-top:-4px"><button class="btn link ${pl==='duda'?'on':''}" data-rsvp="${esc(e.id)}" data-play="duda" aria-pressed="${pl==='duda'}">En duda</button><button class="btn link ${pl==='sup'?'on':''}" data-rsvp="${esc(e.id)}" data-play="sup" aria-pressed="${pl==='sup'}">Suplente</button></div>`:''}
+      ${e.beers!==false && canAnswer ? `<button class="beerrow ${mine?.beer===true?'on':''}" data-beer="${esc(e.id)}" data-v="${mine?.beer===true?'0':'1'}">${MUG}<span>Cervezas después · ${sm.beer.length} ${sm.beer.length===1?'va':'van'}</span><strong>${mine?.beer===true?'Voy':'Me apunto'}</strong></button>` : ''}
+      <div class="row" style="gap:6px">${(inIt||isAdmin()) ? faltaBtn(e, sm) : ''}<a class="btn link" href="#calendario">Ver convocatoria ${ic('chev',14)}</a></div>
+    </section>`;
+  } else {
+    out += emptyCard('No hay partidos convocados', isAdmin()?'Crea una convocatoria y avisa al grupo por WhatsApp.':'Cuando se convoque un partido lo verás aquí.', isAdmin()?['#evento-nuevo','+ Convocar partido']:null);
+  }
+
+  // 2. results waiting for me
+  if (mp){
+    const toConf = S.matches.filter(m => canConfirm(m) && !m.disputed && rivalsOf(m).includes(me)).sort((a,b)=>(a.at||0)-(b.at||0));
+    out += toConf.slice(0,3).map(confCard).join('');
+    const pend = pendingMatches().filter(p => (p.e.date||'') <= today() && [...p.c.A, ...p.c.B].includes(me));
+    out += pend.slice(0,2).map(p => `<section class="hcard">
+      <div class="row spread"><span class="eyb warn"><i class="dot"></i>Falta el resultado</span><span class="small muted">${esc(evWhen(p.e))}</span></div>
+      <div class="board"><span class="tn">${teamAvs(p.c.A)}<span>${teamNames(p.c.A)}</span></span><span class="scs"><span class="sc">–</span></span><span class="tn">${teamAvs(p.c.B)}<span>${teamNames(p.c.B)}</span></span><span class="scs"><span class="sc">–</span></span></div>
+      ${S.canWrite?`<button class="btn primary" data-pendres="${esc(p.e.id)}" data-court="${p.i}">Apuntar resultado</button>`:''}</section>`).join('');
+  }
+
+  // 3. my position
+  const CP = S.period==='todo' ? C : compute(S.period);
+  const {active} = rankList(CP.st), mv = rankMoves(S.period, active);
+  const row = active.find(x=>x.p.id===me);
+  if (row){
+    const s = row.s, d = mv.get(me), up = active.filter(x=>x.pos<row.pos).pop();
+    const gap = up ? (up.s.pg>s.pg ? `A ${up.s.pg-s.pg} victoria${up.s.pg-s.pg===1?'':'s'} del ${up.pos}º` : `Empatas a victorias con el ${up.pos}º`) : '¡Eres el líder!';
+    out += `<a class="hcard posc" href="#clasificacion">
+      <div class="pbig"><span class="pn"><span data-count="${row.pos}">${row.pos}</span>º</span><span class="small muted">de ${active.length}</span>${d!=null?mvHtml(d):''}</div>
+      <div class="pinfo"><span class="eyb">Tu posición · ${periodLabel(S.period).toLowerCase()}</span>
+        <div class="pst"><span><small>VICT.</small><b data-count="${s.pg}">${s.pg}</b></span><span><small>EMP.</small><b>${s.pe}</b></span><span><small>% SETS</small><b><span data-count="${Math.round(100*pSets(s))}">${Math.round(100*pSets(s))}</span>%</b></span></div>
+        <span class="small ${up?'muted':'lead'}">${gap}</span></div>
+      <span class="chv">${ic('chev')}</span></a>`;
+    if (row.pos===1 && active.length>1){ const k = 'ptg_lead_'+S.uid+'_'+S.period+'_'+(S.period==='mes'?today().slice(0,7):S.period==='anio'?today().slice(0,4):'x'); if (!lsGet(k) && lsGet('ptg_welcome_'+S.uid)){ lsSet(k,'1'); setTimeout(confetti, 400); } }
+  } else if (mp){
+    out += `<a class="hcard posc" href="#nuevo"><div class="pbig"><span class="pn" style="font-size:30px">–</span></div><div class="pinfo"><span class="eyb">Tu posición</span><span>Juega tu primer partido${S.period!=='todo'?' de este periodo':''} para entrar en el ranking.</span></div><span class="chv">${ic('chev')}</span></a>`;
+  }
+
+  // 4. activity
+  const act = activity();
+  if (act.length) out += `<section class="actc"><h3>Novedades del grupo</h3><div class="panel actl">${act.map(x=>`<div class="acti">${x.av?av(x.av):`<span class="aico">${ic(x.ic,16)}</span>`}<span class="atx">${x.html}</span><span class="small muted ago">${ago(x.at)}</span></div>`).join('')}</div></section>`;
+  return `<section class="stack hoy" style="gap:14px">${out}</section>`;
+}
+
+/* ---------- Ajustes ---------- */
+function viewAjustes(){
+  const mp = myPlayer(), lg = S.config.logo || '';
+  const role = window.groupApi ? window.groupApi.role : (S.isOwner ? 'Admin' : isAdmin() ? 'Coadmin' : '');
+  const showRole = isAdmin() || (window.groupApi && window.groupApi.isSuper);
+  return `<section class="stack" style="gap:14px">
+    <div class="pagehead"><a href="#hoy" class="iconbtn" aria-label="Volver">${ic('back',22)}</a><h2>Ajustes</h2></div>
+    <div class="panel setgroup">
+      <span class="logoprev lg">${lg?`<img src="${esc(lg)}" alt="">`:'<span class="mark"><i></i></span>'}</span>
+      <div style="min-width:0"><div class="sgname">${esc(S.config.name||'Pádel entre amigos')}</div>
+        <div class="row" style="gap:8px;margin-top:4px">${showRole?`<span class="rolebadge">${esc(role)}</span>`:''}<span class="small muted">${S.players.size} jugador${S.players.size===1?'':'es'}</span></div></div>
+    </div>
+    ${mp ? `<div class="panel stack" style="gap:12px"><h3 style="margin:0">Tu perfil</h3>
+      <form id="nickForm" class="row"><input type="text" id="nickInput" maxlength="24" value="${esc(mp.nick)}" aria-label="Tu apodo" style="flex:1 1 180px"><button class="btn" type="submit">Cambiar apodo</button></form>
+      <a class="setrow" href="#jugador-${esc(mp.id)}">${ic('users')}<span>Ver mi ficha y mis estadísticas</span>${ic('chev',16)}</a></div>` : ''}
+    ${S.canWrite && S.uid ? `<details class="panel"><summary style="cursor:pointer;font-weight:700">Añadir un amigo que aún no tiene cuenta</summary>
+      <form id="guestForm" class="row" style="margin-top:12px"><input type="text" id="guestNick" maxlength="24" placeholder="Apodo" required style="flex:1 1 200px"><button class="btn" type="submit">Añadir jugador</button></form>
+      <p class="small muted" style="margin:8px 0 0">Podréis apuntar sus partidos ya. Cuando entre con su cuenta, pulsa «Soy …» y se queda con todo su historial.</p></details>` : ''}
+    <div id="ajustesBox" class="stack" style="gap:14px"></div>
+    <div class="panel row spread"><span class="small"><strong>Cómo funciona la app</strong><br><span class="muted">Vuelve a ver la bienvenida.</span></span><button class="btn" data-welcome>Ver</button></div>
+  </section>`;
+}
+
+/* ---------- score steppers ---------- */
+function stepper(id, val, label){
+  const v = val===''||val==null ? '' : +val;
+  return `<div class="stp"><button type="button" class="sb" data-step="-1" data-for="${id}" aria-label="Restar un juego"${v===''||v<=0?' disabled':''}>−</button><input type="number" inputmode="numeric" min="0" max="7" id="${id}" value="${v}" placeholder="0" aria-label="${esc(label)}"><button type="button" class="sb" data-step="1" data-for="${id}" aria-label="Sumar un juego"${v!==''&&v>=7?' disabled':''}>+</button></div>`;
+}
+function scoreSteppers(pa, pb, names, pf, allowDraw){
+  const sv = (k,i) => pf && pf[i] ? pf[i][k] : '';
+  const has3 = pf && pf[2];
+  return `<div class="steps" data-pa="${pa}" data-pb="${pb}" ${allowDraw?'data-draw="1"':''}>
+    <div class="stphead"><span></span><span class="t" id="${pa}lbl">${esc(names[0])}</span><span class="t" id="${pb}lbl">${esc(names[1])}</span></div>
+    ${[0,1,2].map(i=>`<div class="setrow2" data-setrow="${i}" ${i===2 && !has3?'hidden':''}><span class="sl">Set ${i+1}${i===2?` <button type="button" class="rmset" data-rmset aria-label="Quitar set 3">${ic('x',12)}</button>`:''}</span>${stepper(pa+i, sv(0,i), names[0]+', set '+(i+1))}${stepper(pb+i, sv(1,i), names[1]+', set '+(i+1))}</div>`).join('')}
+    <button type="button" class="btn addset" data-addset ${has3?'hidden':''}>+ Añadir set 3</button>
+    <div class="livesum" aria-live="polite"></div>
+  </div>`;
+}
+function updateSteps(box){
+  if (!box) return;
+  const pa = box.dataset.pa, pb = box.dataset.pb;
+  box.querySelectorAll('.stp').forEach(st => { const inp = st.querySelector('input'), v = inp.value===''?'':+inp.value;
+    st.querySelector('[data-step="-1"]').disabled = v==='' || v<=0; st.querySelector('[data-step="1"]').disabled = v!=='' && v>=7; });
+  const out = box.querySelector('.livesum'); if (!out) return;
+  const a0 = $('#'+pa+'0').value, b0 = $('#'+pb+'0').value;
+  if (a0==='' && b0===''){ out.innerHTML = '<span class="muted">Suma los juegos de cada pareja en cada set.</span>'; out.className='livesum'; return; }
+  const ps = parseSetInputs(pa, pb, true);
+  const nA = ($('#'+pa+'lbl')||{}).textContent || 'Pareja 1', nB = ($('#'+pb+'lbl')||{}).textContent || 'Pareja 2';
+  if (ps.err){ out.innerHTML = `<span>${esc(ps.err)}</span>`; out.className='livesum warn'; return; }
+  const r = result({sets:ps.sets});
+  const extra = ps.unfinished.length ? ' · partido sin acabar' : '';
+  out.className = 'livesum ok';
+  out.innerHTML = r.draw ? `${ic('check',18)}<span><strong>Empate</strong> · ${r.sa}-${r.sb} en sets · ${r.ga}-${r.gb} en juegos${extra}</span>`
+    : `${ic('check',18)}<span><strong>Gana ${esc(r.aWins?nA:nB)}</strong> · ${Math.max(r.sa,r.sb)}-${Math.min(r.sa,r.sb)} en sets · ${Math.max(r.ga,r.gb)}-${Math.min(r.ga,r.gb)} en juegos${extra}</span>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-step],[data-addset],[data-rmset]'); if (!b) return;
+  const box = b.closest('.steps'); if (!box) return;
+  if (b.dataset.step){
+    const inp = document.getElementById(b.dataset.for); if (!inp) return;
+    const v = inp.value==='' ? 0 : +inp.value || 0, n = Math.max(0, Math.min(7, v + (+b.dataset.step)));
+    inp.value = n; try { navigator.vibrate && navigator.vibrate(6); } catch(_){}
+  } else if (b.hasAttribute('data-addset')){
+    const r = box.querySelector('[data-setrow="2"]'); r.hidden = false; b.hidden = true;
+    r.querySelectorAll('input').forEach(i => { if (i.value==='') i.value = 0; });
+  } else {
+    const r = box.querySelector('[data-setrow="2"]'); r.hidden = true; r.querySelectorAll('input').forEach(i => i.value = '');
+    box.querySelector('[data-addset]').hidden = false;
+  }
+  updateSteps(box);
+});
+document.addEventListener('input', e => { const box = e.target.closest && e.target.closest('.steps'); if (box) updateSteps(box); });
+function usualLineups(me){
+  const cnt = new Map();
+  for (const m of S.matches){
+    if (![...m.a, ...m.b].includes(me)) continue;
+    const A = m.a.includes(me) ? m.a : m.b, B = A===m.a ? m.b : m.a, mate = A.find(x=>x!==me);
+    const k = [me, mate, ...[...B].sort()].join('|'); cnt.set(k, (cnt.get(k)||0)+1);
+  }
+  return [...cnt].sort((a,b)=>b[1]-a[1]).map(([k])=>k.split('|')).filter(ids => ids.every(id => S.players.has(id))).slice(0,2);
+}
+
+/* ---------- toasts with undo ---------- */
+function showToast(msg, undo){
+  let t = document.getElementById('toast');
+  if (!t){ t = document.createElement('div'); t.id = 'toast'; t.setAttribute('role','status'); document.body.appendChild(t); }
+  clearTimeout(S.toastT);
+  t.innerHTML = `<span>${esc(msg)}</span>${undo?'<button type="button">Deshacer</button>':''}`;
+  t.className = 'show';
+  if (undo) t.querySelector('button').onclick = () => { t.className = ''; clearTimeout(S.toastT); write(undo, 'Deshecho'); };
+  S.toastT = setTimeout(() => { t.className = ''; }, undo ? 6000 : 3500);
+}
+
+/* ---------- confetti and count-up ---------- */
+function confetti(){
+  try { if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch(_){}
+  const box = document.createElement('div'); box.className = 'confetti'; box.setAttribute('aria-hidden','true');
+  const cols = ['#16794a','#dfe63a','#1f5ba3','#e8bb2a','#7fd3a4','#ffffff'];
+  for (let i=0;i<80;i++){ const s = document.createElement('i');
+    s.style.left = (Math.random()*100)+'%'; s.style.background = cols[i%cols.length];
+    s.style.animationDelay = (Math.random()*.35)+'s'; s.style.animationDuration = (1.7+Math.random()*1.3)+'s';
+    s.style.setProperty('--dx', (Math.random()*180-90)+'px'); s.style.setProperty('--r', (Math.random()*900-450)+'deg');
+    if (i%3===0) s.style.borderRadius = '50%';
+    box.appendChild(s); }
+  document.body.appendChild(box); setTimeout(() => box.remove(), 3500);
+}
+function countUp(root){
+  try { if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch(_){}
+  root.querySelectorAll('[data-count]').forEach(el => {
+    const to = +el.dataset.count; if (!(to > 1)) return;
+    const t0 = performance.now(), dur = 650;
+    const step = t => { const k = Math.min(1, (t-t0)/dur), e = 1-Math.pow(1-k,3); el.textContent = Math.round(to*e); if (k<1) requestAnimationFrame(step); };
+    el.textContent = '0'; requestAnimationFrame(step);
+  });
+}
+
+/* ---------- welcome ---------- */
+const WEL = [
+  {t:'Apúntate a los partidos', p:'En Hoy y en Agenda verás cada convocatoria con quién juega. Pulsa «Juego» o «No juego», y dinos si vienes a las cervezas.', k:'cal'},
+  {t:'Apunta el resultado con el +', p:'Al acabar, pulsa el botón + de abajo y suma los juegos de cada set. La pareja rival lo confirma; si nadie dice nada, se publica solo a las 4 horas.', k:'plus'},
+  {t:'Sube en el ranking', p:'Manda quien más partidos gana. Si hay empate, cuentan los empates, luego el % de sets y después el % de juegos. Las flechas ▲▼ te dicen si has subido esta semana.', k:'trophy'}
+];
+function maybeWelcome(force){
+  if (!force && (!S.uid || lsGet('ptg_welcome_'+S.uid))) return;
+  S.wel = 0; renderWelcome();
+}
+function renderWelcome(){
+  let w = document.getElementById('welcome');
+  if (!w){ w = document.createElement('div'); w.id = 'welcome'; document.body.appendChild(w); }
+  if (S.wel==null){ w.hidden = true; w.innerHTML = ''; document.body.style.overflow=''; return; }
+  const s = WEL[S.wel], last = S.wel === WEL.length-1;
+  w.hidden = false; document.body.style.overflow='hidden';
+  w.innerHTML = `<div class="wbox" role="dialog" aria-modal="true" aria-labelledby="wT">
+    <div class="wart"><span class="wcircle">${ic(s.k, 54)}</span>${S.wel===0?`<span class="wstep">1 de ${WEL.length}</span>`:`<span class="wstep">${S.wel+1} de ${WEL.length}</span>`}</div>
+    <h2 id="wT">${esc(s.t)}</h2><p>${esc(s.p)}</p>
+    <div class="wdots" aria-hidden="true">${WEL.map((_,i)=>`<i class="${i===S.wel?'on':''}"></i>`).join('')}</div>
+    <div class="wact">${last?'<span></span>':'<button class="btn link" data-wskip>Saltar</button>'}<button class="btn primary" data-wnext>${last?'Empezar':'Siguiente'}</button></div>
+  </div>`;
+  const done = () => { if (S.uid) lsSet('ptg_welcome_'+S.uid, '1'); S.wel = null; renderWelcome(); };
+  w.querySelector('[data-wnext]').onclick = () => { if (last) done(); else { S.wel++; renderWelcome(); } };
+  const sk = w.querySelector('[data-wskip]'); if (sk) sk.onclick = done;
+  w.querySelector('[data-wnext]').focus();
+}
+
+function agendaHead(v, right){
+  return `<div class="row spread"><h2>Agenda</h2>${right||''}</div>
+    <div class="agseg" role="tablist"><a role="tab" href="#calendario" aria-selected="${v==='calendario'}">Convocatorias</a><a role="tab" href="#partidos" aria-selected="${v==='partidos'}">Partidos</a></div>`;
 }
 
 /* ---------- boot ---------- */
@@ -2312,7 +2859,7 @@ function formBusy(){ const ae=document.activeElement; return ['nuevo','torneo-nu
 window.appRefresh = () => renderData();
 function renderData(){ if (S.status==='ready' && formBusy()){ S.pending=true; return; } S.pending=false; render(); }
 document.addEventListener('focusout', () => setTimeout(() => { if (S.pending && !formBusy()) renderData(); }, 60));
-function checkReady(){ if (S.ready.p && S.ready.m && S.status==='loading'){ S.status='ready'; render(); return; } renderData(); }
+function checkReady(){ if (S.ready.p && S.ready.m && S.status==='loading'){ S.status='ready'; render(); setTimeout(()=>maybeWelcome(), 700); return; } renderData(); }
 function onScrollBrand(){
   const p = Math.max(0, Math.min(1, (window.scrollY||0) / 110));
   document.documentElement.style.setProperty('--sp', p.toFixed(3));

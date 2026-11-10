@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
-<meta name="app-version" content="20261110160245">
+<meta name="app-version" content="20261110162512">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -873,6 +873,25 @@ html[data-view] .match,html[data-view] .tile,html[data-view] .panel,html[data-vi
 .bhtext{padding-right:56px}
 .btn.wa{display:inline-flex;align-items:center;gap:6px}
 .bcol.champcol{flex-basis:140px;min-width:140px}
+/* Suplente: yellow, a little smaller than Juego / No juego */
+.btn.supb{width:100%;min-height:42px;font-size:14px;font-weight:800;background:color-mix(in srgb,var(--ball-y) 55%,var(--surface));color:#3a3d00;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:-4px}
+.btn.supb:hover{background:color-mix(in srgb,var(--ball-y) 75%,var(--surface))}
+.btn.supb.on{background:var(--ball-y);box-shadow:inset 0 0 0 2px #b8be1c}
+.opt.sub{background:color-mix(in srgb,var(--ball-y) 40%,var(--surface))!important;color:#3a3d00}
+.opt[aria-pressed="true"].sub{background:var(--ball-y)!important;border-color:#b8be1c;color:#3a3d00;box-shadow:inset 0 0 0 2px #b8be1c}
+/* v6 */
+.mico.good{background:var(--tonal);color:var(--primary)}
+.mico .ic{width:28px;height:28px}
+.mdetail .pchips{justify-content:center}
+.monthc{background:linear-gradient(135deg,var(--primary),#0f5c37);color:#fff}
+.monthc .eyb{color:var(--ball-y)} .monthc .lcup{color:var(--ball-y)} .monthc .small.muted{color:rgba(255,255,255,.85)}
+.mpod{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:end}
+.mp{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:16px;background:rgba(255,255,255,.14);min-width:0;font-weight:700;font-size:13px}
+.mp>span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mp.p1{background:var(--ball-y);color:#3a3d00;order:2;padding-top:18px}
+.mp.p2{order:1}.mp.p3{order:3}
+.mp b{font-size:18px}
+.pchip .supdot{width:8px;height:8px;border-radius:50%;background:var(--ball-y);box-shadow:0 0 0 1.5px #b8be1c;margin-left:-2px;flex:none}
 
 </style>
 </head>
@@ -948,7 +967,7 @@ function compute(period, before){
   for (const p of S.allPlayers.values()) st.set(p.id,{pj:0,pg:0,pe:0,sf:0,sc:0,gf:0,gc:0,form:[],log:[],partners:{},rivals:{},sd:{drive:{pj:0,pg:0},reves:{pj:0,pg:0}}});
   const ms = [...S.matches.filter(isCounted), ...tournamentMatches()].filter(m => [...m.a,...m.b].every(id => st.has(id)))
     .sort((x,y)=> (x.date||'').localeCompare(y.date||'') || (x.at||0)-(y.at||0))
-    .filter(m => !period || period==='todo' || (m.date||'').startsWith(period==='mes'? today().slice(0,7) : today().slice(0,4)))
+    .filter(m => !period || period==='todo' || (m.date||'').startsWith(period.startsWith('m:') ? period.slice(2) : period==='mes'? today().slice(0,7) : today().slice(0,4)))
     .filter(m => !before || (m.date||'') < before);
   for (const m of ms){
     const r = result(m);
@@ -1125,6 +1144,8 @@ function viewRanking(Call){
       <div class="rlist">${sortRows(active).map(row).join('')}${showIdle.map(row).join('')}</div>
     </div>`:`<div class="panel empty">${COURT_ART}<p class="muted" style="margin:0">Nadie ha jugado todavía ${S.period==='mes'?'este mes':'este año'}.</p></div>`}
     <p class="small muted" style="margin:0">▲▼ puestos ganados o perdidos en los últimos 7 días. Toca una columna para ordenar.</p>
+    ${S.period==='mes' && active.length ? `<button class="btn wa" data-mcard="${monthKey(0)}" style="align-self:flex-start">${WA} Compartir tarjeta del mes</button>` : ''}
+    ${new Date().getDate() <= 7 && S.period==='mes' && monthTop(monthKey(-1)).length ? `<button class="btn" data-mcard="${monthKey(-1)}" style="align-self:flex-start">Tarjeta de ${MESES_L[+monthKey(-1).slice(5)-1]}</button>` : ''}
     ${beerRanking()}
   </section>`;
 }
@@ -1933,7 +1954,19 @@ function evRsvps(eid){ const out=[]; for (const [uid,doc] of S.rsvp){ const r = 
 function evSummary(e){
   const rs = evRsvps(e.id), slots = e.slots||4;
   const yes = rs.filter(r=>r.play==='si').sort((a,b)=>(a.atSi||0)-(b.atSi||0));
-  return {rs, yes, starters:yes.slice(0,slots), bench:yes.slice(slots), maybe:rs.filter(r=>r.play==='duda'), subs:rs.filter(r=>r.play==='sup').sort((a,b)=>(a.at||0)-(b.at||0)), no:rs.filter(r=>r.play==='no'), beer:rs.filter(r=>r.beer===true), slots};
+  let subs = rs.filter(r=>r.play==='sup').sort((a,b)=>uidName(a.uid).localeCompare(uidName(b.uid)));
+  let starters = yes.slice(0,slots), bench = yes.slice(slots);
+  // Less than 24 h before the start, a free place is taken automatically by a substitute
+  // (the one who signed up as substitute first). Before that, substitutes are just a count, with no order.
+  const t0 = evStartMs(e) - 24*3600e3;
+  if (Date.now() >= t0 && subs.length){
+    const key = r => r.play==='si' ? (r.atSi||0) : t0;
+    const all = [...yes, ...subs].sort((a,b)=>(key(a)-key(b)) || (a.play==='sup' && b.play==='sup' ? (a.atSup||a.at||0)-(b.atSup||b.at||0) : 0));
+    starters = all.slice(0,slots).map((r,i) => r.play==='sup' ? {...r, auto:true, autoKey:t0 - 1000 + i} : r);
+    const inS = new Set(starters.map(r=>r.uid));
+    bench = yes.filter(r=>!inS.has(r.uid)); subs = subs.filter(r=>!inS.has(r.uid));
+  }
+  return {rs, yes, starters, bench, maybe:rs.filter(r=>r.play==='duda'), subs, no:rs.filter(r=>r.play==='no'), beer:rs.filter(r=>r.beer===true), slots};
 }
 const isPast = e => (e.date||'') < today();
 const isoD = dt => dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
@@ -2121,11 +2154,10 @@ function eventCard(e){
         <span class="q">¿Juegas el partido? · ${sm.slots} plazas</span>
         <div class="opts">
           <button class="opt yes" data-rsvp="${esc(e.id)}" data-play="si" aria-pressed="${mine?.play==='si'}">Juego</button>
-          <button class="opt maybe" data-rsvp="${esc(e.id)}" data-play="duda" aria-pressed="${mine?.play==='duda'}">En duda</button>
           <button class="opt sub" data-rsvp="${esc(e.id)}" data-play="sup" aria-pressed="${mine?.play==='sup'}">Suplente</button>
           <button class="opt no" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${mine?.play==='no'}">No juego</button>
         </div>
-        ${mine?.play==='si' && sm.bench.some(r=>r.uid===S.uid)?'<span class="small muted">Estás en reserva: entras si alguien se borra.</span>':''}${mine?.play==='sup'?'<span class="small muted">Eres suplente: no ocupas plaza, pero te avisarán si falta alguien. Si queda una plaza libre, pulsa «Juego».</span>':''}
+        ${mine?.play==='si' && sm.bench.some(r=>r.uid===S.uid)?'<span class="small muted">Estás en reserva: entras si alguien se borra.</span>':''}${mine?.play==='sup'?(sm.starters.some(r=>r.uid===S.uid)?'<span class="small muted">Has pasado a titular automáticamente: quedaba una plaza libre a menos de 24 h del partido.</span>':'<span class="small muted">Eres suplente: no ocupas plaza. Si a menos de 24 h del partido queda una plaza libre, entras automáticamente (por orden de apuntado como suplente).</span>'):''}
         ${e.beers!==false?`<span class="q" style="margin-top:6px">¿Vienes a las cervezas? · sin límite</span>
         <div class="opts">
           <button class="opt beer" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${MUG} Sí, voy</button>
@@ -2138,7 +2170,7 @@ function eventCard(e){
           <div><h5>Juegan (${sm.starters.length}/${sm.slots})</h5>${li(sm.starters)}</div>
           ${sm.bench.length?`<div><h5>Reserva</h5>${li(sm.bench)}</div>`:''}
           ${sm.subs.length?`<div><h5>Suplentes</h5>${li(sm.subs)}</div>`:''}
-          <div><h5>En duda</h5>${li(sm.maybe)}</div>
+          ${sm.maybe.length?`<div><h5>En duda</h5>${li(sm.maybe)}</div>`:''}
           <div><h5>No juegan</h5>${li(sm.no)}</div>
           ${e.beers!==false?`<div><h5>Cervezas (${sm.beer.length})</h5>${sm.beer.length?`<ul>${sm.beer.map(r=>`<li>${uidAv(r.uid)}<span>${esc(uidName(r.uid))}</span>${r.play!=='si'?'<span class="tag">solo cervezas</span>':''}</li>`).join('')}</ul>`:'<span class="muted">Nadie</span>'}</div>`:''}
         </div>
@@ -2195,6 +2227,8 @@ async function saveRsvp(eid, patch){
   const cur = (S.rsvp.get(S.uid)?.events || {})[eid] || {};
   const next = {...cur, ...patch, at:Date.now()};
   if (patch.play==='si' && cur.play!=='si') next.atSi = Date.now();
+  if (patch.play==='sup' && cur.play!=='sup') next.atSup = Date.now();
+  if (patch.play && patch.play!=='sup') next.atSup = null;
   if (patch.play && patch.play!=='si') next.atSi = null;
   if (patch.play==='no' && next.beer===undefined) {}
   const ref = S.db.doc('rsvp/'+S.uid);
@@ -2266,7 +2300,7 @@ function bindCalendar(v){
 
 /* ---------- confirmation pop-up ---------- */
 function askConfirm(m){ S.modal = m; renderModal(); }
-function closeModal(){ S.modal = null; renderModal(); }
+function closeModal(){ S.modal = null; renderModal(); setTimeout(runPopups, 350); }
 function renderModal(){
   const box = $('#modal');
   if (!S.modal){ box.hidden = true; box.innerHTML = ''; document.body.style.overflow=''; return; }
@@ -2274,11 +2308,11 @@ function renderModal(){
   box.hidden = false; document.body.style.overflow='hidden';
   box.innerHTML = `<div class="mback" data-mclose></div>
     <div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mText">
-      <div class="mico" aria-hidden="true">${m.actions.length?'!':'i'}</div>
+      <div class="mico ${m.ico?'good':''}" aria-hidden="true">${m.ico || (m.actions.length?'!':'i')}</div>
       <h2 id="mTitle">${esc(m.title)}</h2>
       <p id="mText" class="muted" style="margin:0">${esc(m.text)}</p>
       ${m.detail?`<div class="mdetail">${m.detail}</div>`:''}
-      <div class="mact">${m.actions.map((a,i)=>`<button class="btn ${a.danger?'dangerfill':''}" data-mact="${i}">${esc(a.label)}</button>`).join('')}<button class="btn ${m.actions.length?'':'primary'}" data-mclose>${m.actions.length?'Cancelar':'Entendido'}</button></div>
+      <div class="mact">${m.actions.map((a,i)=>`<button class="btn ${a.danger?'dangerfill':''} ${a.primary?'primary':''}" data-mact="${i}">${esc(a.label)}</button>`).join('')}<button class="btn ${m.actions.length?'':'primary'}" data-mclose>${m.closeLabel || (m.actions.length?'Cancelar':'Entendido')}</button></div>
     </div>`;
   box.querySelectorAll('[data-mclose]').forEach(b => b.onclick = closeModal);
   box.querySelectorAll('[data-mact]').forEach(b => b.onclick = () => { const a = m.actions[+b.dataset.mact]; closeModal(); a.run(); });
@@ -2557,9 +2591,9 @@ function ago(ts){
 }
 
 /* names next to every face */
-const pchip = uid => `<span class="pchip">${uidAv(uid)}<span>${esc(uidName(uid))}</span></span>`;
+const pchip = (uid, auto) => `<span class="pchip ${auto?'auto':''}" ${auto?'title="Entró como suplente"':''}>${uidAv(uid)}<span>${esc(uidName(uid))}</span>${auto?'<i class="supdot" aria-label="ex suplente"></i>':''}</span>`;
 const freeChip = '<span class="pchip free"><span class="av"></span><span>Libre</span></span>';
-function chipsFor(list, free){ return `<div class="pchips">${list.map(r=>pchip(r.uid)).join('')}${freeChip.repeat(Math.max(0,free||0))}</div>`; }
+function chipsFor(list, free){ return `<div class="pchips">${list.map(r=>pchip(r.uid, r.auto||r.autoFromSub)).join('')}${freeChip.repeat(Math.max(0,free||0))}</div>`; }
 
 /* "Nos falta uno" for WhatsApp */
 function faltaLink(e, sm){
@@ -2658,11 +2692,11 @@ function viewHoy(C){
       <div class="row spread"><span class="eyb">${inIt?'Tu próximo partido':'Próximo partido'}</span><span class="pill2 ${free?'':'full'}">${free ? (free===1?'Queda 1 plaza':`Quedan ${free} plazas`) : 'Completo'}</span></div>
       <div><div class="nwhen">${esc(cap(evWhen(e)))}</div><div class="nwhere">${esc(e.title||'Partido')}${e.place?' · '+esc(e.place):''}${e.seriesId?' · cada semana':''}</div></div>
       ${chipsFor(sm.starters, free)}
-      ${bench?'<span class="small">Estás en reserva: entras si alguien se borra.</span>':''}${pl==='sup'?'<span class="small">Eres suplente. Si queda una plaza, pulsa «Juego».</span>':''}${pl==='duda'?'<span class="small">Estás en duda. Decide cuando puedas.</span>':''}
+      ${bench?'<span class="small">Estás en reserva: entras si alguien se borra.</span>':''}${pl==='sup'&&!inIt?'<span class="small">Eres suplente. Si a menos de 24 h del partido queda una plaza libre, entras automáticamente.</span>':''}${pl==='duda'?'<span class="small">Estabas en duda: elige Juego, Suplente o No juego.</span>':''}
       ${canAnswer?`<div class="nbtns">
           <button class="btn bigb ${pl==='si'?'primary on':pl?'':'primary'}" data-rsvp="${esc(e.id)}" data-play="si" aria-pressed="${pl==='si'}">${pl==='si'?ic('check',18)+' Juego':'Juego'}</button>
           <button class="btn bigb ${pl==='no'?'nobtn on':'lightb'}" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${pl==='no'}">No juego</button></div>
-        <div class="row" style="gap:4px;margin-top:-4px"><button class="btn link ${pl==='duda'?'on':''}" data-rsvp="${esc(e.id)}" data-play="duda" aria-pressed="${pl==='duda'}">En duda</button><button class="btn link ${pl==='sup'?'on':''}" data-rsvp="${esc(e.id)}" data-play="sup" aria-pressed="${pl==='sup'}">Suplente</button></div>`:''}
+        <button class="btn supb ${pl==='sup'?'on':''}" data-rsvp="${esc(e.id)}" data-play="sup" aria-pressed="${pl==='sup'}">${pl==='sup'?ic('check',16)+' Suplente':'Suplente'}</button>`:''}
       ${e.beers!==false && canAnswer ? `<button class="beerrow ${mine?.beer===true?'on':''}" data-beer="${esc(e.id)}" data-v="${mine?.beer===true?'0':'1'}">${MUG}<span>Cervezas después · ${sm.beer.length} ${sm.beer.length===1?'va':'van'}</span><strong>${mine?.beer===true?'Voy':'Me apunto'}</strong></button>` : ''}
       <div class="row" style="gap:6px">${(inIt||isAdmin()) ? faltaBtn(e, sm) : ''}<a class="btn link" href="#calendario">Ver convocatoria ${ic('chev',14)}</a></div>
     </section>`;
@@ -2698,6 +2732,9 @@ function viewHoy(C){
   } else if (mp){
     out += `<a class="hcard posc" href="#nuevo"><div class="pbig"><span class="pn" style="font-size:30px">–</span></div><div class="pinfo"><span class="eyb">Tu posición</span><span>Juega tu primer partido${S.period!=='todo'?' de este periodo':''} para entrar en el ranking.</span></div><span class="chv">${ic('chev')}</span></a>`;
   }
+
+  // 3b. monthly card
+  if (new Date().getDate() <= 7 && monthTop(monthKey(-1)).length) out += monthCardCta(monthKey(-1), true);
 
   // 4. activity
   const act = activity();
@@ -2828,6 +2865,7 @@ const WEL = [
   {t:'Sube en el ranking', p:'Manda quien más partidos gana. Si hay empate, cuentan los empates, luego el % de sets y después el % de juegos. Las flechas ▲▼ te dicen si has subido esta semana.', k:'trophy'}
 ];
 function maybeWelcome(force){
+  S.welChecked = true;
   if (!force && (!S.uid || lsGet('ptg_welcome_'+S.uid))) return;
   S.wel = 0; renderWelcome();
 }
@@ -2843,7 +2881,7 @@ function renderWelcome(){
     <div class="wdots" aria-hidden="true">${WEL.map((_,i)=>`<i class="${i===S.wel?'on':''}"></i>`).join('')}</div>
     <div class="wact">${last?'<span></span>':'<button class="btn link" data-wskip>Saltar</button>'}<button class="btn primary" data-wnext>${last?'Empezar':'Siguiente'}</button></div>
   </div>`;
-  const done = () => { if (S.uid) lsSet('ptg_welcome_'+S.uid, '1'); S.wel = null; renderWelcome(); };
+  const done = () => { if (S.uid) lsSet('ptg_welcome_'+S.uid, '1'); S.wel = null; renderWelcome(); setTimeout(runPopups, 400); };
   w.querySelector('[data-wnext]').onclick = () => { if (last) done(); else { S.wel++; renderWelcome(); } };
   const sk = w.querySelector('[data-wskip]'); if (sk) sk.onclick = done;
   w.querySelector('[data-wnext]').focus();
@@ -2854,12 +2892,128 @@ function agendaHead(v, right){
     <div class="agseg" role="tablist"><a role="tab" href="#calendario" aria-selected="${v==='calendario'}">Convocatorias</a><a role="tab" href="#partidos" aria-selected="${v==='partidos'}">Partidos</a></div>`;
 }
 
+/* ---------- v6: day-of reminder, waiting list, monthly card ---------- */
+function evStartMs(e){ const [y,m,d] = e.date.split('-').map(Number); const [hh,mm] = (e.time||'20:00').split(':').map(Number); return new Date(y, m-1, d, hh||0, mm||0).getTime(); }
+function popupsFree(){ return S.uid && S.status==='ready' && S.welChecked && !S.modal && S.wel==null && viewName()!=='nuevo'; }
+function maybeReminder(){
+  if (!popupsFree()) return false;
+  for (const e of allEvents()){
+    if (e.date !== today()) continue;
+    const sm = evSummary(e); if (!sm.starters.some(r=>r.uid===S.uid)) continue;
+    if (Date.now() > evStartMs(e) + 2*3600e3) continue;
+    const k = 'ptg_rem_'+S.uid+'_'+e.id; if (lsGet(k)) continue; lsSet(k, '1');
+    const others = sm.starters.filter(r=>r.uid!==S.uid);
+    askConfirm({ico:ic('ball',30), title:'¡Hoy juegas!', text:`${e.time?'A las '+e.time:'Hoy'}${e.place?' en '+e.place:''}.`,
+      detail:`${others.length?`<div class="small muted" style="margin-bottom:8px">En la pista contigo:</div>${chipsFor(others,0)}`:''}${e.beers!==false&&sm.beer.length?`<div class="small" style="margin-top:10px">${MUG} ${sm.beer.length} ${sm.beer.length===1?'va':'van'} a las cervezas después</div>`:''}`,
+      actions:[{label:'Ver convocatoria', primary:true, run:()=>{ location.hash='calendario'; }}], closeLabel:'Entendido'});
+    return true;
+  }
+  return false;
+}
+function maybeWaitlist(){
+  if (!popupsFree()) return false;
+  for (const e of allEvents()){
+    if (isPast(e) || Date.now() > evStartMs(e)) continue;
+    const sm = evSummary(e), me = sm.starters.find(r=>r.uid===S.uid && r.auto);
+    if (!me) continue;
+    const cur = (S.rsvp.get(S.uid)?.events || {})[e.id] || {};
+    const {auto, autoKey, uid, ...base} = me;
+    S.db.doc('rsvp/'+S.uid).update({events:{[e.id]:{...cur, ...base, play:'si', atSi:autoKey, atSup:null, autoFromSub:true, at:Date.now()}}}).catch(()=>{});
+    const k = 'ptg_auto_'+S.uid+'_'+e.id; if (lsGet(k)) continue; lsSet(k, '1');
+    askConfirm({ico:ic('users',28), title:'¡Pasas a titular!', text:`Quedaba una plaza libre en el partido del ${evWhen(e)}${e.place?' en '+e.place:''} y, como eras suplente, ya juegas.`,
+      detail: chipsFor(sm.starters, sm.slots - sm.starters.length),
+      actions:[{label:'No puedo ir', danger:true, run:()=>write(()=>saveRsvp(e.id, {play:'no'}), 'Has dicho que no juegas')}], closeLabel:'¡Perfecto!'});
+    return true;
+  }
+  return false;
+}
+function runPopups(){ if (!maybeWaitlist()) maybeReminder(); }
+const subPos = (sm) => sm.subs.findIndex(r=>r.uid===S.uid) + 1;
+
+/* ---------- monthly card for WhatsApp ---------- */
+const monthKey = off => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth()+off); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); };
+const monthName = ym => { const [y,m] = ym.split('-').map(Number); return `${MESES_L[m-1]} ${y}`; };
+function monthTop(ym){ const {active} = rankList(compute('m:'+ym).st); return active; }
+function monthCardCta(ym, done){
+  const top = monthTop(ym); if (!top.length) return '';
+  const L = top[0];
+  return `<section class="hcard monthc">
+    <div class="row spread"><span class="eyb">${done?'Ya está la tarjeta de':'Tarjeta del mes'} · ${esc(monthName(ym))}</span><span class="lcup">${ic('trophy',22)}</span></div>
+    <div class="mpod">${top.slice(0,3).map(x=>`<span class="mp p${x.pos}">${av(x.p.id)}<b>${x.pos}º</b><span>${esc(x.p.nick)}</span></span>`).join('')}</div>
+    <span class="small muted">${done?`${esc(L.p.nick)} ha ganado ${MESES_L[+ym.slice(5)-1]} con ${L.s.pg} victoria${L.s.pg===1?'':'s'}.`:'Así va el mes hasta hoy.'} Mándala al grupo.</span>
+    <button class="btn wa" data-mcard="${ym}">${WA} Compartir tarjeta</button>
+  </section>`;
+}
+function rr(g, x, y, w, h, r){ g.beginPath(); g.moveTo(x+r, y); g.arcTo(x+w, y, x+w, y+h, r); g.arcTo(x+w, y+h, x, y+h, r); g.arcTo(x, y+h, x, y, r); g.arcTo(x, y, x+w, y, r); g.closePath(); }
+function loadImg(src){ return new Promise(ok => { if (!src) return ok(null); const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = src; }); }
+async function drawMonthCard(ym){
+  const top = monthTop(ym), W = 1080, H = 1350;
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  const BIG = '900 %dpx "Arial Black", Arial, sans-serif', REG = '%dpx Arial, Helvetica, sans-serif', BOLD = 'bold %dpx Arial, Helvetica, sans-serif';
+  const F = (t, n) => t.replace('%d', n);
+  // background
+  g.fillStyle = '#16794a'; g.fillRect(0, 0, W, H);
+  g.globalAlpha = .16; g.fillStyle = '#dfe63a'; g.beginPath(); g.arc(W-60, 80, 260, 0, 7); g.fill(); g.globalAlpha = 1;
+  g.strokeStyle = 'rgba(255,255,255,.12)'; g.lineWidth = 6; g.strokeRect(70, 860, W-140, 420); g.beginPath(); g.moveTo(W/2, 860); g.lineTo(W/2, 1280); g.stroke();
+  // header
+  const logo = await loadImg(S.config.logo);
+  let hx = 80;
+  if (logo){ g.save(); rr(g, 80, 80, 120, 120, 30); g.clip(); g.drawImage(logo, 80, 80, 120, 120); g.restore(); hx = 230; }
+  g.fillStyle = '#dfe63a'; g.font = F(BOLD, 34); g.fillText('RANKING DE ' + MESES_L[+ym.slice(5)-1].toUpperCase() + ' ' + ym.slice(0,4), hx, 125);
+  g.fillStyle = '#fff'; g.font = F(BIG, 58); const gname = (S.config.name || 'Pádel entre amigos');
+  g.fillText(gname.length > 22 ? gname.slice(0,21)+'…' : gname, hx, 190);
+  // podium
+  const pod = [top[1], top[0], top[2]], X = [W/2-330, W/2, W/2+330], ht = [250, 330, 200], base = 820;
+  pod.forEach((x, i) => {
+    if (!x) return;
+    const cx = X[i], h = ht[i], first = i===1;
+    g.fillStyle = first ? '#dfe63a' : 'rgba(255,255,255,.18)'; rr(g, cx-140, base-h, 280, h, 26); g.fill();
+    g.fillStyle = first ? '#3a3d00' : '#fff'; g.font = F(BIG, first?96:76); g.textAlign = 'center'; g.fillText(x.pos + 'º', cx, base-h+(first?120:100));
+    g.font = F(BOLD, 30); g.fillText(`${x.s.pg} victoria${x.s.pg===1?'':'s'}`, cx, base-h+(first?175:150));
+    const r = first ? 92 : 74, cy = base-h-r-24;
+    g.fillStyle = colorFor(x.p.id); g.beginPath(); g.arc(cx, cy, r, 0, 7); g.fill();
+    g.lineWidth = 10; g.strokeStyle = first ? '#dfe63a' : 'rgba(255,255,255,.85)'; g.stroke();
+    g.fillStyle = '#fff'; g.font = F(BIG, first?72:58); g.fillText(initials(x.p.nick), cx, cy + (first?26:21));
+    g.font = F(BIG, first?46:38); const nm = x.p.nick.length > 11 ? x.p.nick.slice(0,10)+'…' : x.p.nick; g.fillText(nm, cx, cy - r - 26);
+    g.textAlign = 'left';
+  });
+  // the rest
+  g.font = F(BOLD, 30);
+  const rest = top.slice(3, 9);
+  rest.forEach((x, i) => {
+    const col = i % 2, row = Math.floor(i / 2), x0 = 110 + col*460, y0 = 930 + row*110;
+    g.fillStyle = 'rgba(255,255,255,.12)'; rr(g, x0-20, y0-56, 420, 86, 22); g.fill();
+    g.fillStyle = '#dfe63a'; g.font = F(BIG, 34); g.fillText(x.pos + 'º', x0, y0);
+    g.fillStyle = '#fff'; g.font = F(BOLD, 34); const nm = x.p.nick.length > 12 ? x.p.nick.slice(0,11)+'…' : x.p.nick; g.fillText(nm, x0+80, y0);
+    g.font = F(REG, 28); g.globalAlpha = .8; g.textAlign = 'right'; g.fillText(`${x.s.pg} V`, x0+380, y0); g.textAlign = 'left'; g.globalAlpha = 1;
+  });
+  if (!rest.length){ g.fillStyle = 'rgba(255,255,255,.75)'; g.font = F(REG, 34); g.textAlign = 'center'; g.fillText(`${top.reduce((a,x)=>a+x.s.pj,0)/4|0} partidos jugados este mes`, W/2, 1080); g.textAlign = 'left'; }
+  g.fillStyle = 'rgba(255,255,255,.7)'; g.font = F(REG, 28); g.textAlign = 'center';
+  g.fillText('Victorias · empates · % sets · % juegos', W/2, H-40); g.textAlign = 'left';
+  return new Promise(ok => c.toBlob(ok, 'image/png'));
+}
+async function shareMonthCard(ym, btn){
+  const old = btn ? btn.innerHTML : ''; if (btn){ btn.disabled = true; btn.textContent = 'Preparando…'; }
+  try {
+    const blob = await drawMonthCard(ym);
+    const name = `ranking-${ym}.png`, text = `🏆 Ranking de ${monthName(ym)} · ${S.config.name||'Pádel entre amigos'}\n${appLink('#clasificacion')}`;
+    const file = new File([blob], name, {type:'image/png'});
+    if (navigator.canShare && navigator.canShare({files:[file]})){ try { await navigator.share({files:[file], text}); } catch(_){} }
+    else {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+      showToast('Imagen descargada. Adjúntala en WhatsApp.');
+    }
+  } finally { if (btn){ btn.disabled = false; btn.innerHTML = old; } }
+}
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-mcard]'); if (b) shareMonthCard(b.dataset.mcard, b); });
+
 /* ---------- boot ---------- */
 function formBusy(){ const ae=document.activeElement; return ['nuevo','torneo-nuevo','evento-nuevo'].includes(viewName()) || viewName().startsWith('editar-') || !!S.tEdit || (ae && ['INPUT','SELECT','TEXTAREA'].includes(ae.tagName)); }
 window.appRefresh = () => renderData();
-function renderData(){ if (S.status==='ready' && formBusy()){ S.pending=true; return; } S.pending=false; render(); }
+function renderData(){ if (S.status==='ready' && formBusy()){ S.pending=true; return; } S.pending=false; render(); if (S.status==='ready') setTimeout(runPopups, 50); }
 document.addEventListener('focusout', () => setTimeout(() => { if (S.pending && !formBusy()) renderData(); }, 60));
-function checkReady(){ if (S.ready.p && S.ready.m && S.status==='loading'){ S.status='ready'; render(); setTimeout(()=>maybeWelcome(), 700); return; } renderData(); }
+function checkReady(){ if (S.ready.p && S.ready.m && S.status==='loading'){ S.status='ready'; render(); setTimeout(()=>{ maybeWelcome(); runPopups(); }, 700); return; } renderData(); }
 function onScrollBrand(){
   const p = Math.max(0, Math.min(1, (window.scrollY||0) / 110));
   document.documentElement.style.setProperty('--sp', p.toFixed(3));

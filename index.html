@@ -4,12 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
-<meta name="app-version" content="20261110162814">
+<meta name="app-version" content="20261112094240">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Pádel">
 <title>Pádel entre amigos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px Arial,Helvetica,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <style>
 /* Layout: app shell. Sticky top bar with brand + pill nav (desktop), fixed bottom tab bar (phone), one 760px working column. Dark "ink" hero cards carry the key number of each view. */
@@ -874,11 +877,6 @@ html[data-view] .match,html[data-view] .tile,html[data-view] .panel,html[data-vi
 .btn.wa{display:inline-flex;align-items:center;gap:6px}
 .bcol.champcol{flex-basis:140px;min-width:140px}
 /* Suplente: yellow, a little smaller than Juego / No juego */
-.btn.supb{width:100%;min-height:42px;font-size:14px;font-weight:800;background:color-mix(in srgb,var(--ball-y) 55%,var(--surface));color:#3a3d00;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:-4px}
-.btn.supb:hover{background:color-mix(in srgb,var(--ball-y) 75%,var(--surface))}
-.btn.supb.on{background:var(--ball-y);box-shadow:inset 0 0 0 2px #b8be1c}
-.opt.sub{background:color-mix(in srgb,var(--ball-y) 40%,var(--surface))!important;color:#3a3d00}
-.opt[aria-pressed="true"].sub{background:var(--ball-y)!important;border-color:#b8be1c;color:#3a3d00;box-shadow:inset 0 0 0 2px #b8be1c}
 /* v6 */
 .mico.good{background:var(--tonal);color:var(--primary)}
 .mico .ic{width:28px;height:28px}
@@ -892,6 +890,43 @@ html[data-view] .match,html[data-view] .tile,html[data-view] .panel,html[data-vi
 .mp.p2{order:1}.mp.p3{order:3}
 .mp b{font-size:18px}
 .pchip .supdot{width:8px;height:8px;border-radius:50%;background:var(--ball-y);box-shadow:0 0 0 1.5px #b8be1c;margin-left:-2px;flex:none}
+
+/* Suplente: grey until chosen, then yellow */
+.btn.supb{width:100%;min-height:42px;font-size:14px;font-weight:900;background:var(--surface-2);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:-4px}
+.btn.supb:hover{background:color-mix(in srgb,var(--fg) 10%,var(--surface-2));color:var(--fg)}
+.btn.supb.on{background:var(--ball-y);color:#3a3d00;box-shadow:inset 0 0 0 2px #b8be1c}
+.opt.sub{background:var(--surface-2)!important;color:var(--muted)}
+.opt[aria-pressed="true"].sub{background:var(--ball-y)!important;border-color:#b8be1c;color:#3a3d00;box-shadow:inset 0 0 0 2px #b8be1c}
+
+/* Poppins everywhere; only Regular and Black are loaded, so anything bold renders as Poppins Black */
+:root{--f-display:"Poppins",Arial,Helvetica,sans-serif;--f-score:"Poppins",Arial,Helvetica,sans-serif;--f-body:"Poppins",Arial,Helvetica,sans-serif;--f-menu:"Poppins",Arial,Helvetica,sans-serif}
+body,button,input,select,textarea{font-family:var(--f-body)}
+.pillnav a,.bottomnav a,.seg button,#leagueName,.gbrand,.btn-new,.calhead .mn,.opts .opt,.agseg a,.btn.bigb,h1,h2,h3,h4,h5{font-family:var(--f-menu);font-weight:900}
+.bottomnav a{font-size:9.5px;letter-spacing:0}
+.pillnav a{letter-spacing:.01em}
+h2{letter-spacing:-.02em}
+
+/* tomar algo: Sí / No, with the count below */
+.beerrow{cursor:default}
+.beerrow>span:not(.bbtns){display:flex;flex-direction:column;line-height:1.25}
+.beerrow small{font-size:12px;font-weight:400;color:var(--muted)}
+.beerrow.on{background:color-mix(in srgb,var(--ball-y) 34%,var(--surface))}
+.bbtns{display:flex;gap:6px;flex:none}
+.bmini{min-width:52px;min-height:38px;border:0;border-radius:999px;background:var(--surface);color:var(--fg);font:inherit;font-weight:900;font-size:13px;cursor:pointer;padding:0 12px;box-shadow:var(--elev1)}
+.bmini.on{background:var(--primary);color:#fff}
+.bmini.no.on{background:var(--loss);color:#fff}
+.plusn{font-size:11px;font-weight:900;background:var(--ball-y);color:#3a3d00;border-radius:999px;padding:1px 6px;margin-left:-2px}
+.mico .mug{width:28px;height:28px}
+.bwith{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:900;font-size:16px;margin:4px 0}
+.bwith input{width:84px;text-align:center;font-size:22px;font-weight:900;padding:8px}
+.bwith input.bad{box-shadow:0 0 0 2px var(--loss)!important}
+.bhint{display:block;text-align:center;color:var(--loss);margin-top:4px}
+.beerrow{padding:8px 8px 8px 14px}
+.beerrow>span:not(.bbtns){min-width:0}
+
+/* Poppins Black only for titles, menus, buttons and numbers; highlighted words inside sentences use Poppins Bold */
+strong,b,.small strong,.acti strong,.note strong,.atx strong,.mdetail strong,p strong,li strong,.pchip,.beerrow,.livesum strong,.eyb,.pill2{font-weight:700}
+h1,h2,h3,h4,h5,.btn,.bmini,.opt,.pillnav a,.bottomnav a,.agseg a,.seg button,#leagueName,.btn-new,.nwhen,.pn,.pst b,.rnum,.rpct,.rpos,.sc,.stp input,.leadc .ln,.sgname,.wbox h2,.mp b,.plusn,.bwith input,.stp .sb,.rwho .nm,.pbig .mv{font-weight:900}
 
 </style>
 </head>
@@ -1106,7 +1141,7 @@ function beerRanking(){
   const top = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5);
   if (!top.length) return '';
   const mx = top[0][1];
-  return `<div class="panel"><h3>${MUG} Ranking de cervezas · ${periodLabel(S.period)}</h3>
+  return `<div class="panel"><h3>${MUG} Los que más se quedan a tomar algo · ${periodLabel(S.period)}</h3>
     ${top.map(([pid,n],i)=>`<div class="kv"><span class="pname"><span class="rpos ${i===0?'p1':''}" style="width:26px;height:26px;font-size:13px">${i+1}</span>${av(pid)}<span>${esc(nick(pid))}</span></span><span><span class="bar" style="width:90px"><i style="width:${Math.round(100*n/mx)}%;background:var(--gold)"></i></span><strong>${n}</strong> <span class="muted small">de ${evs.length}</span></span></div>`).join('')}
   </div>`;
 }
@@ -1966,7 +2001,7 @@ function evSummary(e){
     const inS = new Set(starters.map(r=>r.uid));
     bench = yes.filter(r=>!inS.has(r.uid)); subs = subs.filter(r=>!inS.has(r.uid));
   }
-  return {rs, yes, starters, bench, maybe:rs.filter(r=>r.play==='duda'), subs, no:rs.filter(r=>r.play==='no'), beer:rs.filter(r=>r.beer===true), slots};
+  return {rs, yes, starters, bench, maybe:[], subs, no:rs.filter(r=>r.play==='no'), beer:rs.filter(r=>r.beer===true), slots};
 }
 const isPast = e => (e.date||'') < today();
 const isoD = dt => dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
@@ -2061,7 +2096,7 @@ function waLink(e, sm){
   lines.push(`👥 ${sm.starters.length}/${sm.slots} apuntados${free ? ` · ${free===1?'queda 1 plaza':'quedan '+free+' plazas'}` : ' · completo (se puede entrar en reserva)'}`);
   if (sm.starters.length) lines.push(`Juegan: ${sm.starters.map(r=>uidName(r.uid)).join(', ')}`);
   if (sm.subs.length) lines.push(`Suplentes: ${sm.subs.map(r=>uidName(r.uid)).join(', ')}`);
-  if (e.beers!==false) lines.push(`🍻 Cervezas después: ${sm.beer.length} apuntado${sm.beer.length===1?'':'s'} (sin límite)`);
+  if (e.beers!==false) lines.push(`🍻 Tomar algo después: ${beerTxt(sm.beer)} · sin límite`);
   if (e.note) lines.push(`📝 ${e.note}`);
   lines.push('', `Apúntate aquí 👉 ${appLink('#calendario')}`);
   return 'https://wa.me/?text=' + encodeURIComponent(lines.join('\n'));
@@ -2142,12 +2177,12 @@ function eventCard(e){
         <div class="evblock">
           <div class="evbh"><span class="evbt">Partido</span><span><strong>${sm.starters.length}/${sm.slots}</strong> plazas</span></div>
           ${chipsFor(sm.starters, free)}
-          <div class="evline">${free?`<span>${free} plaza${free===1?'':'s'} libre${free===1?'':'s'}</span>`:'<span class="full">Completo</span>'}${sm.bench.length?`<span>${sm.bench.length} en reserva</span>`:''}${sm.subs.length?`<span>${sm.subs.length} suplente${sm.subs.length===1?'':'s'}${free&&sm.subs.length?' · pueden cubrir las plazas libres':''}</span>`:''}${sm.maybe.length?`<span>${sm.maybe.length} en duda</span>`:''}</div>
+          <div class="evline">${free?`<span>${free} plaza${free===1?'':'s'} libre${free===1?'':'s'}</span>`:'<span class="full">Completo</span>'}${sm.bench.length?`<span>${sm.bench.length} en reserva</span>`:''}${sm.subs.length?`<span>${sm.subs.length} suplente${sm.subs.length===1?'':'s'}${free&&sm.subs.length?' · pueden cubrir las plazas libres':''}</span>`:''}</div>
         </div>
         ${e.beers!==false?`<div class="evblock beerb">
-          <div class="evbh"><span class="evbt">${MUG} Cervezas</span><span><strong>${sm.beer.length}</strong> apuntado${sm.beer.length===1?'':'s'} · sin límite</span></div>
-          ${sm.beer.length?`<div class="pchips beers">${sm.beer.map(r=>pchip(r.uid)).join('')}</div>`:'<span class="small muted">Nadie todavía. Puedes venir aunque no juegues.</span>'}
-          ${sm.beer.some(r=>r.play!=='si')?`<div class="evline"><span>${sm.beer.filter(r=>r.play!=='si').length} solo a cervezas</span></div>`:''}
+          <div class="evbh"><span class="evbt">${MUG} Tomar algo</span><span><strong>${beerTxt(sm.beer)}</strong> · sin límite</span></div>
+          ${sm.beer.length?`<div class="pchips beers">${sm.beer.map(r=>pchip(r.uid, false, +r.beerPlus||0)).join('')}</div>`:'<span class="small muted">Nadie todavía. Puedes venir aunque no juegues.</span>'}
+          ${sm.beer.some(r=>r.play!=='si')?`<div class="evline"><span>${sm.beer.filter(r=>r.play!=='si').length} solo a tomar algo</span></div>`:''}
         </div>`:''}
       </div>
       ${canAnswer?`<div class="ask">
@@ -2158,21 +2193,21 @@ function eventCard(e){
           <button class="opt no" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${mine?.play==='no'}">No juego</button>
         </div>
         ${mine?.play==='si' && sm.bench.some(r=>r.uid===S.uid)?'<span class="small muted">Estás en reserva: entras si alguien se borra.</span>':''}${mine?.play==='sup'?(sm.starters.some(r=>r.uid===S.uid)?'<span class="small muted">Has pasado a titular automáticamente: quedaba una plaza libre a menos de 24 h del partido.</span>':'<span class="small muted">Eres suplente: no ocupas plaza. Si a menos de 24 h del partido queda una plaza libre, entras automáticamente (por orden de apuntado como suplente).</span>'):''}
-        ${e.beers!==false?`<span class="q" style="margin-top:6px">¿Vienes a las cervezas? · sin límite</span>
+        ${e.beers!==false?`<span class="q" style="margin-top:6px">¿Te quedas a tomar algo? · sin límite</span>
         <div class="opts">
-          <button class="opt beer" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${MUG} Sí, voy</button>
+          <button class="opt beer" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${MUG} ${mine?.beer===true && mine.beerPlus>0 ? `Sí, voy +${mine.beerPlus}` : 'Sí, voy'}</button>
           <button class="opt beerno" data-beer="${esc(e.id)}" data-v="0" aria-pressed="${mine?.beer===false}">No voy</button>
         </div>
-        ${mine?.beer===true && mine?.play!=='si'?'<span class="small muted">Vas solo a las cervezas.</span>':''}`:''}
+        ${mine?.beer===true && mine?.play!=='si'?'<span class="small muted">Vas solo a tomar algo.</span>':''}`:''}
       </div>`:''}
       <details><summary class="small" style="cursor:pointer;font-weight:700">Ver quién se ha apuntado</summary>
         <div class="who-list" style="margin-top:10px">
           <div><h5>Juegan (${sm.starters.length}/${sm.slots})</h5>${li(sm.starters)}</div>
           ${sm.bench.length?`<div><h5>Reserva</h5>${li(sm.bench)}</div>`:''}
           ${sm.subs.length?`<div><h5>Suplentes</h5>${li(sm.subs)}</div>`:''}
-          ${sm.maybe.length?`<div><h5>En duda</h5>${li(sm.maybe)}</div>`:''}
+          
           <div><h5>No juegan</h5>${li(sm.no)}</div>
-          ${e.beers!==false?`<div><h5>Cervezas (${sm.beer.length})</h5>${sm.beer.length?`<ul>${sm.beer.map(r=>`<li>${uidAv(r.uid)}<span>${esc(uidName(r.uid))}</span>${r.play!=='si'?'<span class="tag">solo cervezas</span>':''}</li>`).join('')}</ul>`:'<span class="muted">Nadie</span>'}</div>`:''}
+          ${e.beers!==false?`<div><h5>Tomar algo (${beerN(sm.beer)})</h5>${sm.beer.length?`<ul>${sm.beer.map(r=>`<li>${uidAv(r.uid)}<span>${esc(uidName(r.uid))}${r.beerPlus>0?` <strong>+${r.beerPlus}</strong>`:''}</span>${r.play!=='si'?'<span class="tag">solo tomar algo</span>':''}</li>`).join('')}</ul>`:'<span class="muted">Nadie</span>'}</div>`:''}
         </div>
       </details>
       ${sm.starters.length>=4 ? pairsBox(e, sm) : ''}
@@ -2206,7 +2241,7 @@ function viewEventNew(){
         <label class="f" style="flex:2 1 240px">Club o pista<input type="text" id="evPlace" maxlength="50" value="${esc(f.place)}" placeholder="Ej. Club de la Castellana"></label>
       </div>
       <label class="f">Nota (opcional)<input type="text" id="evNote" maxlength="80" value="${esc(f.note)}" placeholder="Ej. Pista reservada, 8 € por cabeza"></label>
-      <label class="check"><input type="checkbox" id="evBeers"${f.beers?' checked':''}> Preguntar también por cervezas después</label>
+      <label class="check"><input type="checkbox" id="evBeers"${f.beers?' checked':''}> Preguntar también si se quedan a tomar algo después</label>
       <div class="repeatbox">
         <label class="check"><input type="checkbox" id="evRepeat"${f.repeat?' checked':''}> Repetir cada semana${f.date?` (todos los ${DIAS_PL[new Date(f.date+'T12:00').getDay()]})`:''}</label>
         <label class="f" id="evUntilBox" ${f.repeat?'':'hidden'}>Hasta (opcional)<input type="date" id="evUntil" value="${esc(f.until||'')}" min="${esc(f.date||today())}"></label>
@@ -2248,7 +2283,10 @@ function bindCalendar(v){
   const undoR = (eid, prev) => () => saveRsvpRaw(eid, prev);
   const PLAYMSG = {si:'Te has apuntado a jugar', no:'Has dicho que no juegas', duda:'Te has puesto en duda', sup:'Te has apuntado como suplente'};
   app.querySelectorAll('[data-rsvp]').forEach(b => b.onclick = () => { const eid = b.dataset.rsvp, prev = prevR(eid); if (prev && prev.play===b.dataset.play) return; write(()=>saveRsvp(eid, {play:b.dataset.play}), PLAYMSG[b.dataset.play], undoR(eid, prev)); });
-  app.querySelectorAll('[data-beer]').forEach(b => b.onclick = () => { const eid = b.dataset.beer, prev = prevR(eid), v = b.dataset.v==='1'; if (prev && prev.beer===v) return; write(()=>saveRsvp(eid, {beer:v}), v ? 'Te has apuntado a las cervezas' : 'Has dicho que no vas a las cervezas', undoR(eid, prev)); });
+  app.querySelectorAll('[data-beer]').forEach(b => b.onclick = () => { const eid = b.dataset.beer, prev = prevR(eid), v = b.dataset.v==='1';
+    if (v) return askBeer(eid, prev);
+    if (prev && prev.beer===false) return;
+    write(()=>saveRsvp(eid, {beer:false, beerPlus:0}), 'Has dicho que no te quedas a tomar algo', undoR(eid, prev)); });
   app.querySelectorAll('[data-evdel]').forEach(b => b.onclick = () => { const e=getEv(b.dataset.evdel); if(!e) return;
     if (e.seriesId){ const sr = S.events.get(e.seriesId); if (!sr) return; askConfirm({title:'¿Qué quieres borrar?', text:`Esta convocatoria se repite todos los ${DIAS_PL[new Date(sr.start+'T12:00').getDay()]}. Puedes quitar solo este día o terminar la serie entera.`, detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Solo este día', danger:true, run:()=>write(()=>S.db.doc('events/'+sr.id).update({skip:[...new Set([...(sr.skip||[]), e.date])]}), 'Ese día ya no tiene convocatoria.')},{label:'Toda la serie', danger:true, run:()=>write(()=>S.db.doc('events/'+sr.id).delete(), 'Serie borrada.')}]}); return; } const n=evSummary(e).rs.length; askConfirm({title:'¿Borrar esta convocatoria?', text: n? `Hay ${n} respuesta${n===1?'':'s'} y se perderán. No se puede deshacer.` : 'No se puede deshacer.', detail:`<strong>${esc(e.title||'Partido')}${e.time?' · '+esc(e.time):''}</strong><br><span class="muted">${fmtDay(e.date)}${e.place?' · '+esc(e.place):''}</span>`, actions:[{label:'Sí, borrar convocatoria', danger:true, run:()=>write(()=>S.db.doc('events/'+e.id).delete(), 'Convocatoria borrada.')}]}); });
   const dn = $('[data-evdelno]'); if (dn) dn.onclick = () => { S.evDel = null; render(); };
@@ -2315,7 +2353,7 @@ function renderModal(){
       <div class="mact">${m.actions.map((a,i)=>`<button class="btn ${a.danger?'dangerfill':''} ${a.primary?'primary':''}" data-mact="${i}">${esc(a.label)}</button>`).join('')}<button class="btn ${m.actions.length?'':'primary'}" data-mclose>${m.closeLabel || (m.actions.length?'Cancelar':'Entendido')}</button></div>
     </div>`;
   box.querySelectorAll('[data-mclose]').forEach(b => b.onclick = closeModal);
-  box.querySelectorAll('[data-mact]').forEach(b => b.onclick = () => { const a = m.actions[+b.dataset.mact]; closeModal(); a.run(); });
+  box.querySelectorAll('[data-mact]').forEach(b => b.onclick = () => { const a = m.actions[+b.dataset.mact]; if (a.validate && !a.validate(box)) return; const val = a.read ? a.read(box) : undefined; closeModal(); a.run(val); });
   const c = box.querySelector('.mact [data-mclose]'); if (c) c.focus();
 }
 document.addEventListener('keydown', e => { if (e.key==='Escape' && S.modal) closeModal(); });
@@ -2591,7 +2629,9 @@ function ago(ts){
 }
 
 /* names next to every face */
-const pchip = (uid, auto) => `<span class="pchip ${auto?'auto':''}" ${auto?'title="Entró como suplente"':''}>${uidAv(uid)}<span>${esc(uidName(uid))}</span>${auto?'<i class="supdot" aria-label="ex suplente"></i>':''}</span>`;
+const pchip = (uid, auto, plus) => `<span class="pchip ${auto?'auto':''}" ${auto?'title="Entró como suplente"':''}>${uidAv(uid)}<span>${esc(uidName(uid))}</span>${auto?'<i class="supdot" aria-label="ex suplente"></i>':''}${plus>0?`<b class="plusn" title="Viene con ${plus} persona${plus===1?'':'s'} más">+${plus}</b>`:''}</span>`;
+const beerN = list => list.reduce((a,r) => a + 1 + (+r.beerPlus||0), 0);
+const beerTxt = list => { const n = beerN(list), x = n - list.length; return `${n} persona${n===1?'':'s'}${x>0?` (${list.length} del grupo + ${x} acompañante${x===1?'':'s'})`:''}`; };
 const freeChip = '<span class="pchip free"><span class="av"></span><span>Libre</span></span>';
 function chipsFor(list, free){ return `<div class="pchips">${list.map(r=>pchip(r.uid, r.auto||r.autoFromSub)).join('')}${freeChip.repeat(Math.max(0,free||0))}</div>`; }
 
@@ -2692,12 +2732,13 @@ function viewHoy(C){
       <div class="row spread"><span class="eyb">${inIt?'Tu próximo partido':'Próximo partido'}</span><span class="pill2 ${free?'':'full'}">${free ? (free===1?'Queda 1 plaza':`Quedan ${free} plazas`) : 'Completo'}</span></div>
       <div><div class="nwhen">${esc(cap(evWhen(e)))}</div><div class="nwhere">${esc(e.title||'Partido')}${e.place?' · '+esc(e.place):''}${e.seriesId?' · cada semana':''}</div></div>
       ${chipsFor(sm.starters, free)}
-      ${bench?'<span class="small">Estás en reserva: entras si alguien se borra.</span>':''}${pl==='sup'&&!inIt?'<span class="small">Eres suplente. Si a menos de 24 h del partido queda una plaza libre, entras automáticamente.</span>':''}${pl==='duda'?'<span class="small">Estabas en duda: elige Juego, Suplente o No juego.</span>':''}
+      ${bench?'<span class="small">Estás en reserva: entras si alguien se borra.</span>':''}${pl==='sup'&&!inIt?'<span class="small">Eres suplente. Si a menos de 24 h del partido queda una plaza libre, entras automáticamente.</span>':''}
       ${canAnswer?`<div class="nbtns">
           <button class="btn bigb ${pl==='si'?'primary on':pl?'':'primary'}" data-rsvp="${esc(e.id)}" data-play="si" aria-pressed="${pl==='si'}">${pl==='si'?ic('check',18)+' Juego':'Juego'}</button>
           <button class="btn bigb ${pl==='no'?'nobtn on':'lightb'}" data-rsvp="${esc(e.id)}" data-play="no" aria-pressed="${pl==='no'}">No juego</button></div>
         <button class="btn supb ${pl==='sup'?'on':''}" data-rsvp="${esc(e.id)}" data-play="sup" aria-pressed="${pl==='sup'}">${pl==='sup'?ic('check',16)+' Suplente':'Suplente'}</button>`:''}
-      ${e.beers!==false && canAnswer ? `<button class="beerrow ${mine?.beer===true?'on':''}" data-beer="${esc(e.id)}" data-v="${mine?.beer===true?'0':'1'}">${MUG}<span>Cervezas después · ${sm.beer.length} ${sm.beer.length===1?'va':'van'}</span><strong>${mine?.beer===true?'Voy':'Me apunto'}</strong></button>` : ''}
+      ${e.beers!==false && canAnswer ? `<div class="beerrow ${mine?.beer===true?'on':mine?.beer===false?'off':''}">${MUG}<span>¿Tomar algo?<small>${(n=>`${n} persona${n===1?'':'s'}${n>sm.beer.length?` · ${n-sm.beer.length} de fuera`:''}`)(beerN(sm.beer))}</small></span>
+        <span class="bbtns"><button class="bmini ${mine?.beer===true?'on':''}" data-beer="${esc(e.id)}" data-v="1" aria-pressed="${mine?.beer===true}">${mine?.beer===true && mine.beerPlus>0 ? 'Sí +'+mine.beerPlus : 'Sí'}</button><button class="bmini no ${mine?.beer===false?'on':''}" data-beer="${esc(e.id)}" data-v="0" aria-pressed="${mine?.beer===false}">No</button></span></div>` : ''}
       <div class="row" style="gap:6px">${(inIt||isAdmin()) ? faltaBtn(e, sm) : ''}<a class="btn link" href="#calendario">Ver convocatoria ${ic('chev',14)}</a></div>
     </section>`;
   } else {
@@ -2860,7 +2901,7 @@ function countUp(root){
 
 /* ---------- welcome ---------- */
 const WEL = [
-  {t:'Apúntate a los partidos', p:'En Hoy y en Agenda verás cada convocatoria con quién juega. Pulsa «Juego», «No juego» o «Suplente», y dinos si vienes a las cervezas.', k:'cal'},
+  {t:'Apúntate a los partidos', p:'En Hoy y en Agenda verás cada convocatoria con quién juega. Pulsa «Juego», «No juego» o «Suplente», y dinos si te quedas a tomar algo después (solo o con más gente).', k:'cal'},
   {t:'Suplentes', p:'Si a menos de 24 horas del partido queda una plaza libre, entra automáticamente el primero que se apuntó como suplente, y te avisamos. Antes de eso no hay orden: si ves una plaza libre, pulsa «Juego».', k:'users'},
   {t:'Apunta el resultado con el +', p:'Al acabar, pulsa el botón + de abajo y suma los juegos de cada set. La pareja rival lo confirma; si nadie dice nada, se publica solo a las 4 horas.', k:'plus'},
   {t:'Sube en el ranking', p:'Manda quien más partidos gana. Si hay empate, cuentan los empates, luego el % de sets y después el % de juegos. Las flechas ▲▼ te dicen si has subido esta semana.', k:'trophy'}
@@ -2905,7 +2946,7 @@ function maybeReminder(){
     const k = 'ptg_rem_'+S.uid+'_'+e.id; if (lsGet(k)) continue; lsSet(k, '1');
     const others = sm.starters.filter(r=>r.uid!==S.uid);
     askConfirm({ico:ic('ball',30), title:'¡Hoy juegas!', text:`${e.time?'A las '+e.time:'Hoy'}${e.place?' en '+e.place:''}.`,
-      detail:`${others.length?`<div class="small muted" style="margin-bottom:8px">En la pista contigo:</div>${chipsFor(others,0)}`:''}${e.beers!==false&&sm.beer.length?`<div class="small" style="margin-top:10px">${MUG} ${sm.beer.length} ${sm.beer.length===1?'va':'van'} a las cervezas después</div>`:''}`,
+      detail:`${others.length?`<div class="small muted" style="margin-bottom:8px">En la pista contigo:</div>${chipsFor(others,0)}`:''}${e.beers!==false&&sm.beer.length?`<div class="small" style="margin-top:10px">${MUG} ${beerTxt(sm.beer)} a tomar algo después</div>`:''}`,
       actions:[{label:'Ver convocatoria', primary:true, run:()=>{ location.hash='calendario'; }}], closeLabel:'Entendido'});
     return true;
   }
@@ -2950,7 +2991,8 @@ function loadImg(src){ return new Promise(ok => { if (!src) return ok(null); con
 async function drawMonthCard(ym){
   const top = monthTop(ym), W = 1080, H = 1350;
   const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
-  const BIG = '900 %dpx "Arial Black", Arial, sans-serif', REG = '%dpx Arial, Helvetica, sans-serif', BOLD = 'bold %dpx Arial, Helvetica, sans-serif';
+  try { await Promise.all([document.fonts.load('900 40px Poppins'), document.fonts.load('400 30px Poppins')]); } catch(_){}
+  const BIG = '900 %dpx Poppins, Arial, sans-serif', REG = '%dpx Poppins, Arial, sans-serif', BOLD = '900 %dpx Poppins, Arial, sans-serif';
   const F = (t, n) => t.replace('%d', n);
   // background
   g.fillStyle = '#16794a'; g.fillRect(0, 0, W, H);
@@ -2962,7 +3004,7 @@ async function drawMonthCard(ym){
   if (logo){ g.save(); rr(g, 80, 80, 120, 120, 30); g.clip(); g.drawImage(logo, 80, 80, 120, 120); g.restore(); hx = 230; }
   g.fillStyle = '#dfe63a'; g.font = F(BOLD, 34); g.fillText('RANKING DE ' + MESES_L[+ym.slice(5)-1].toUpperCase() + ' ' + ym.slice(0,4), hx, 125);
   g.fillStyle = '#fff'; g.font = F(BIG, 58); const gname = (S.config.name || 'Pádel entre amigos');
-  g.fillText(gname.length > 22 ? gname.slice(0,21)+'…' : gname, hx, 190);
+  g.font = F(BIG, gname.length > 18 ? 48 : 58); g.fillText(gname.length > 24 ? gname.slice(0,23)+'…' : gname, hx, 190);
   // podium
   const pod = [top[1], top[0], top[2]], X = [W/2-330, W/2, W/2+330], ht = [250, 330, 200], base = 820;
   pod.forEach((x, i) => {
@@ -3008,6 +3050,26 @@ async function shareMonthCard(ym, btn){
   } finally { if (btn){ btn.disabled = false; btn.innerHTML = old; } }
 }
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-mcard]'); if (b) shareMonthCard(b.dataset.mcard, b); });
+
+
+/* ---------- tomar algo: alone or with N more people ---------- */
+function askBeer(eid, prev){
+  const cur = prev && prev.beer===true ? (+prev.beerPlus||0) : 0;
+  askConfirm({ico:MUG, title:'¿Vienes solo o con más gente?', text:'Si traes a alguien de fuera del grupo, dinos cuántos para guardar sitio.',
+    detail:`<label class="bwith"><span>Con</span><input type="number" id="beerN" min="1" max="30" inputmode="numeric" value="${cur||''}" placeholder="0" aria-label="Cuántas personas vienen contigo"><span>persona(s) más</span></label>`,
+    actions:[
+      {label:'Solo', run:()=>saveBeer(eid, 0, prev)},
+      {label:'Con más gente', primary:true,
+        validate:box => { const i = box.querySelector('#beerN'), v = +i.value; if (v >= 1 && v <= 30) return true; i.classList.add('bad'); i.focus(); const h = box.querySelector('.bhint'); if (h) h.hidden = false; return false; },
+        read:box => Math.round(+box.querySelector('#beerN').value), run:n => saveBeer(eid, n, prev)}],
+    closeLabel:'Cancelar'});
+  setTimeout(() => { const box = $('#modal'), i = box && box.querySelector('#beerN'); if (!i) return;
+    const d = box.querySelector('.mdetail'); if (d && !d.querySelector('.bhint')) d.insertAdjacentHTML('beforeend', '<span class="bhint small" hidden>Escribe cuántas personas vienen contigo (de 1 a 30).</span>');
+    i.addEventListener('input', () => { i.classList.remove('bad'); }); i.addEventListener('keydown', ev => { if (ev.key==='Enter'){ ev.preventDefault(); box.querySelector('[data-mact="1"]').click(); } }); }, 0);
+}
+function saveBeer(eid, n, prev){
+  write(()=>saveRsvp(eid, {beer:true, beerPlus:n}), n ? `Te quedas a tomar algo con ${n} persona${n===1?'':'s'} más` : 'Te quedas a tomar algo', ()=>saveRsvpRaw(eid, prev));
+}
 
 /* ---------- boot ---------- */
 function formBusy(){ const ae=document.activeElement; return ['nuevo','torneo-nuevo','evento-nuevo'].includes(viewName()) || viewName().startsWith('editar-') || !!S.tEdit || (ae && ['INPUT','SELECT','TEXTAREA'].includes(ae.tagName)); }

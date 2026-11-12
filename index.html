@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
-<meta name="app-version" content="20261112094240">
+<meta name="app-version" content="20261112101624">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -760,7 +760,7 @@ label.f{font-size:11px;letter-spacing:.06em}
 .lcup{color:var(--ball-y);position:relative;z-index:1}
 .lcup .ic{width:34px;height:34px}
 
-/* Agenda tabs */
+/* Calendario tabs */
 .agseg{display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border-radius:999px;padding:4px;margin-top:-4px}
 .agseg a{text-align:center;padding:9px 10px;border-radius:999px;text-decoration:none;color:var(--muted);font-family:var(--f-menu,'Arial Black',Arial,sans-serif);font-weight:900;font-size:13px}
 .agseg a[aria-selected="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--elev1)}
@@ -927,6 +927,14 @@ h2{letter-spacing:-.02em}
 /* Poppins Black only for titles, menus, buttons and numbers; highlighted words inside sentences use Poppins Bold */
 strong,b,.small strong,.acti strong,.note strong,.atx strong,.mdetail strong,p strong,li strong,.pchip,.beerrow,.livesum strong,.eyb,.pill2{font-weight:700}
 h1,h2,h3,h4,h5,.btn,.bmini,.opt,.pillnav a,.bottomnav a,.agseg a,.seg button,#leagueName,.btn-new,.nwhen,.pn,.pst b,.rnum,.rpct,.rpos,.sc,.stp input,.leadc .ln,.sgname,.wbox h2,.mp b,.plusn,.bwith input,.stp .sb,.rwho .nm,.pbig .mv{font-weight:900}
+/* tournament time estimate */
+.timebox{background:var(--tonal);color:var(--tonal-fg);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.timebox .small.muted{color:color-mix(in srgb,var(--tonal-fg) 75%,transparent)}
+.trows{display:flex;flex-direction:column;gap:6px}
+.trow{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface);color:var(--fg);border-radius:14px;padding:10px 14px;font-size:14px}
+.trow strong{font-weight:900;font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.trow.rec{box-shadow:inset 0 0 0 2px var(--primary)}
+.trow .tag{background:var(--primary);color:#fff}
 
 </style>
 </head>
@@ -948,7 +956,7 @@ h1,h2,h3,h4,h5,.btn,.bmini,.opt,.pillnav a,.bottomnav a,.agseg a,.seg button,#le
 <div class="wrap"><nav class="pillnav" id="tabs" aria-label="Secciones">
   <a href="#hoy" data-v="hoy">Hoy</a>
   <a href="#clasificacion" data-v="clasificacion">Ranking</a>
-  <a href="#calendario" data-v="calendario">Agenda</a>
+  <a href="#calendario" data-v="calendario">Calendario</a>
   <a href="#cara-a-cara" data-v="cara-a-cara">Cara a cara</a>
   <a href="#torneos" data-v="torneos">Torneos</a>
 </nav></div>
@@ -956,7 +964,7 @@ h1,h2,h3,h4,h5,.btn,.bmini,.opt,.pillnav a,.bottomnav a,.agseg a,.seg button,#le
   <a href="#hoy" data-v="hoy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg>Hoy</a>
   <a href="#clasificacion" data-v="clasificacion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 20h8M9 17h6"/></svg>Ranking</a>
   <a href="#nuevo" data-v="nuevo" class="plus" aria-label="Apuntar partido"><span class="p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></a>
-  <a href="#calendario" data-v="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 14h2M13 14h2M9 17h2"/></svg>Agenda</a>
+  <a href="#calendario" data-v="calendario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 14h2M13 14h2M9 17h2"/></svg>Calendario</a>
   <a href="#torneos" data-v="torneos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 4h5v5H3zM3 15h5v5H3zM8 6.5h3v11H8M11 12h3M14 9.5h7v5h-7z"/></svg>Torneos</a>
 </nav>
 
@@ -1764,7 +1772,7 @@ function viewAmericano(t){
   const nextR = ts.rounds.findIndex(rd => rd.some(m=>!m.sets));
   return `<section class="stack">
     <div class="row spread"><div><a href="#torneos" class="small muted">← Torneos</a><h2 style="font-size:28px">${esc(t.name)}</h2>
-      <div class="chips" style="margin-top:6px"><span class="chip">${fmtDay(t.date)}</span><span class="chip">Pozo americano · todos contra todos</span><span class="chip">${N} jugadores · ${ts.nC} pista${ts.nC===1?'':'s'}${N-4*ts.nC>0?` · descansa${N-4*ts.nC>1?'n':''} ${N-4*ts.nC}`:''}</span><span class="chip">${ts.NR} rondas</span>${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}</div></div>
+      <div class="chips" style="margin-top:6px"><span class="chip">${fmtDay(t.date)}</span><span class="chip">Pozo americano · todos contra todos</span>${t.matchMin?`<span class="chip">Partidos de ${t.matchMin} min</span>`:''}<span class="chip">${N} jugadores · ${ts.nC} pista${ts.nC===1?'':'s'}${N-4*ts.nC>0?` · descansa${N-4*ts.nC>1?'n':''} ${N-4*ts.nC}`:''}</span><span class="chip">${ts.NR} rondas</span>${ts.finished?'<span class="chip done">Finalizado</span>':'<span class="chip live">En juego</span>'}</div></div>
       <div class="stack" style="gap:6px;align-items:flex-end"><span class="small muted">${ts.done} de ${ts.total} partidos</span><span class="progress"><i style="width:${ts.total?Math.round(100*ts.done/ts.total):0}%"></i></span></div></div>
     ${ts.champion?`<div class="champ"><span class="cup">${TROPHY}</span><div><div class="small" style="opacity:.85;letter-spacing:.1em;text-transform:uppercase;font-weight:700">Ganador del pozo</div><div class="cn">${esc(nick(ts.champion[0]))}</div></div></div>`:''}
     <div class="panel"><h3>Clasificación individual</h3>
@@ -1851,6 +1859,7 @@ function pozoFields(f, ps){
       <p class="small ${ok?'':'muted'}" style="margin:10px 0 0">${n} elegido${n===1?'':'s'} · ${ok?`<strong>${o.k} pista${o.k===1?'':'s'}</strong>${o.rest?` · descansa${o.rest>1?'n':''} ${o.rest} por ronda`:''}`:'elige entre 4 y 16 jugadores'}</p>
     </div>
     ${ok?`<div class="row">
+      <label class="f">Duración de cada partido<select id="pzMin"><option value="20"${(f.amMin||20)===20?' selected':''}>20 minutos</option><option value="30"${f.amMin===30?' selected':''}>30 minutos</option></select></label>
       <label class="f">Rondas<select id="pzR">${Array.from({length:o.Rmax},(_,i)=>o.Rmax-i).map(r=>`<option value="${r}"${r===rounds?' selected':''}>${lab(r)}${r===o.def?' (recomendado)':''}</option>`).join('')}</select></label>
     </div>
     <div class="chips"><span class="chip">${rounds*o.k} partidos</span><span class="chip">${rounds} ronda${rounds===1?'':'s'}</span>${o.perfect && rounds===o.ideal?'<span class="chip live">Cada uno hace pareja con todos una vez</span>':rounds>=o.ideal?'<span class="chip live">Parejas y descansos lo más repartidos posible</span>':'<span class="chip">Con menos rondas no todos coinciden de pareja</span>'}</div>`:''}
@@ -1895,6 +1904,7 @@ function viewTournamentNew(){
         ${ps.length<need?`<p class="note" style="margin:0 0 10px">Hacen falta ${need} jugadores (${need/2} parejas) y hay ${ps.length}. Añade a los que faltan desde la clasificación («Añadir un amigo que aún no tiene cuenta») o reduce grupos o parejas.</p>`:''}
         <div class="slotgrid">${grid}</div>
       </div>`}
+      ${f.type==='americano' ? amTimeBox(f) : convTimeBox(f)}
       <div id="tFormErr" class="note err" hidden></div>
       <div class="row"><button class="btn primary" type="submit" id="tSave">Crear torneo</button><a class="btn link" href="#torneos">Cancelar</a></div>
     </form>
@@ -1933,6 +1943,7 @@ function bindTournaments(v){
   $('#tDate').onchange = e => f.date = e.target.value;
   if (f.type==='americano'){
     const pr = $('#pzR'); if (pr) pr.onchange = e => { f.rounds = +e.target.value; render(); };
+    const pm = $('#pzMin'); if (pm) pm.onchange = e => { f.amMin = +e.target.value; render(); };
     app.querySelectorAll('[data-pp]').forEach(c => c.onchange = () => { const id=c.dataset.pp; f.pp = c.checked ? [...new Set([...f.pp, id])] : f.pp.filter(x=>x!==id); render(); });
     $('#pzAll').onclick = () => { f.pp = [...S.players.keys()]; render(); };
     $('#pzNone').onclick = () => { f.pp = []; render(); };
@@ -1946,7 +1957,7 @@ function bindTournaments(v){
       const schedule = buildAmericano(order, rounds);
       const id = 't' + rid().slice(1);
       $('#tSave').disabled = true;
-      write(async()=>{ await S.db.doc('tournaments/'+id).set({type:'americano', name, date:f.date||today(), players:order, rounds, schedule, count:false, groups:[], results:{}, createdBy:S.uid, createdAt:Date.now()}); S.tf=null; location.hash='torneo-'+id; }, `Pozo «${name}» creado con ${schedule.reduce((t,rd)=>t+rd.length,0)} partidos.`);
+      write(async()=>{ await S.db.doc('tournaments/'+id).set({type:'americano', name, date:f.date||today(), players:order, rounds, matchMin:f.amMin||20, schedule, count:false, groups:[], results:{}, createdBy:S.uid, createdAt:Date.now()}); S.tf=null; location.hash='torneo-'+id; }, `Pozo «${name}» creado con ${schedule.reduce((t,rd)=>t+rd.length,0)} partidos.`);
     };
     return;
   }
@@ -2129,8 +2140,9 @@ function saveFile(name, mime, text){
 }
 
 /* balanced pairs: strength from the ranking (win rate smoothed + games won) */
-function strength(pid){ const s = S.lastC && S.lastC.st.get(pid); if (!s || !s.pj) return 0.5; return 0.6*((s.pg+1)/(s.pj+2)) + 0.4*pGames(s); }
-function driveScore(pid){ const s = S.lastC && S.lastC.st.get(pid); return s ? (s.sd.drive.pj - s.sd.reves.pj) : 0; }
+function allTimeStats(){ const k = S.matches.length+'|'+S.matches.filter(isCounted).length+'|'+S.tres.size+'|'+S.tournaments.size+'|'+S.players.size; if (S.allK !== k){ S.allK = k; S.allSt = compute(null, '~').st; } return S.allSt; }
+function strength(pid){ const s = allTimeStats().get(pid); if (!s || !s.pj) return 0.5; return 0.6*((s.pg+1)/(s.pj+2)) + 0.4*pGames(s); }
+function driveScore(pid){ const s = allTimeStats().get(pid); return s ? (s.sd.drive.pj - s.sd.reves.pj) : 0; }
 function orderPair(x, y){ return driveScore(x) >= driveScore(y) ? [x,y] : [y,x]; }
 function courtOptions(four){
   const [p,q,r,t] = four;
@@ -2156,7 +2168,7 @@ function pairsBox(e, sm){
     ${courts.map((c,i)=>`<div class="court1">${courts.length>1?`<span class="small muted">Pista ${i+1}</span>`:''}
       <div class="pairrow"><div class="pr">${nm(c.A[0],'D')}${nm(c.A[1],'R')}</div><span class="vs" style="font-size:16px">VS</span><div class="pr">${nm(c.B[0],'D')}${nm(c.B[1],'R')}</div></div>
       <span class="small muted">Igualdad ${Math.max(0, Math.round(100 - c.diff*100))}% · D = drive, R = revés</span></div>`).join('')}
-    <p class="small muted" style="margin:0">Se calcula con la clasificación: victorias y juegos ganados de cada uno.</p>
+    <p class="small muted" style="margin:0">Se calcula con el histórico de cada uno: victorias y juegos ganados. El drive y el revés, por el lado en el que más ha jugado.</p>
   </div>`;
 }
 
@@ -2229,7 +2241,7 @@ function viewEventNew(){
   if (!isAdmin()) return `<div class="note">Solo los administradores pueden crear convocatorias.</div>`;
   const f = S.ef ||= {date: S.calSel && S.calSel>=today() ? S.calSel : today(), time:'19:30', title:'Partido', place:'', slots:4, beers:true, note:'', repeat:false, until:''};
   return `<section class="panel stack">
-    <div><a href="#calendario" class="small muted">← Agenda</a><h2>Nueva convocatoria</h2></div>
+    <div><a href="#calendario" class="small muted">← Calendario</a><h2>Nueva convocatoria</h2></div>
     <form id="evForm" class="stack" style="gap:16px">
       <div class="row">
         <label class="f">Fecha<input type="date" id="evDate" value="${esc(f.date)}" min="${today()}" required></label>
@@ -2901,7 +2913,7 @@ function countUp(root){
 
 /* ---------- welcome ---------- */
 const WEL = [
-  {t:'Apúntate a los partidos', p:'En Hoy y en Agenda verás cada convocatoria con quién juega. Pulsa «Juego», «No juego» o «Suplente», y dinos si te quedas a tomar algo después (solo o con más gente).', k:'cal'},
+  {t:'Apúntate a los partidos', p:'En Hoy y en Calendario verás cada convocatoria con quién juega. Pulsa «Juego», «No juego» o «Suplente», y dinos si te quedas a tomar algo después (solo o con más gente).', k:'cal'},
   {t:'Suplentes', p:'Si a menos de 24 horas del partido queda una plaza libre, entra automáticamente el primero que se apuntó como suplente, y te avisamos. Antes de eso no hay orden: si ves una plaza libre, pulsa «Juego».', k:'users'},
   {t:'Apunta el resultado con el +', p:'Al acabar, pulsa el botón + de abajo y suma los juegos de cada set. La pareja rival lo confirma; si nadie dice nada, se publica solo a las 4 horas.', k:'plus'},
   {t:'Sube en el ranking', p:'Manda quien más partidos gana. Si hay empate, cuentan los empates, luego el % de sets y después el % de juegos. Las flechas ▲▼ te dicen si has subido esta semana.', k:'trophy'}
@@ -2930,7 +2942,7 @@ function renderWelcome(){
 }
 
 function agendaHead(v, right){
-  return `<div class="row spread"><h2>Agenda</h2>${right||''}</div>
+  return `<div class="row spread"><h2>Calendario</h2>${right||''}</div>
     <div class="agseg" role="tablist"><a role="tab" href="#calendario" aria-selected="${v==='calendario'}">Convocatorias</a><a role="tab" href="#partidos" aria-selected="${v==='partidos'}">Partidos</a></div>`;
 }
 
@@ -3069,6 +3081,42 @@ function askBeer(eid, prev){
 }
 function saveBeer(eid, n, prev){
   write(()=>saveRsvp(eid, {beer:true, beerPlus:n}), n ? `Te quedas a tomar algo con ${n} persona${n===1?'':'s'} más` : 'Te quedas a tomar algo', ()=>saveRsvpRaw(eid, prev));
+}
+
+
+/* ---------- court time estimates for new tournaments ---------- */
+const SET_MIN = 30, AM_MIN = 20;
+function fmtDur(min){ min = Math.round(min/5)*5; const h = Math.floor(min/60), m = min%60; return h ? `${h} h${m?` ${m} min`:''}` : `${m} min`; }
+function convSlots(G, P, Q, C){
+  const perRound = G*Math.floor(P/2), rounds = P%2 ? P : P-1, gm = G*P*(P-1)/2;
+  let slots = Math.max(rounds*Math.ceil(perRound/C), Math.ceil(gm/C));
+  slots = Math.min(slots, rounds*Math.ceil(perRound/C));
+  slots = Math.max(slots, Math.ceil(gm/C));
+  let ko = 0;
+  const M = Q ? G*Q : 0;
+  if (M > 1){ let N = 2; while (N < M) N *= 2; let r1 = M - N/2; ko += Math.ceil(r1/C); for (let n = N/4; n >= 1; n /= 2) ko += Math.ceil(n/C); }
+  return {gm, ko: M>1 ? M-1 : 0, slots: slots + ko, maxC: Math.max(1, perRound)};
+}
+function timeBox(rows, note){
+  return `<div class="timebox"><div class="row spread"><h3 style="margin:0">Tiempo estimado de pista</h3><span class="small muted">${note}</span></div>
+    <div class="trows">${rows.map(r=>`<div class="trow ${r.rec?'rec':''}"><span>${r.label}${r.rec?' <span class="tag">recomendado</span>':''}</span><strong>${r.time}</strong></div>`).join('')}</div></div>`;
+}
+function convTimeBox(f){
+  const max = Math.min(4, Math.max(1, f.G*Math.floor(f.P/2)));
+  const rows = [];
+  for (let C = 1; C <= max; C++){ const x = convSlots(f.G, f.P, f.Q, C); rows.push({C, label:`${C} pista${C===1?'':'s'}`, time:fmtDur(x.slots*SET_MIN), min:x.slots*SET_MIN}); }
+  const best = rows.reduce((a,r) => (!a || r.min < a.min*0.8) ? r : a, null); if (best) best.rec = true;
+  const x = convSlots(f.G, f.P, f.Q, 1);
+  return timeBox(rows, `${x.gm+x.ko} partidos a un set · unos ${SET_MIN} min cada uno`);
+}
+function amTimeBox(f){
+  const n = f.pp.length, o = amOptions(n);
+  if (!o) return `<div class="timebox"><h3 style="margin:0 0 4px">Tiempo estimado de pista</h3><span class="small muted">Elige entre 4 y 16 jugadores para calcularlo.</span></div>`;
+  const rounds = f.rounds && f.rounds<=o.Rmax ? f.rounds : o.def;
+  const rows = [];
+  const mins = f.amMin || AM_MIN;
+  for (let C = o.k; C >= 1; C--) rows.push({label:`${C} pista${C===1?'':'s'}${C<o.k?' (por turnos)':''}`, time:fmtDur(rounds*Math.ceil(o.k/C)*mins), rec:C===o.k});
+  return timeBox(rows, `${rounds} ronda${rounds===1?'':'s'} de ${mins} min · ${rounds*o.k} partidos`);
 }
 
 /* ---------- boot ---------- */

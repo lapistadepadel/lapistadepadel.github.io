@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f5ba3">
-<meta name="app-version" content="20261112101624">
+<meta name="app-version" content="20261112102329">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -935,6 +935,15 @@ h1,h2,h3,h4,h5,.btn,.bmini,.opt,.pillnav a,.bottomnav a,.agseg a,.seg button,#le
 .trow strong{font-weight:900;font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .trow.rec{box-shadow:inset 0 0 0 2px var(--primary)}
 .trow .tag{background:var(--primary);color:#fff}
+/* court booking box (admins) */
+.resbox{background:var(--surface);border-radius:16px;padding:12px 14px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.resbox summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:900;list-style:none}
+.resbox summary::-webkit-details-marker{display:none}
+.resbox summary::after{content:"▾";color:var(--muted)}
+.resbox[open] summary::after{content:"▴"}
+.resans{font-size:16px;line-height:1.35}
+.resans strong{font-weight:900;color:var(--primary)}
+.timebox .resans{background:var(--surface);border-radius:12px;padding:10px 12px}
 
 </style>
 </head>
@@ -2223,6 +2232,7 @@ function eventCard(e){
         </div>
       </details>
       ${sm.starters.length>=4 ? pairsBox(e, sm) : ''}
+      ${isAdmin() && !isPast(e) ? resBox(e, sm) : ''}
       <div class="row evacts">
         ${faltaBtn(e, sm)}<a class="btn ${Math.max(0, sm.slots - sm.starters.length) && !isPast(e) ? '' : 'wa'}" href="${esc(waLink(e, sm))}" target="_blank" rel="noopener">${WA} Compartir por WhatsApp</a>
         <a class="btn" href="${esc(gcalLink(e))}" target="_blank" rel="noopener">Google Calendar</a>
@@ -3098,7 +3108,9 @@ function convSlots(G, P, Q, C){
   return {gm, ko: M>1 ? M-1 : 0, slots: slots + ko, maxC: Math.max(1, perRound)};
 }
 function timeBox(rows, note){
+  const rec = rows.find(r=>r.rec && r.min);
   return `<div class="timebox"><div class="row spread"><h3 style="margin:0">Tiempo estimado de pista</h3><span class="small muted">${note}</span></div>
+    ${rec?`<div class="resans">Pide al club <strong>${rec.C} pista${rec.C===1?'':'s'} durante ${fmtDur(roundBook(rec.min))}</strong></div>`:''}
     <div class="trows">${rows.map(r=>`<div class="trow ${r.rec?'rec':''}"><span>${r.label}${r.rec?' <span class="tag">recomendado</span>':''}</span><strong>${r.time}</strong></div>`).join('')}</div></div>`;
 }
 function convTimeBox(f){
@@ -3115,9 +3127,48 @@ function amTimeBox(f){
   const rounds = f.rounds && f.rounds<=o.Rmax ? f.rounds : o.def;
   const rows = [];
   const mins = f.amMin || AM_MIN;
-  for (let C = o.k; C >= 1; C--) rows.push({label:`${C} pista${C===1?'':'s'}${C<o.k?' (por turnos)':''}`, time:fmtDur(rounds*Math.ceil(o.k/C)*mins), rec:C===o.k});
+  for (let C = o.k; C >= 1; C--) rows.push({C, min:rounds*Math.ceil(o.k/C)*mins, label:`${C} pista${C===1?'':'s'}${C<o.k?' (por turnos)':''}`, time:fmtDur(rounds*Math.ceil(o.k/C)*mins), rec:C===o.k});
   return timeBox(rows, `${rounds} ronda${rounds===1?'':'s'} de ${mins} min · ${rounds*o.k} partidos`);
 }
+
+
+/* ---------- court booking: "ask the club for N courts for X hours" ---------- */
+const roundBook = min => Math.ceil(min/30)*30;
+function resPlan(n, fmt){
+  if (fmt==='conv'){
+    const pairs = Math.floor(n/2); if (pairs < 2) return null;
+    const G = Math.max(1, Math.round(pairs/4)), P = Math.ceil(pairs/G), Q = G>1 ? Math.min(2, P) : 0;
+    const max = Math.min(4, Math.max(1, G*Math.floor(P/2)));
+    let best = null;
+    for (let C = 1; C <= max; C++){ const min = convSlots(G, P, Q, C).slots*SET_MIN; if (!best || min < best.min*0.8) best = {C, min}; }
+    return {...best, desc:`Convencional: ${pairs} parejas en ${G} grupo${G>1?'s':''}${Q?' y cuadro final':''}, partidos a un set (unos ${SET_MIN} min)`};
+  }
+  const mins = fmt==='am30' ? 30 : 20, o = amOptions(n); if (!o) return null;
+  return {C:o.k, min:o.def*mins, desc:`Pozo americano: ${o.def} rondas de ${mins} min${o.rest?`, descansan ${o.rest} por ronda`:''}`};
+}
+function addMin(hhmm, min){ const [h,m] = hhmm.split(':').map(Number), t = h*60+m+min; return `${String(Math.floor(t/60)%24).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`; }
+function bookingSentence(p){ return `${p.C} pista${p.C===1?'':'s'} durante ${fmtDur(roundBook(p.min))}`; }
+function resBox(e, sm){
+  const n = sm.yes.length, fmt = (S.resFmt && S.resFmt[e.id]) || 'am20';
+  const p = n >= 4 ? resPlan(n, fmt) : null;
+  const sel = `<select data-resfmt="${esc(e.id)}" aria-label="Tipo de torneo"><option value="am20"${fmt==='am20'?' selected':''}>Pozo americano · 20 min</option><option value="am30"${fmt==='am30'?' selected':''}>Pozo americano · 30 min</option><option value="conv"${fmt==='conv'?' selected':''}>Convencional · a un set</option></select>`;
+  let body;
+  if (!p) body = `<p class="small muted" style="margin:0">${n<4?`Hay ${n} apuntado${n===1?'':'s'} a jugar. Hacen falta al menos 4 para calcularlo.`:'Con este número de jugadores no se puede montar este formato (máximo 16 en el pozo).'}</p>`;
+  else {
+    const dur = roundBook(p.min), from = e.time || '', to = from ? addMin(from, dur) : '';
+    const msg = `Hola, querría reservar ${p.C} pista${p.C===1?'':'s'} el ${fmtDay(e.date)}${from?` de ${from} a ${to}`:` durante ${fmtDur(dur)}`}. Seremos ${n} jugadores. ¡Gracias!`;
+    body = `<div class="resans">Pide al club <strong>${esc(bookingSentence(p))}</strong>${from?` <span class="small muted">(de ${from} a ${to})</span>`:''}</div>
+      <p class="small muted" style="margin:0">Con los ${n} apuntados a jugar. ${esc(p.desc)}. Tiempo redondeado a medias horas.</p>
+      <div class="row" style="gap:6px"><button class="btn" type="button" data-rescopy="${esc(msg)}">Copiar mensaje para el club</button><a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">${WA} Enviar por WhatsApp</a></div>`;
+  }
+  return `<details class="resbox" ${S.resOpen && S.resOpen[e.id]?'open':''} data-resdet="${esc(e.id)}"><summary><span>Reserva de pistas</span><span class="tag">solo admins</span></summary>
+    <div class="stack" style="gap:10px;margin-top:10px"><label class="f">Si montas un torneo con los apuntados${sel}</label>${body}</div></details>`;
+}
+document.addEventListener('change', e => { const s = e.target.closest && e.target.closest('[data-resfmt]'); if (!s) return; (S.resFmt ||= {})[s.dataset.resfmt] = s.value; (S.resOpen ||= {})[s.dataset.resfmt] = true; render(); });
+document.addEventListener('toggle', e => { const d = e.target; if (d.dataset && d.dataset.resdet) (S.resOpen ||= {})[d.dataset.resdet] = d.open; }, true);
+document.addEventListener('click', async e => { const b = e.target.closest && e.target.closest('[data-rescopy]'); if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.rescopy); showToast('Mensaje copiado. Pégalo en el chat del club.'); }
+  catch(_){ askConfirm({title:'Copia este mensaje', text:b.dataset.rescopy, actions:[], closeLabel:'Hecho'}); } });
 
 /* ---------- boot ---------- */
 function formBusy(){ const ae=document.activeElement; return ['nuevo','torneo-nuevo','evento-nuevo'].includes(viewName()) || viewName().startsWith('editar-') || !!S.tEdit || (ae && ['INPUT','SELECT','TEXTAREA'].includes(ae.tagName)); }
